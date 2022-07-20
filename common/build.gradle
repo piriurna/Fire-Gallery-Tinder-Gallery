@@ -56,4 +56,5 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
 
+    debugImplementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
 }
