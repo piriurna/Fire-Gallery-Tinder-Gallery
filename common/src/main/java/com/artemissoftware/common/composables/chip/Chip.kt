@@ -37,6 +37,41 @@ import kotlin.math.ln
 
 
 
+val Purple200 = Color(0xFFBB86FC)
+val Purple500 = Color(0xFF6200EE)
+val Purple700 = Color(0xFF3700B3)
+val Teal200 = Color(0xFF03DAC5)
+
+
+@Stable
+class Filter(
+    val name: String,
+    enabled: Boolean = false
+) {
+    val enabled = mutableStateOf(enabled)
+}
+
+val fruitFilters = listOf(
+    Filter("Apple"),
+    Filter("Bananas"),
+    Filter("Cherries"),
+    Filter("Damson"),
+    Filter("Elderberry"),
+    Filter("Finger"),
+    Filter("Grapefruit"),
+    Filter("Honeydew"),
+    Filter("Indonesian"),
+    Filter("Jack"),
+    Filter("Kaffir"),
+    Filter("Longan"),
+    Filter("Mandarin"),
+    Filter("Navel"),
+    Filter("Oval")
+)
+
+
+
+
 @Composable
 fun ChipSurface(
     modifier: Modifier = Modifier,
@@ -46,11 +81,20 @@ fun ChipSurface(
     border: BorderStroke? = null,
     elevation: Dp = 0.dp
 ) {
+
+    val internalBorder = Modifier.fadeInDiagonalGradientBorder(
+        showBorder = true,
+        colors = listOf(
+            Purple500, Purple200
+        ),
+        shape = shape
+    )
+
     Box(
         modifier = modifier
             .shadow(elevation = elevation, shape = shape, clip = false)
             .zIndex(elevation.value)
-            .then(if (border != null) Modifier.border(border, shape = shape) else Modifier)
+            .then(if (border != null) Modifier.border(border, shape = shape) else internalBorder)
             .background(
                 color = getBackgroundColorForElevation(color = color, elevation = elevation),
                 shape = shape
@@ -79,6 +123,42 @@ fun ChipSurface(
         )
     }
 }
+
+
+
+
+@Composable
+fun FilterChip(
+    filter: Filter,
+    modifier: Modifier = Modifier,
+    shape: Shape = CircleShape
+) {
+    val (selected, setSelected) = filter.enabled
+    val backgroundColor by animateColorAsState(
+        if (selected) Purple500 else Color.White
+    )
+
+    val textColor by animateColorAsState(
+        if (selected) Color.White else Color.Black
+    )
+
+    ChipSurface(
+        modifier = modifier.height(40.dp),
+        color = backgroundColor,
+        contentColor = textColor,
+        shape = shape,
+        elevation = 2.dp,
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FilterChipPreview() {
+
+    FilterChip(filter = fruitFilters[0])
+}
+
+
 
 
 
@@ -294,10 +374,7 @@ private fun DefaultPreview() {
  */
 
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+
 
 //@Composable
 //fun FilterChipSection(
@@ -375,17 +452,7 @@ val Teal200 = Color(0xFF03DAC5)
 //        color
 //    }
 //}
-//
-//private fun calculateForeground(elevation: Dp) : Color {
-//    val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f
-//    return Color.White.copy(alpha = alpha)
-//}
-//
-//private fun Color.withElevation(elevation: Dp): Color {
-//    val foreground = calculateForeground(elevation = elevation)
-//    return foreground.compositeOver(this)
-//}
-//
+
 //fun Modifier.offsetGradientBackground(
 //    colors: List<Color>,
 //    width: Float,
@@ -398,59 +465,34 @@ val Teal200 = Color(0xFF03DAC5)
 //        tileMode = TileMode.Mirror
 //    )
 //)
-//
-//fun Modifier.fadeInDiagonalGradientBorder(
-//    showBorder: Boolean,
-//    colors: List<Color>,
-//    borderSize: Dp = 2.dp,
-//    shape: Shape
-//) = composed {
-//    val animatedColors = List(colors.size) { i ->
-//        animateColorAsState(if (showBorder) colors[i] else colors[i].copy(alpha = 0f)).value
-//    }
-//    diagonalGradientBorder(
-//        colors = animatedColors,
-//        borderSize = borderSize,
-//        shape = shape
-//    )
-//}
-//
-//fun Modifier.diagonalGradientBorder(
-//    colors: List<Color>,
-//    borderSize: Dp = 2.dp,
-//    shape: Shape
-//) = border(
-//    width = borderSize,
-//    brush = Brush.linearGradient(colors),
-//    shape = shape
-//)
-//
-//
-//@Stable
-//class Filter(
-//    val name: String,
-//    enabled: Boolean = false
-//) {
-//    val enabled = mutableStateOf(enabled)
-//}
-//
-//val fruitFilters = listOf(
-//    Filter("Apple"),
-//    Filter("Bananas"),
-//    Filter("Cherries"),
-//    Filter("Damson"),
-//    Filter("Elderberry"),
-//    Filter("Finger"),
-//    Filter("Grapefruit"),
-//    Filter("Honeydew"),
-//    Filter("Indonesian"),
-//    Filter("Jack"),
-//    Filter("Kaffir"),
-//    Filter("Longan"),
-//    Filter("Mandarin"),
-//    Filter("Navel"),
-//    Filter("Oval")
-//)
+
+fun Modifier.fadeInDiagonalGradientBorder(
+    showBorder: Boolean,
+    colors: List<Color>,
+    borderSize: Dp = 2.dp,
+    shape: Shape
+) = composed {
+    val animatedColors = List(colors.size) { i ->
+        animateColorAsState(if (showBorder) colors[i] else colors[i].copy(alpha = 0f)).value
+    }
+    diagonalGradientBorder(
+        colors = animatedColors,
+        borderSize = borderSize,
+        shape = shape
+    )
+}
+
+fun Modifier.diagonalGradientBorder(
+    colors: List<Color>,
+    borderSize: Dp = 2.dp,
+    shape: Shape
+) = border(
+    width = borderSize,
+    brush = Brush.linearGradient(colors),
+    shape = shape
+)
+
+
 //
 ////@Preview(showBackground = true)
 ////@Composable
@@ -470,79 +512,3 @@ val Teal200 = Color(0xFF03DAC5)
 ////---------------------------
 ////---------------------------
 //
-//
-//@Composable
-//fun FilterChip(
-//    filter: Filter,
-//    modifier: Modifier = Modifier,
-//    shape: Shape = MaterialTheme.shapes.small
-//) {
-//    val (selected, setSelected) = filter.enabled
-//    val backgroundColor by animateColorAsState(
-//        if (selected) Purple500 else Color.White
-//    )
-//    val border = Modifier.fadeInDiagonalGradientBorder(
-//        showBorder = !selected,
-//        colors = listOf(
-//            Purple500, Purple200
-//        ),
-//        shape = shape
-//    )
-//    val textColor by animateColorAsState(
-//        if (selected) Color.White else Color.Black
-//    )
-//
-//    ChipSurface(
-//        modifier = modifier.height(40.dp),
-//        color = backgroundColor,
-//        contentColor = textColor,
-//        shape = shape,
-//        elevation = 2.dp
-//    ) {
-//        val interactionSource = remember { MutableInteractionSource() }
-//
-//        val pressed by interactionSource.collectIsPressedAsState()
-//        val backgroundPressed =
-//            if (pressed) {
-//                Modifier.offsetGradientBackground(
-//                    listOf(
-//                        Purple500, Purple200
-//                    ),
-//                    200f,
-//                    0f
-//                )
-//            } else {
-//                Modifier.background(Color.Transparent)
-//            }
-//        Box(
-//            modifier = Modifier
-//                .toggleable(
-//                    value = selected,
-//                    onValueChange = setSelected,
-//                    interactionSource = interactionSource,
-//                    indication = null
-//                )
-//                .then(backgroundPressed)
-//                .then(border)
-//                .height(40.dp)
-//        ) {
-//            Text(
-//                text = filter.name,
-//                style = MaterialTheme.typography.caption,
-//                maxLines = 1,
-//                fontSize = 16.sp,
-//                textAlign = TextAlign.Center,
-//                modifier = Modifier
-//                    .padding(horizontal = 20.dp, vertical = 6.dp)
-//                    .fillMaxHeight()
-//            )
-//        }
-//    }
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//private fun FilterChipPreview() {
-//
-//    FilterChip(filter = fruitFilters[0])
-//}
