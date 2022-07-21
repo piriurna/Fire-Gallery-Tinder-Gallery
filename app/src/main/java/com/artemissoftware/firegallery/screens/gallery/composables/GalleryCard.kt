@@ -34,9 +34,9 @@ fun GalleryCard() {
             )
 
             Column(modifier = Modifier.align(Alignment.Center)) {
-                Text("AB CDE", fontWeight = FontWeight.W700)
-                Text("+0 12345678")
-                Text("XYZ city", fontWeight = FontWeight.W300)
+                Text(text = "AB CDE", fontWeight = FontWeight.W700)
+                Text(text = "+0 12345678")
+                Text(text = "XYZ city", fontWeight = FontWeight.W300)
             }
         }
     }

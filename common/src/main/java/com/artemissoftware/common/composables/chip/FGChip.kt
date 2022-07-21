@@ -85,10 +85,10 @@ fun ChipSurface(
                         text = "filter.name",
                         style = FGStyle.Text,
                         maxLines = 1,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(horizontal = 20.dp, vertical = 8.dp)
-                            .fillMaxHeight()
+                        modifier = Modifier.align(Alignment.Center)
+                            .padding(horizontal = 20.dp)
+//                            .padding(top = 12.dp)
+//                            .fillMaxHeight()
                     )
                 }
             }
