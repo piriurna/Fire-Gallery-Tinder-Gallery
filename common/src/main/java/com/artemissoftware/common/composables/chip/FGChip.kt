@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.artemissoftware.common.extensions.withElevation
 import com.artemissoftware.common.models.Chip
+import com.artemissoftware.common.theme.FGStyle
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import kotlin.math.ln
@@ -82,9 +83,8 @@ fun ChipSurface(
 
                     Text(
                         text = "filter.name",
-                        style = MaterialTheme.typography.caption,
+                        style = FGStyle.Text,
                         maxLines = 1,
-                        fontSize = 16.sp,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .padding(horizontal = 20.dp, vertical = 8.dp)
