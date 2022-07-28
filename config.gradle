@@ -1,0 +1,115 @@
+ext.versions = [
+//        buildTools             : '30.0.2',
+//        minSdk                 : 21,
+//        targetSdk              : 31,
+//        compileSdk             : 31,
+//        versionCode            : 1,
+//        versionName            : 'sprint-v92',
+//
+//        gradle                 : '7.0.3',
+//        kotlin                 : '1.5.31',
+//        coroutines             : '1.4.3',
+//        room                   : '2.3.0',
+//        androidx               : '1.6.0',
+//        appCompat              : '1.3.0',
+//        activityKTX            : '1.3.1',
+//        material               : '1.5.0',
+//        googleServices         : '4.3.8',
+//        firebaseBoM            : '28.2.1',
+//        firebaseCrashlytics    : '2.7.1',
+//        koin                   : '3.1.2',
+//        mapbox                 : '9.7.0',
+//        biometric              : '1.1.0',
+//        gson                   : '2.8.7',
+//        retrofit               : '2.9.0',
+//        okHttp                 : '4.9.0',
+//        moshi                  : '1.12.0',
+
+        compose                : '1.1.1', //'1.2.0-alpha07'
+//        composeActivity        : '1.4.0',
+//        constraintLayoutCompose: '1.0.0-beta02',
+//        coil                   : '1.3.1',
+//        accompanist            : '0.18.0',
+//        lottie                 : '4.0.0',
+//
+//        junit                  : '4.+',
+//        junitExtension         : '1.1.2',
+//        coreTesting            : '2.1.0',
+//        mockito                : '3.2.0',
+//        espresso               : '3.3.0',
+//        playcore               : '1.10.2',
+//        playcorektx            : '1.8.1'
+]
+
+ext.libraries = [
+
+         compose                   : "androidx.compose.ui:ui:$versions.compose",
+         composeMaterial           : "androidx.compose.material:material:$versions.compose",
+         composeUiTooling          : "androidx.compose.ui:ui-tooling:$versions.compose",
+
+//        kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
+//        coroutines                : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
+//        roomRuntime               : "androidx.room:room-runtime:$versions.room",
+//        roomKtx                   : "androidx.room:room-ktx:$versions.room",
+//        roomCompiler              : "androidx.room:room-compiler:$versions.room",
+//
+//        androidx                  : "androidx.core:core-ktx:$versions.androidx",
+//        appCompat                 : "androidx.appcompat:appcompat:$versions.appCompat",
+//        activityKTX               : "androidx.activity:activity-ktx:$versions.activityKTX",
+//        material                  : "com.google.android.material:material:$versions.material",
+//        viewModel                 : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifeCycle",
+//        firebaseBoM               : "com.google.firebase:firebase-bom:$versions.firebaseBoM",
+//        firebaseConfig            : "com.google.firebase:firebase-config-ktx",
+//        firebaseAnalytics         : "com.google.firebase:firebase-analytics-ktx",
+//        firebaseCrashlytics       : "com.google.firebase:firebase-crashlytics-ktx",
+//        firebaseAuthentication    : "com.google.firebase:firebase-auth-ktx",
+//        firebaseFirestore         : "com.google.firebase:firebase-firestore-ktx",
+//        firebaseCloudMessaging    : "com.google.firebase:firebase-messaging-ktx:",
+//        koin                      : "io.insert-koin:koin-android:$versions.koin",
+//        koinCompat                : "io.insert-koin:koin-android-compat:$versions.koin",
+//        biometric                 : "androidx.biometric:biometric:$versions.biometric",
+//        gson                      : "com.google.code.gson:gson:$versions.gson",
+//        retrofit                  : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+//        retrofitConverter         : "com.squareup.retrofit2:converter-moshi:$versions.retrofit",
+//        okHttp                    : "com.squareup.okhttp3:logging-interceptor:$versions.okHttp",
+//        moshi                     : "com.squareup.moshi:moshi:$versions.moshi",
+//        moshiKotlin               : "com.squareup.moshi:moshi-kotlin:$versions.moshi",
+//        playcore                  : "com.google.android.play:core:$versions.playcore",
+//        playcorektx               : "com.google.android.play:core-ktx:$versions.playcorektx",
+//
+
+
+//        composeFoundation         : "androidx.compose.foundation:foundation:$versions.compose",
+
+//        composeActivity           : "androidx.activity:activity-compose:$versions.composeActivity",
+//        constraintLayoutCompose   : "androidx.constraintlayout:constraintlayout-compose:$versions.constraintLayoutCompose",
+//        lottieCompose             : "com.airbnb.android:lottie-compose:$versions.lottie",
+//        koinCompose               : "io.insert-koin:koin-androidx-compose:$versions.koin",
+//        coilCompose               : "io.coil-kt:coil-compose:$versions.coil",
+//        accompanistSystemUI       : "com.google.accompanist:accompanist-systemuicontroller:$versions.accompanist",
+//        accompanistNavigation     : "com.google.accompanist:accompanist-navigation-animation:$versions.accompanist",
+//        accompanistInsets         : "com.google.accompanist:accompanist-insets:$versions.accompanist",
+//        accompanistInsetsUI       : "com.google.accompanist:accompanist-insets-ui:$versions.accompanist",
+//        accompanistPager          : "com.google.accompanist:accompanist-pager:$versions.accompanist",
+//        accompanistPagerIndicators: "com.google.accompanist:accompanist-pager-indicators:$versions.accompanist",
+//        accompanistPermissions    : "com.google.accompanist:accompanist-permissions:$versions.accompanist"
+]
+
+ext.tests = [
+//        kotlin        : "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin",
+//        junit         : "junit:junit:$versions.junit",
+//        junitExtension: "androidx.test.ext:junit:$versions.junitExtension",
+//        coreTesting   : "androidx.arch.core:core-testing:$versions.coreTesting",
+//        mockito       : "org.mockito.kotlin:mockito-kotlin:$versions.mockito",
+//        coroutines    : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines",
+//        espresso      : "androidx.test.espresso:espresso-core:$versions.espresso",
+]
+
+ext.classpath = [
+//        gradle             : "com.android.tools.build:gradle:$versions.gradle",
+//        kotlin             : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+//        googleServices     : "com.google.gms:google-services:$versions.googleServices",
+//        firebaseCrashlytics: "com.google.firebase:firebase-crashlytics-gradle:$versions.firebaseCrashlytics",
+]
+
+
