@@ -16,10 +16,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.theme.FGStyle
+import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.firegallery.R
 
 @Composable
-fun GalleryCard() {
+fun GalleryCard(gallery: Gallery) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -34,9 +36,11 @@ fun GalleryCard() {
             )
 
             Column(modifier = Modifier.align(Alignment.Center)) {
-                Text(text = "AB CDE", fontWeight = FontWeight.W700)
-                Text(text = "+0 12345678")
-                Text(text = "XYZ city", fontWeight = FontWeight.W300)
+                Text(
+                    text = gallery.name,
+                    style = FGStyle.TextTextOswaldBold36,
+                    maxLines = 1,
+                )
             }
         }
     }
@@ -45,5 +49,5 @@ fun GalleryCard() {
 @Preview(showBackground = true)
 @Composable
 private fun ChipSurfacePreview() {
-    GalleryCard()
+    GalleryCard(gallery = Gallery.galleryMockList[0])
 }

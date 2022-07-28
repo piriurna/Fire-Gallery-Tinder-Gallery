@@ -15,13 +15,6 @@ object FGStyle {
         Font(R.font.textmeone_regular, FontWeight.Bold)
     )
 
-    private val Oswald = FontFamily(
-        Font(R.font.oswald_regular),
-        Font(R.font.oswald_medium, FontWeight.W500),
-        Font(R.font.oswald_bold, FontWeight.Bold)
-    )
-
-
     val Text = TextStyle(
         fontFamily = TextMeOne,
         fontSize = 14.sp
@@ -35,9 +28,27 @@ object FGStyle {
         fontSize = 12.sp
     )
 
+    val TextBold16 = TextBold.copy(
+        fontSize = 16.sp
+    )
+
+
+    private val Oswald = FontFamily(
+        Font(R.font.oswald_regular),
+        Font(R.font.oswald_medium, FontWeight.W500),
+        Font(R.font.oswald_bold, FontWeight.Bold)
+    )
 
     val TextOswald = TextStyle(
         fontFamily = Oswald,
         fontSize = 14.sp
+    )
+
+    val TextOswaldBold = TextOswald.copy(
+        fontWeight = FontWeight.Bold
+    )
+
+    val TextTextOswaldBold36 = TextOswaldBold.copy(
+        fontSize = 36.sp
     )
 }
