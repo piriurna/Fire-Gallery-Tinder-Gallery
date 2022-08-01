@@ -11,6 +11,7 @@ ext.versions = [
         compose                : '1.1.1', //'1.2.0-alpha07'
         coil                   : '2.1.0',
         hilt                   : '2.39.1',
+        hiltLifecycleViewmodel : '1.0.0-alpha03',
 
 
 //        gradle                 : '7.0.3',
@@ -61,6 +62,7 @@ ext.libraries = [
 
         hiltAndroid               : "com.google.dagger:hilt-android:$versions.hilt",
         hiltAndroidCompiler       : "com.google.dagger:hilt-android-compiler:$versions.hilt",
+        hiltLifecycleViewmodel    : "androidx.hilt:hilt-lifecycle-viewmodel:$versions.hiltLifecycleViewmodel"
 
 
 //        kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
