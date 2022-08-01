@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
-    //private val getGalleriesUseCase: GetGalleriesUseCase
+    private val getGalleriesUseCase: GetGalleriesUseCase
 ): FGBaseEventViewModel<GalleryEvents>() {
 
     init {

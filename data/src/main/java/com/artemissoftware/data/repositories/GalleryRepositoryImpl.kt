@@ -6,8 +6,9 @@ import com.artemissoftware.data.mappers.toGallery
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.domain.repositories.GalleryRepository
 import com.google.firebase.firestore.ktx.toObject
+import javax.inject.Inject
 
-class GalleryRepositoryImpl(
+class GalleryRepositoryImpl @Inject constructor(
     private val cloudStoreSource: CloudStoreSource
 ) : GalleryRepository {
 
