@@ -77,9 +77,6 @@ dependencies {
     kapt rootProject.libraries.hiltAndroidCompiler
 
     implementation rootProject.libraries.hiltLifecycleViewmodel
+    implementation rootProject.libraries.hiltNavigationCompose
 
-    // Dagger-Hilt
-    def hilt_navigation = "1.0.0-alpha03"
-
-//    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation"
 }
