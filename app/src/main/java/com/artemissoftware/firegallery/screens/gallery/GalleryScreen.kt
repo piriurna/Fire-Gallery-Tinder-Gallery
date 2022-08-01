@@ -16,15 +16,15 @@ import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
 @Composable
 fun GalleryScreen() {
 
-    val vm: GalleryViewModel = hiltViewModel()
-    val galleries = Gallery.galleryMockList
+    val galleryViewModel: GalleryViewModel = hiltViewModel()
+    val state = galleryViewModel.state.value
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        items(galleries) { gallery->
+        items(state.galleries) { gallery->
 
             GalleryCard(
                 gallery = gallery,

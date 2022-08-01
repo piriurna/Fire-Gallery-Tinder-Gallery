@@ -41,10 +41,11 @@ class GalleryViewModel @Inject constructor(
 
             when(result) {
                 is Resource.Success -> {
-//                    _state.value = _state.value.copy(
-//                        tickets = result.data ?: emptyList(),
-//                        //isLoading = false
-//                    )
+
+                    _state.value = _state.value.copy(
+                        galleries = result.data ?: emptyList(),
+                        //isLoading = false
+                    )
                 }
                 is Resource.Error -> {
 //                    _state.value = _state.value.copy(
