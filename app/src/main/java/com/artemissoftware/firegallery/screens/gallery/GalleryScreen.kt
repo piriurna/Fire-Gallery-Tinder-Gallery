@@ -24,7 +24,12 @@ fun GalleryScreen() {
 
         items(galleries) { gallery->
 
-            GalleryCard(gallery = gallery)
+            GalleryCard(
+                gallery = gallery,
+                onClick = { galleryId->
+
+                }
+            )
 
         }
 
