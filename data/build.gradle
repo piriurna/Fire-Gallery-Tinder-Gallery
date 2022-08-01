@@ -42,5 +42,10 @@ dependencies {
 
     implementation rootProject.libraries.firebaseFirestore
 
+
     implementation project(':domain')
+
+
+    implementation rootProject.libraries.dagger
+    //annotationProcessor  rootProject.libraries.daggerCompiler
 }

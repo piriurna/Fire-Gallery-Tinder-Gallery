@@ -15,6 +15,9 @@ ext.versions = [
         hiltNavigationCompose  : '1.0.0-alpha03',
 
 
+        dagger                 : '2.43.1',
+
+
 //        gradle                 : '7.0.3',
 //        kotlin                 : '1.5.31',
 //        coroutines             : '1.4.3',
@@ -64,8 +67,11 @@ ext.libraries = [
         hiltAndroid               : "com.google.dagger:hilt-android:$versions.hilt",
         hiltAndroidCompiler       : "com.google.dagger:hilt-android-compiler:$versions.hilt",
         hiltLifecycleViewmodel    : "androidx.hilt:hilt-lifecycle-viewmodel:$versions.hiltLifecycleViewmodel",
-        hiltNavigationCompose     : "androidx.hilt:hilt-navigation-compose:$versions.hiltNavigationCompose"
+        hiltNavigationCompose     : "androidx.hilt:hilt-navigation-compose:$versions.hiltNavigationCompose",
 
+
+        dagger                     : "com.google.dagger:dagger:$versions.dagger",
+        daggerCompiler             : "com.google.dagger:dagger-compiler:$versions.dagger",
 
 //        kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
 //        coroutines                : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
