@@ -1,11 +1,11 @@
 package com.artemissoftware.firegallery.screens.gallery
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.usecases.GetGalleriesUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 
@@ -19,6 +19,21 @@ class GalleryViewModel @Inject constructor(
     }
 
     override fun onTriggerEvent(event: GalleryEvents) {
-        super.onTriggerEvent(event)
+        when(event){
+
+            is GalleryEvents.GetGalleries -> {
+                getGetGalleries()
+            }
+
+        }
+    }
+
+    private fun getGetGalleries(){
+
+        getGalleriesUseCase.invoke().onEach { result ->
+
+        }.launchIn(viewModelScope)
+
+
     }
 }
