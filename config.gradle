@@ -6,6 +6,13 @@ ext.versions = [
 //        versionCode            : 1,
 //        versionName            : 'sprint-v92',
 //
+
+
+        compose                : '1.1.1', //'1.2.0-alpha07'
+        coil                   : '2.1.0',
+        hilt                   : '2.39.1',
+
+
 //        gradle                 : '7.0.3',
 //        kotlin                 : '1.5.31',
 //        coroutines             : '1.4.3',
@@ -25,10 +32,11 @@ ext.versions = [
 //        okHttp                 : '4.9.0',
 //        moshi                  : '1.12.0',
 
-        compose                : '1.1.1', //'1.2.0-alpha07'
+
 //        composeActivity        : '1.4.0',
 //        constraintLayoutCompose: '1.0.0-beta02',
-        coil                   : '2.1.0',
+
+
 //        accompanist            : '0.18.0',
 //        lottie                 : '4.0.0',
 //
@@ -50,6 +58,10 @@ ext.libraries = [
         coilCompose               : "io.coil-kt:coil-compose:$versions.coil",
 
         firebaseFirestore         : "com.google.firebase:firebase-firestore-ktx",
+
+        hiltAndroid               : "com.google.dagger:hilt-android:$versions.hilt",
+        hiltAndroidCompiler       : "com.google.dagger:hilt-android-compiler:$versions.hilt",
+
 
 //        kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
 //        coroutines                : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
@@ -114,6 +126,7 @@ ext.classpath = [
 //        kotlin             : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
 //        googleServices     : "com.google.gms:google-services:$versions.googleServices",
 //        firebaseCrashlytics: "com.google.firebase:firebase-crashlytics-gradle:$versions.firebaseCrashlytics",
+        hilt             : "com.google.dagger:hilt-android-gradle-plugin:$versions.hilt",
 ]
 
 
