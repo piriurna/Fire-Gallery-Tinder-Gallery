@@ -73,8 +73,6 @@ fun FGBottomNavigationItem (
                     .alpha(animatedAlpha)
                     .size(animatedIconSize),
                 flip = isSelected,
-//                activeIcon = item.activeIcon,
-//                inactiveIcon = item.inactiveIcon,
             ){
                 Icon(
                     rememberVectorPainter(
@@ -82,34 +80,13 @@ fun FGBottomNavigationItem (
                     ),
                     contentDescription = item.title,
                     modifier = Modifier
-//                        .align(Alignment.CenterVertically)
-//                        .fillMaxHeight()
-//                        .padding(start = 12.dp)
-//                        .alpha(animatedAlpha)
-//                        .size(animatedIconSize),
                 )
             }
-
-
-
-
-//            Icon(
-//                rememberVectorPainter(
-//                    image = if (isSelected) item.activeIcon else item.inactiveIcon
-//                ),
-//                contentDescription = item.title,
-//                modifier = Modifier
-//                    .align(Alignment.CenterVertically)
-//                    .fillMaxHeight()
-//                    .padding(start = 12.dp)
-//                    .alpha(animatedAlpha)
-//                    .size(animatedIconSize),
-//            )
 
             AnimatedVisibility(visible = isSelected) {
                 Text(
                     text = item.title,
-                    modifier = Modifier.padding(start = 8.dp, end = 10.dp),
+                    modifier = Modifier.padding(start = 8.dp, end = 12.dp),
                     maxLines = 1,
                 )
             }

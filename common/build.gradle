@@ -58,4 +58,5 @@ dependencies {
 
     debugImplementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
 
+    implementation rootProject.libraries.lottie
 }

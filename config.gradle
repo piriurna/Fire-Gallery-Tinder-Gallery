@@ -16,6 +16,7 @@ ext.versions = [
 
 
         dagger                 : '2.43.1',
+        lottie                 : '5.2.0'
 
 
 //        gradle                 : '7.0.3',
@@ -72,6 +73,8 @@ ext.libraries = [
 
         dagger                     : "com.google.dagger:dagger:$versions.dagger",
         daggerCompiler             : "com.google.dagger:dagger-compiler:$versions.dagger",
+
+        lottie                     :"com.airbnb.android:lottie-compose:$versions.lottie"
 
 //        kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
 //        coroutines                : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",

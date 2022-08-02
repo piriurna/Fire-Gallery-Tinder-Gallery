@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
+import com.artemissoftware.common.models.NavigationItem
 
 @Composable
 fun FGScaffold(
@@ -32,6 +34,7 @@ fun FGScaffold(
 //    onSearchValue: (String) -> Unit = {},
     isLoading: Boolean = false,
 //    showTopBar: Boolean = true,
+    bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
     Box(
@@ -67,6 +70,7 @@ fun FGScaffold(
         Scaffold(
             modifier = scaffoldModifier,
 //            topBar = topBar,
+            bottomBar = bottomBar,
             content = content
         )
 
@@ -94,6 +98,7 @@ fun FGScaffold(
 @Composable
 private fun FGScaffoldPreview() {
     FGScaffold(
+        bottomBar = {FGBottomNavigationBar(items = listOf(NavigationItem.Home, NavigationItem.Settings)) },
         content = {
 
             Column(modifier = Modifier.fillMaxSize()) {
