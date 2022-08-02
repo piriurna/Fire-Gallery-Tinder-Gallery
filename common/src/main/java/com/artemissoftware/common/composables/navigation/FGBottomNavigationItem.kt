@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.composables.animations.FlipAnimation
 import com.artemissoftware.common.models.NavigationItem
 
 @Composable
@@ -45,7 +46,7 @@ fun FGBottomNavigationItem (
 
 
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
         Row(
@@ -63,18 +64,47 @@ fun FGBottomNavigationItem (
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            Icon(
-                rememberVectorPainter(
-                    image = if (isSelected) item.activeIcon else item.inactiveIcon
-                ),
-                contentDescription = item.title,
+
+            FlipAnimation(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .fillMaxHeight()
                     .padding(start = 12.dp)
                     .alpha(animatedAlpha)
                     .size(animatedIconSize),
-            )
+                flip = isSelected,
+//                activeIcon = item.activeIcon,
+//                inactiveIcon = item.inactiveIcon,
+            ){
+                Icon(
+                    rememberVectorPainter(
+                        image = if (isSelected) item.activeIcon else item.inactiveIcon
+                    ),
+                    contentDescription = item.title,
+                    modifier = Modifier
+//                        .align(Alignment.CenterVertically)
+//                        .fillMaxHeight()
+//                        .padding(start = 12.dp)
+//                        .alpha(animatedAlpha)
+//                        .size(animatedIconSize),
+                )
+            }
+
+
+
+
+//            Icon(
+//                rememberVectorPainter(
+//                    image = if (isSelected) item.activeIcon else item.inactiveIcon
+//                ),
+//                contentDescription = item.title,
+//                modifier = Modifier
+//                    .align(Alignment.CenterVertically)
+//                    .fillMaxHeight()
+//                    .padding(start = 12.dp)
+//                    .alpha(animatedAlpha)
+//                    .size(animatedIconSize),
+//            )
 
             AnimatedVisibility(visible = isSelected) {
                 Text(

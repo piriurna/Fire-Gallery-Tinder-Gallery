@@ -44,12 +44,9 @@ fun FGBottomNavigationBar (
                     modifier = Modifier.weight(animatedWeight),
                     contentAlignment = Alignment.Center,
                 ) {
-                    val interactionSource = remember { MutableInteractionSource() }
+
                     FGBottomNavigationItem(
-                        modifier = Modifier.clickable(
-                            interactionSource = interactionSource,
-                            indication = null
-                        ) {
+                        modifier = Modifier.clickable{
                             selectedScreen = items.indexOf(item)
                         },
                         item = item,
