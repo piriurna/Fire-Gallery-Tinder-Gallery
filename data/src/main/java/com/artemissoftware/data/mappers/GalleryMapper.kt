@@ -6,7 +6,7 @@ import com.artemissoftware.domain.models.Gallery
 fun GalleryFso.toGallery(): Gallery {
 
     return Gallery(
-        id = 0,
+        id = id,
         name = name,
         imageUrl = imageUrl,
     )
