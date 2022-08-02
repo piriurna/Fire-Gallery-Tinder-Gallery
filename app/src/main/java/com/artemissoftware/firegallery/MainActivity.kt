@@ -29,19 +29,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    GalleryScreen()
-//                    FGScaffold(
-//                        lottieId = R.raw.gallery_photo,
-//                        isLoading = true,
-//                        bottomBar = { FGBottomNavigationBar(items = listOf(NavigationItem.Home, NavigationItem.Settings)) },
-//                        content = {
-//
-//                            Column(modifier = Modifier.fillMaxSize()) {
-//                                Text(text = "Text")
-//                            }
-//
-//                        }
-//                    )
+//                    GalleryScreen()
+                    FGScaffold(
+                        lottieId = R.raw.gallery_photo,
+                        isLoading = false,
+                        bottomBar = { FGBottomNavigationBar(items = listOf(NavigationItem.Home, NavigationItem.Settings)) },
+                        content = {
+
+                            Column(modifier = Modifier.fillMaxSize()) {
+                                Text(text = "Text")
+                            }
+
+                        }
+                    )
                 }
             }
         }
