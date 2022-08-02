@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.artemissoftware.common.composables.animations.LottieLoader
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
@@ -26,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    GalleryScreen()
+                    //GalleryScreen()
+                    LottieLoader()
                 }
             }
         }
