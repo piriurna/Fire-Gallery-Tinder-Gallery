@@ -17,16 +17,17 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.models.NavigationItem
 
 @Composable
 fun FGBottomNavigationItem (
     modifier: Modifier = Modifier,
-//    screen: Screen,
+    item: NavigationItem,
     isSelected: Boolean
 ) {
     Box(
-//        modifier = modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center,
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         Row(
             modifier = Modifier
@@ -45,7 +46,7 @@ fun FGBottomNavigationItem (
         ) {
             Icon(
                 rememberVectorPainter(
-                    image = if (isSelected) /*screen.activeIcon*/ Icons.Filled.Home else Icons.Filled.Favorite /*screen.inactiveIcon*/
+                    image = if (isSelected) item.activeIcon else item.inactiveIcon
                 ),
                 contentDescription = "screen.title",
                 modifier = Modifier
@@ -58,7 +59,7 @@ fun FGBottomNavigationItem (
 
             if (isSelected) {
                 Text(
-                    text = "screen.title",
+                    text = item.title,
                     modifier = Modifier.padding(start = 8.dp, end = 10.dp),
                     maxLines = 1,
                 )
@@ -73,9 +74,9 @@ private fun FGBottomNavigationItemPreview() {
 
     Column(verticalArrangement = Arrangement.spacedBy(36.dp)) {
 
-        FGBottomNavigationItem(isSelected = false)
+        FGBottomNavigationItem(item = NavigationItem.Home, isSelected = false)
 
-        FGBottomNavigationItem(isSelected = true)
+        FGBottomNavigationItem(item = NavigationItem.Settings, isSelected = true)
     }
 
 
