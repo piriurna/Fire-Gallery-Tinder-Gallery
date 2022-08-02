@@ -1,5 +1,6 @@
 package com.artemissoftware.common.composables.navigation
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -37,8 +38,10 @@ fun FGBottomNavigationBar (
 
             for (item in items) {
                 val isSelected = item == items[selectedScreen]
+                val animatedWeight by animateFloatAsState(targetValue = if (isSelected) 1.5f else 1f)
+
                 Box(
-                    modifier = Modifier.weight(if (isSelected) 1.5f else 1f),
+                    modifier = Modifier.weight(animatedWeight),
                     contentAlignment = Alignment.Center,
                 ) {
                     val interactionSource = remember { MutableInteractionSource() }

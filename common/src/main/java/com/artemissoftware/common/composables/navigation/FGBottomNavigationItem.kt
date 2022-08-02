@@ -1,5 +1,10 @@
 package com.artemissoftware.common.composables.navigation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -25,15 +31,28 @@ fun FGBottomNavigationItem (
     item: NavigationItem,
     isSelected: Boolean
 ) {
+
+    val animatedHeight by animateDpAsState(targetValue = if (isSelected) 36.dp else 26.dp)
+    val animatedElevation by animateDpAsState(targetValue = if (isSelected) 15.dp else 0.dp)
+    val animatedAlpha by animateFloatAsState(targetValue = if (isSelected) 1f else .5f)
+    val animatedIconSize by animateDpAsState(
+        targetValue = if (isSelected) 26.dp else 20.dp,
+        animationSpec = spring(
+            stiffness = Spring.StiffnessLow,
+            dampingRatio = Spring.DampingRatioMediumBouncy
+        )
+    )
+
+
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         Row(
             modifier = Modifier
-                .height(if (isSelected) 36.dp else 26.dp)
+                .height(animatedHeight)
                 .shadow(
-                    elevation = if (isSelected) 15.dp else 0.dp,
+                    elevation = animatedElevation,
                     shape = RoundedCornerShape(20.dp)
                 )
                 .background(
@@ -48,16 +67,16 @@ fun FGBottomNavigationItem (
                 rememberVectorPainter(
                     image = if (isSelected) item.activeIcon else item.inactiveIcon
                 ),
-                contentDescription = "screen.title",
+                contentDescription = item.title,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .fillMaxHeight()
                     .padding(start = 12.dp)
-                    .alpha(if (isSelected) 1f else .5f)
-                    .size(if (isSelected) 26.dp else 20.dp),
+                    .alpha(animatedAlpha)
+                    .size(animatedIconSize),
             )
 
-            if (isSelected) {
+            AnimatedVisibility(visible = isSelected) {
                 Text(
                     text = item.title,
                     modifier = Modifier.padding(start = 8.dp, end = 10.dp),
