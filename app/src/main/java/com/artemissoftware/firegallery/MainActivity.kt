@@ -3,6 +3,7 @@ package com.artemissoftware.firegallery
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -10,9 +11,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.artemissoftware.common.composables.animations.LottieLoader
-import com.artemissoftware.domain.models.Gallery
-import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
+import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
+import com.artemissoftware.common.composables.scaffold.FGScaffold
+import com.artemissoftware.common.models.NavigationItem
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +29,18 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     //GalleryScreen()
-                    LottieLoader()
+                    FGScaffold(
+                        lottieId = R.raw.gallery_photo,
+                        isLoading = true,
+                        bottomBar = { FGBottomNavigationBar(items = listOf(NavigationItem.Home, NavigationItem.Settings)) },
+                        content = {
+
+                            Column(modifier = Modifier.fillMaxSize()) {
+                                Text(text = "Text")
+                            }
+
+                        }
+                    )
                 }
             }
         }

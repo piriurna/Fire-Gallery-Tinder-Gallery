@@ -1,20 +1,23 @@
 package com.artemissoftware.common.composables.scaffold
 
-import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.R
+import com.artemissoftware.common.composables.animations.FGLottieLoader
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
 import com.artemissoftware.common.models.NavigationItem
+import com.artemissoftware.common.theme.secondaryBackground
 
 @Composable
 fun FGScaffold(
@@ -33,6 +36,7 @@ fun FGScaffold(
 //    searchValue: String = "",
 //    onSearchValue: (String) -> Unit = {},
     isLoading: Boolean = false,
+    @RawRes lottieId: Int = R.raw.gallery_phone,
 //    showTopBar: Boolean = true,
     bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
@@ -74,23 +78,23 @@ fun FGScaffold(
             content = content
         )
 
-//        AnimatedVisibility(
-//            modifier = Modifier.fillMaxSize(),
-//            visible = isShowLoading
-//        ) {
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .clickable(enabled = false, onClick = {})
-//                    .background(MaterialTheme.colors.secondaryBackground.copy(alpha = 0.8f)),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                EDPLoading(
-//                    modifier = Modifier.size(128.dp),
-//                    resId = R.raw.lottie_loading
-//                )
-//            }
-//        }
+        AnimatedVisibility(
+            modifier = Modifier.fillMaxSize(),
+            visible = isLoading
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(enabled = false, onClick = {})
+                    .background(MaterialTheme.colors.secondaryBackground.copy(alpha = 0.8f)),
+                contentAlignment = Alignment.Center
+            ) {
+                FGLottieLoader(
+                    modifier = Modifier.fillMaxSize().padding(all = 40.dp),
+                    id = lottieId
+                )
+            }
+        }
     }
 }
 
