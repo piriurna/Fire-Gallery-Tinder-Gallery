@@ -27,7 +27,7 @@ fun GalleryScreen() {
 @Composable
 private fun BuildGalleryScreen(state: GalleryState) {
 
-    FGScaffold() {
+    FGScaffold(isLoading = state.isLoading ) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp)

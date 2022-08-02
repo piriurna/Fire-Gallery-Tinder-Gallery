@@ -12,6 +12,8 @@ class GetGalleriesUseCase @Inject constructor(private val galleryRepository: Gal
 
     operator fun invoke(): Flow<Resource<List<Gallery>>> = flow {
 
+        emit(Resource.Loading())
+
         val galleries = galleryRepository.getGalleries()
 
         emit(Resource.Success(data = galleries))

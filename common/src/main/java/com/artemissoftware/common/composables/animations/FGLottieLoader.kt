@@ -19,16 +19,13 @@ fun FGLottieLoader(
     val compositionResult: LottieCompositionResult =
         rememberLottieComposition(
             spec = LottieCompositionSpec.RawRes(id)
-            //LottieCompositionSpec.Asset("lottie/gallery_phone.json")
         )
 
     LottieAnimation(
         composition = compositionResult.value,
         isPlaying  = true,
         iterations = LottieConstants.IterateForever,
-        speed = 1.0f,
-//        progress = progress,
-//        dynamicProperties = dynamicProperties,
+        speed = 1.5f,
         modifier = modifier
     )
 

@@ -36,7 +36,7 @@ fun FGScaffold(
 //    searchValue: String = "",
 //    onSearchValue: (String) -> Unit = {},
     isLoading: Boolean = false,
-    @RawRes lottieId: Int = R.raw.gallery_phone,
+    @RawRes lottieId: Int = R.raw.gallery_photo,
 //    showTopBar: Boolean = true,
     bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit

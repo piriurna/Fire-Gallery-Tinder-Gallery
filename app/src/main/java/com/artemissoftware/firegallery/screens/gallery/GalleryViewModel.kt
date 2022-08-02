@@ -44,7 +44,7 @@ class GalleryViewModel @Inject constructor(
 
                     _state.value = _state.value.copy(
                         galleries = result.data ?: emptyList(),
-                        //isLoading = false
+                        isLoading = false
                     )
                 }
                 is Resource.Error -> {
@@ -57,10 +57,10 @@ class GalleryViewModel @Inject constructor(
 ////                            ))
                 }
                 is Resource.Loading -> {
-//                    _state.value = _state.value.copy(
-//                        tickets = result.data ?: emptyList(),
-//                        //isLoading = true
-//                    )
+                    _state.value = _state.value.copy(
+                        //tickets = result.data ?: emptyList(),
+                        isLoading = true
+                    )
                 }
             }
 

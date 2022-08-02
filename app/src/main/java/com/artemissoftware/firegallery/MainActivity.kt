@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.models.NavigationItem
+import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,19 +29,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    //GalleryScreen()
-                    FGScaffold(
-                        lottieId = R.raw.gallery_photo,
-                        isLoading = true,
-                        bottomBar = { FGBottomNavigationBar(items = listOf(NavigationItem.Home, NavigationItem.Settings)) },
-                        content = {
-
-                            Column(modifier = Modifier.fillMaxSize()) {
-                                Text(text = "Text")
-                            }
-
-                        }
-                    )
+                    GalleryScreen()
+//                    FGScaffold(
+//                        lottieId = R.raw.gallery_photo,
+//                        isLoading = true,
+//                        bottomBar = { FGBottomNavigationBar(items = listOf(NavigationItem.Home, NavigationItem.Settings)) },
+//                        content = {
+//
+//                            Column(modifier = Modifier.fillMaxSize()) {
+//                                Text(text = "Text")
+//                            }
+//
+//                        }
+//                    )
                 }
             }
         }
