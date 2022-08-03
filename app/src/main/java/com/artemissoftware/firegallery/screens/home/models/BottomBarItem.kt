@@ -13,9 +13,9 @@ sealed class BottomBarItem(
     route: String
 ) : NavigationItem(title = title, activeIcon = activeIcon, inactiveIcon = inactiveIcon, route = route){
 
-    object Home : BottomBarItem(
-        route = "HOME",
-        title = "HOME",
+    object Gallery : BottomBarItem(
+        route = "GALLERY",
+        title = "Gallery",
         activeIcon = Icons.Default.Place,
         inactiveIcon = Icons.Outlined.Place
     )

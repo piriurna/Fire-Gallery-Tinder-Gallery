@@ -6,26 +6,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
+import com.artemissoftware.firegallery.screens.home.models.BottomBarItem
 
 @Composable
 fun HomeNavigationGraph(navController: NavHostController) {
-//    NavHost(
-//        navController = navController,
-//        route = Graph.HOME,
-//        startDestination = BottomBarItem.Home.route
-//    ) {
-//
-//        composable(route = BottomBarItem.Home.route) {
-//
-//            GalleryScreen()
-//
-//            NGGenericScreen(
-//                name = BottomBarItem.Home.route,
-//                onClick = {
-//                    navController.navigate(Graph.DETAILS)
-//                }
-//            )
-//        }
-//
-//    }
+    NavHost(
+        navController = navController,
+        route = Graph.HOME,
+        startDestination = BottomBarItem.Gallery.route
+    ) {
+
+        composable(route = BottomBarItem.Gallery.route) {
+            GalleryScreen()
+        }
+
+    }
 }

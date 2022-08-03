@@ -10,6 +10,7 @@ import kotlin.coroutines.suspendCoroutine
 class CloudStoreSource @Inject constructor(private val firebaseFirestore: FirebaseFirestore){
 
     suspend fun getDocuments(path: String): List<DocumentSnapshot> {
+
         return suspendCoroutine { continuation ->
             firebaseFirestore.collection(path).get()
                 .addOnSuccessListener {
