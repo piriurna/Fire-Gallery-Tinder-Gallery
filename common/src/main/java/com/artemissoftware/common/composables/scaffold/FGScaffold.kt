@@ -38,7 +38,7 @@ fun FGScaffold(
     isLoading: Boolean = false,
     @RawRes lottieId: Int = R.raw.gallery_photo,
 //    showTopBar: Boolean = true,
-    bottomBar: @Composable () -> Unit = {},
+    bottomBarItems: List<NavigationItem> = emptyList(),
     content: @Composable (PaddingValues) -> Unit
 ) {
     Box(
@@ -74,7 +74,13 @@ fun FGScaffold(
         Scaffold(
             modifier = scaffoldModifier,
 //            topBar = topBar,
-            bottomBar = bottomBar,
+            bottomBar = {
+                        
+                        if(bottomBarItems.isNotEmpty()){
+                            FGBottomNavigationBar(items = bottomBarItems)
+                        }
+                        
+            },
             content = content
         )
 
@@ -90,7 +96,9 @@ fun FGScaffold(
                 contentAlignment = Alignment.Center
             ) {
                 FGLottieLoader(
-                    modifier = Modifier.fillMaxSize().padding(all = 40.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 40.dp),
                     id = lottieId
                 )
             }
@@ -102,7 +110,7 @@ fun FGScaffold(
 @Composable
 private fun FGScaffoldPreview() {
     FGScaffold(
-        bottomBar = {FGBottomNavigationBar(items = listOf(NavigationItem.Home, NavigationItem.Settings)) },
+        bottomBarItems = listOf(NavigationItem.Home, NavigationItem.Settings),
         content = {
 
             Column(modifier = Modifier.fillMaxSize()) {
