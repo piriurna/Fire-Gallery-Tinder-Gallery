@@ -8,9 +8,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Create
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.R
@@ -110,7 +116,7 @@ fun FGScaffold(
 @Composable
 private fun FGScaffoldPreview() {
     FGScaffold(
-        bottomBarItems = listOf(NavigationItem.Home, NavigationItem.Settings),
+        bottomBarItems = listOf(MockNavigationBar.Create, MockNavigationBar.Profile),
         content = {
 
             Column(modifier = Modifier.fillMaxSize()) {
@@ -119,4 +125,14 @@ private fun FGScaffoldPreview() {
 
         }
     )
+}
+
+private sealed class MockNavigationBar(
+    title: String,
+    activeIcon: ImageVector,
+    inactiveIcon: ImageVector,
+    route: String,
+) : NavigationItem(title, activeIcon, inactiveIcon, route) {
+    object Create: MockNavigationBar("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create")
+    object Profile: MockNavigationBar("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
 }

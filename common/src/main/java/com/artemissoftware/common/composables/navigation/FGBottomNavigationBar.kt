@@ -5,13 +5,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Create
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.models.NavigationItem
@@ -67,5 +75,15 @@ fun FGBottomNavigationBar (
 @Composable
 private fun FGBottomNavigationBarPreview() {
 
-    FGBottomNavigationBar(items = listOf(NavigationItem.Home, NavigationItem.Settings))
+    FGBottomNavigationBar(items = listOf(MockNavigationBar.Create, MockNavigationBar.Profile))
+}
+
+private sealed class MockNavigationBar(
+    title: String,
+    activeIcon: ImageVector,
+    inactiveIcon: ImageVector,
+    route: String,
+) : NavigationItem(title, activeIcon, inactiveIcon, route) {
+    object Create: MockNavigationBar("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create")
+    object Profile: MockNavigationBar("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
 }
