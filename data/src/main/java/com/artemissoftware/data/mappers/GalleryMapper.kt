@@ -19,6 +19,6 @@ fun PictureFso.toPicture(): Picture {
 
     return Picture(
         id = id,
-        imageUrl = url,
+        imageUrl = imageUrl,
     )
 }

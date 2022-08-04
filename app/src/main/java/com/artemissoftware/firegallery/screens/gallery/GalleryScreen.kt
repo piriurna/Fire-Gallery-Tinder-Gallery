@@ -10,22 +10,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.domain.models.Gallery
+import com.artemissoftware.firegallery.navigation.GalleryDestinationScreen
 import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
 
 @Composable
-fun GalleryScreen() {
+fun GalleryScreen(navController: NavHostController) {
 
     val galleryViewModel: GalleryViewModel = hiltViewModel()
     val state = galleryViewModel.state.value
 
-    BuildGalleryScreen(state = state)
+    BuildGalleryScreen(state = state, navController)
 
 }
 
 @Composable
-private fun BuildGalleryScreen(state: GalleryState) {
+private fun BuildGalleryScreen(
+    state: GalleryState,
+    navController: NavHostController
+) {
 
     FGScaffold(isLoading = state.isLoading ) {
         LazyColumn(
@@ -38,7 +43,7 @@ private fun BuildGalleryScreen(state: GalleryState) {
                 GalleryCard(
                     gallery = gallery,
                     onClick = { galleryId->
-
+                        navController.navigate(GalleryDestinationScreen.Pictures.route)
                     }
                 )
 
@@ -53,5 +58,5 @@ private fun BuildGalleryScreen(state: GalleryState) {
 private fun GalleryScreenPreview() {
 
     val state = GalleryState(galleries = Gallery.galleryMockList)
-    BuildGalleryScreen(state)
+    //BuildGalleryScreen(state)
 }

@@ -17,8 +17,10 @@ fun HomeNavigationGraph(navController: NavHostController) {
     ) {
 
         composable(route = BottomBarItem.Gallery.route) {
-            GalleryScreen()
+            GalleryScreen(navController)
         }
 
+
+        galleryNavigationGraph(navController)
     }
 }
