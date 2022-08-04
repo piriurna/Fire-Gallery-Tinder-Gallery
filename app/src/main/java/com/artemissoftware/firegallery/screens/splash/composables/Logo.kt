@@ -25,7 +25,8 @@ import com.artemissoftware.firegallery.screens.SplashScreen
 @Composable
 fun Logo(
     modifier: Modifier = Modifier,
-    borderWidth: Dp = 2.dp
+    borderWidth: Dp = 2.dp,
+    borderColor: Color = RedOrange
 ) {
 
     Box(
@@ -35,7 +36,7 @@ fun Logo(
             .background(color = Orange)
             .border(
                 width = borderWidth,
-                color = RedOrange,
+                color = borderColor,
                 shape = CircleShape
             )
     ) {

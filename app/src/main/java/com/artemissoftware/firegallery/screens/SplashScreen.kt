@@ -1,5 +1,6 @@
 package com.artemissoftware.firegallery.screens
 
+import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,6 +20,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.theme.Orange
+import com.artemissoftware.common.theme.RedOrange
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
@@ -43,6 +46,24 @@ fun SplashScreen() {
     }
 
 
+    val initialColor = Orange
+    val targetColor = RedOrange
+    val animateColor = remember { Animatable(initialColor) }
+
+    LaunchedEffect(animateColor) {
+        animateColor.animateTo(
+            targetValue = targetColor,
+            animationSpec = repeatable(
+                animation = tween(
+                    durationMillis = 2000,
+                    easing = LinearEasing,
+                    delayMillis = 500
+                ),
+                repeatMode = RepeatMode.Restart,
+                iterations = 3
+            )
+        )
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -51,7 +72,8 @@ fun SplashScreen() {
 
         Logo(
             modifier = Modifier.align(alignment = Alignment.Center),
-            borderWidth = Dp(animateShape.value)
+            borderWidth = Dp(animateShape.value),
+            borderColor = animateColor.asState().value
         )
     }
 }
