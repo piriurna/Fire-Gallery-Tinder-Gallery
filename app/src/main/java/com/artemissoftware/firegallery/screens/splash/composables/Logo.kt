@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.theme.Orange
 import com.artemissoftware.common.theme.RedOrange
@@ -22,15 +23,18 @@ import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.SplashScreen
 
 @Composable
-fun Logo() {
+fun Logo(
+    modifier: Modifier = Modifier,
+    borderWidth: Dp = 2.dp
+) {
 
     Box(
-        modifier = Modifier
-            .size(80.dp)
+        modifier = modifier
+            .size(180.dp)
             .clip(CircleShape)
             .background(color = Orange)
             .border(
-                width = 2.dp,
+                width = borderWidth,
                 color = RedOrange,
                 shape = CircleShape
             )
@@ -40,7 +44,7 @@ fun Logo() {
             contentDescription = "Compose image",
             colorFilter =  ColorFilter.tint(color = Red),
             modifier = Modifier
-                .size(56.dp)
+                .size(140.dp)
                 .align(alignment = Alignment.Center)
         )
     }
