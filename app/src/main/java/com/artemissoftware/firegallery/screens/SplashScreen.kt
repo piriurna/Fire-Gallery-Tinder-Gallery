@@ -29,51 +29,13 @@ import com.artemissoftware.firegallery.screens.splash.composables.Logo
 @Composable
 fun SplashScreen() {
 
-    val animateShape = remember { Animatable(100f) }
-    LaunchedEffect(animateShape) {
-        animateShape.animateTo(
-            targetValue = 2f,
-            animationSpec = repeatable(
-                animation = tween(
-                    durationMillis = 2000,
-                    easing = LinearEasing,
-                    delayMillis = 500
-                ),
-                repeatMode = RepeatMode.Restart,
-                iterations = 3
-            )
-        )
-    }
-
-
-    val initialColor = Orange
-    val targetColor = RedOrange
-    val animateColor = remember { Animatable(initialColor) }
-
-    LaunchedEffect(animateColor) {
-        animateColor.animateTo(
-            targetValue = targetColor,
-            animationSpec = repeatable(
-                animation = tween(
-                    durationMillis = 2000,
-                    easing = LinearEasing,
-                    delayMillis = 500
-                ),
-                repeatMode = RepeatMode.Restart,
-                iterations = 3
-            )
-        )
-    }
-
     Box(
         modifier = Modifier.fillMaxSize()
 
     ) {
 
         Logo(
-            modifier = Modifier.align(alignment = Alignment.Center),
-            borderWidth = Dp(animateShape.value),
-            borderColor = animateColor.asState().value
+            modifier = Modifier.align(alignment = Alignment.Center)
         )
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.firegallery.navigation.GalleryDestinationScreen
@@ -58,5 +59,5 @@ private fun BuildGalleryScreen(
 private fun GalleryScreenPreview() {
 
     val state = GalleryState(galleries = Gallery.galleryMockList)
-    //BuildGalleryScreen(state)
+    BuildGalleryScreen(state, rememberNavController())
 }
