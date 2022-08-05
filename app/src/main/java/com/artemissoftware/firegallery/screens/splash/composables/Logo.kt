@@ -43,7 +43,6 @@ fun Logo(
     var startAnimation by remember { mutableStateOf(false) }
 
 
-
     val alphaState by animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
         animationSpec = tween(
@@ -103,14 +102,13 @@ fun Logo(
             )
 
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_flame),
-            contentDescription = "Compose image",
-            colorFilter =  ColorFilter.tint(color = logoColor),
-            modifier = Modifier
+
+        LogoImage(
+            modifier =  Modifier
                 .size(140.dp)
                 .align(alignment = Alignment.Center),
-        )
+            logoColor = logoColor)
+
     }
 }
 
@@ -119,4 +117,30 @@ fun Logo(
 private fun LogoPreview() {
 
     Logo()
+}
+
+@Composable
+private fun LogoImage(
+    modifier: Modifier = Modifier,
+    logoColor: Color
+){
+
+    Image(
+        painter = painterResource(id = R.drawable.ic_flame),
+        contentDescription = "Compose image",
+        colorFilter =  ColorFilter.tint(color = logoColor),
+        modifier = modifier
+            .size(140.dp),
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun LogoImagePreview() {
+
+    LogoImage(
+        modifier =  Modifier
+            .size(140.dp),
+        logoColor = Color.Green
+    )
 }

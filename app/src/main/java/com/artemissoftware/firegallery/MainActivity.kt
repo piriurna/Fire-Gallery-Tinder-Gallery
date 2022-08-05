@@ -28,8 +28,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    //RootNavigationGraph(navController = rememberNavController())
-                    SplashScreen()
+                    RootNavigationGraph(navController = rememberNavController())
+                    //SplashScreen()
                     //PicturesScreen()
                     //Greeting("roups")
                 }

@@ -15,24 +15,23 @@ fun RootNavigationGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = Graph.ROOT,
-        startDestination = Graph.HOME
+        startDestination = RootDestinationScreen.Home.route
     ) {
 
         //--authenticationNavGraph(navController = navController)
 
-        composable(route = Graph.HOME) {
+        composable(route = RootDestinationScreen.Home.route) {
             HomeScreen()
-            //SplashScreen()
-            //PicturesScreen()
         }
 
-//        composable(route = RootDestinationScreen.Splash.route) {
-//            SplashScreen()
-//        }
+        composable(route = RootDestinationScreen.Splash.route) {
+            SplashScreen()
+        }
     }
 
 }
 
 sealed class RootDestinationScreen(val route: String) {
+    object Home : RootDestinationScreen(route = "HOME")
     object Splash : RootDestinationScreen(route = "SPLASH")
 }
