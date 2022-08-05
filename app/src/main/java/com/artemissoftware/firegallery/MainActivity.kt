@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.firegallery.navigation.RootNavigationGraph
+import com.artemissoftware.firegallery.screens.SplashScreen
+import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +28,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    RootNavigationGraph(navController = rememberNavController())
+                    //RootNavigationGraph(navController = rememberNavController())
+                    SplashScreen()
+                    //PicturesScreen()
+                    //Greeting("roups")
                 }
             }
         }

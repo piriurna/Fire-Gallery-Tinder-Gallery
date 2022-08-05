@@ -6,13 +6,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Red
@@ -38,53 +38,62 @@ fun Logo(
     val boxSize = 180.dp
     val borderWidth = 2.dp
 
-
     val animateShape = remember { Animatable(boxSize.value) }
     val animateColor = remember { Animatable(preRevealColor) }
+    var startAnimation by remember { mutableStateOf(false) }
+
+
+
+    val alphaState by animateFloatAsState(
+        targetValue = if (startAnimation) 1f else 0f,
+        animationSpec = tween(
+            durationMillis = 3000
+        )
+    )
+
+    val offsetState by animateDpAsState(
+        targetValue = if (startAnimation) 0.dp else 400.dp,
+        animationSpec = tween(
+            durationMillis = 2000
+        )
+    )
 
     LaunchedEffect(true) {
+
+        startAnimation = true
 
         val jobA = launch {
             animateShape.animateTo(
                 targetValue = borderWidth.value,
-                animationSpec = repeatable(
-                    animation = tween(
+                animationSpec = tween(
                         durationMillis = 1500,
                         easing = LinearEasing,
                         delayMillis = 10
-                    ),
-                    repeatMode = RepeatMode.Restart,
-                    iterations = 1
-                )
+                    )
             )
         }
 
         val jobB = launch {
             animateColor.animateTo(
                 targetValue = borderColor,
-                animationSpec = repeatable(
-                    animation = tween(
+                animationSpec = tween(
                         durationMillis = 2000,
                         easing = LinearEasing,
                         delayMillis = 100
-                    ),
-                    repeatMode = RepeatMode.Restart,
-                    iterations = 1
+                    )
                 )
-            )
+
         }
 
         jobA.join()
         jobB.join()
-
     }
-
-
-
 
     Box(
         modifier = modifier
             .size(boxSize)
+            .offset(y = offsetState)
+            .alpha(alpha = alphaState)
             .clip(CircleShape)
             .background(color = preRevealColor)
             .border(
@@ -92,6 +101,7 @@ fun Logo(
                 color = animateColor.value,
                 shape = CircleShape
             )
+
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_flame),
@@ -99,7 +109,7 @@ fun Logo(
             colorFilter =  ColorFilter.tint(color = logoColor),
             modifier = Modifier
                 .size(140.dp)
-                .align(alignment = Alignment.Center)
+                .align(alignment = Alignment.Center),
         )
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -30,12 +31,13 @@ import com.artemissoftware.firegallery.screens.splash.composables.Logo
 fun SplashScreen() {
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
 
     ) {
 
         Logo(
-            modifier = Modifier.align(alignment = Alignment.Center)
+            modifier = Modifier
         )
     }
 }
