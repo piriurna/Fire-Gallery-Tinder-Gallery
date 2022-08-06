@@ -23,7 +23,6 @@ import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.firegallery.R
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun GalleryCard(
     gallery: Gallery,

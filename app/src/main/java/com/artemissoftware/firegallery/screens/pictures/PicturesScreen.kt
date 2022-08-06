@@ -30,9 +30,9 @@ import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
 import java.util.*
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PicturesScreen(){
 
@@ -50,54 +50,11 @@ fun PicturesScreen(){
             ) {
                 pictures.forEach { picture ->
 
-//                    Card(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(4.dp),
-//                        elevation = 12.dp,
-//                        shape = RoundedCornerShape(12.dp)
-//                    ) {
-//                        AsyncImage(
-//                            model = ImageRequest.Builder(LocalContext.current)
-//                                .data(picture.imageUrl)
-//                                .crossfade(true)
-//                                .build(),
-//                            contentDescription = stringResource(R.string.app_name),
-//                            contentScale = ContentScale.Crop,
-//                            modifier = Modifier.fillMaxWidth()
-//                        )
-//                    }
+                    PictureCard(
+                        picture = picture,
+                        onClick = {}
+                    )
 
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(4.dp),
-                        elevation = 12.dp,
-                        shape = RoundedCornerShape(12.dp)
-
-                    ) {
-                        Box {
-
-                            val painter = rememberAsyncImagePainter(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(picture.imageUrl)
-                                    .size(Size.ORIGINAL)
-                                    .crossfade(2000)
-                                    .build()
-                            )
-
-                            Image(
-                                painter = painter,
-                                contentDescription = "",
-                                modifier = Modifier.fillMaxWidth(),
-                                contentScale = ContentScale.Crop,
-                            )
-
-
-
-                        }
-                    }
                 }
             }
         }
