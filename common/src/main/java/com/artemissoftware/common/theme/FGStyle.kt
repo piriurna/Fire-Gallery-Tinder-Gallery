@@ -48,7 +48,7 @@ object FGStyle {
         fontWeight = FontWeight.Bold
     )
 
-    val TextTextOswaldBold36 = TextOswaldBold.copy(
+    val TextOswaldBold36 = TextOswaldBold.copy(
         fontSize = 36.sp
     )
 }
