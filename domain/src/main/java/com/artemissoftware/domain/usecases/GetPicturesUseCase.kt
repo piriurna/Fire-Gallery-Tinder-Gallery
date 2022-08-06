@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class GetPicturesUseCase @Inject constructor(private val galleryRepository: GalleryRepository) {
 
-    operator fun invoke(galleryId: String): Flow<Resource<List<Picture>>> = flow {
+    operator fun invoke(galleryId: Int): Flow<Resource<List<Picture>>> = flow {
 
         emit(Resource.Loading())
 

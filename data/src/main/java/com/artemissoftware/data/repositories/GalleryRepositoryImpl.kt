@@ -23,7 +23,7 @@ class GalleryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPictures(galleryId: String): List<Picture> {
+    override suspend fun getPictures(galleryId: Int): List<Picture> {
 
         return cloudStoreSource.getPictures(galleryId).map { document ->
             document.toObject<PictureFso>()!!.toPicture()

@@ -26,7 +26,7 @@ class CloudStoreSource @Inject constructor(private val firebaseFirestore: Fireba
         }
     }
 
-    suspend fun getPictures(galleryId: String): List<DocumentSnapshot> {
+    suspend fun getPictures(galleryId: Int): List<DocumentSnapshot> {
 
         return suspendCoroutine { continuation ->
             firebaseFirestore

@@ -41,7 +41,7 @@ fun PicturesScreen(){
     val viewModel: PicturesViewModel = hiltViewModel()
     val state = viewModel.state.value
 
-    viewModel.onTriggerEvent(PictureEvents.GetPictures("1"))
+    viewModel.onTriggerEvent(PictureEvents.GetPictures(1))
 
     FGScaffold(isLoading = false) {
         Column(

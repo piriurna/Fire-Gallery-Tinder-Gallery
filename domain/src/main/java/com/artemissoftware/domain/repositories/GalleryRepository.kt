@@ -7,5 +7,5 @@ interface GalleryRepository {
 
     suspend fun getGalleries(): List<Gallery>
 
-    suspend fun getPictures(galleryId: String): List<Picture>
+    suspend fun getPictures(galleryId: Int): List<Picture>
 }
