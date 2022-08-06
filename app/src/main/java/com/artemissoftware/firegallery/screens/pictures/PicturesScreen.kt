@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -30,13 +31,17 @@ import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.screens.gallery.GalleryViewModel
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
 import java.util.*
 
 @Composable
 fun PicturesScreen(){
 
-    val pictures = Picture.picturesMockList
+    val viewModel: PicturesViewModel = hiltViewModel()
+    val state = viewModel.state.value
+
+    viewModel.onTriggerEvent(PictureEvents.GetPictures("1"))
 
     FGScaffold(isLoading = false) {
         Column(
@@ -48,7 +53,7 @@ fun PicturesScreen(){
                 numColumns = 2, //put the how many column you want
                 modifier = Modifier.padding(4.dp)
             ) {
-                pictures.forEach { picture ->
+                state.pictures.forEach { picture ->
 
                     PictureCard(
                         picture = picture,
