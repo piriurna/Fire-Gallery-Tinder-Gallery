@@ -54,10 +54,10 @@ class PicturesViewModel @Inject constructor(
 ////                            ))
                 }
                 is Resource.Loading -> {
-//                    _state.value = _state.value.copy(
-//                        //tickets = result.data ?: emptyList(),
-//                        isLoading = true
-//                    )
+                    _state.value = _state.value.copy(
+                        //pictures = result.data ?: emptyList(),
+                        isLoading = true
+                    )
                 }
             }
 

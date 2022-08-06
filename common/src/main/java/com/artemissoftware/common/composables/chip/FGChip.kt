@@ -1,19 +1,12 @@
 package com.artemissoftware.common.composables.chip
 
-import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,21 +15,15 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.artemissoftware.common.extensions.withElevation
 import com.artemissoftware.common.models.Chip
 import com.artemissoftware.common.theme.FGStyle
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
-import kotlin.math.ln
-
 
 
 val Purple200 = Color(0xFFBB86FC)
@@ -83,7 +70,7 @@ fun ChipSurface(
 
                     Text(
                         text = "filter.name",
-                        style = FGStyle.Text,
+                        style = FGStyle.TextMeOne,
                         maxLines = 1,
                         modifier = Modifier.align(Alignment.Center)
                             .padding(horizontal = 20.dp)
@@ -150,16 +137,14 @@ fun FilterChipSection(
 ) {
 
     FlowRow(
-        mainAxisAlignment = FlowMainAxisAlignment.Center,
+        mainAxisAlignment = FlowMainAxisAlignment.Start,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 12.dp, bottom = 16.dp)
-            .padding(horizontal = 4.dp)
     ) {
         filters.forEach { filter ->
             FilterChip(
                 filter = filter,
-                modifier = Modifier.padding(end = 4.dp, bottom = 8.dp)
+                modifier = Modifier.padding(end = 4.dp, bottom = 0.dp)
             )
         }
     }

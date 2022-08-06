@@ -9,26 +9,30 @@ import com.artemissoftware.common.R
 
 object FGStyle {
 
-    private val TextMeOne = FontFamily(
+    private val MeOneFont = FontFamily(
         Font(R.font.textmeone_regular),
         Font(R.font.textmeone_regular, FontWeight.W500),
         Font(R.font.textmeone_regular, FontWeight.Bold)
     )
 
-    val Text = TextStyle(
-        fontFamily = TextMeOne,
+    val TextMeOne = TextStyle(
+        fontFamily = MeOneFont,
         fontSize = 14.sp
     )
 
-    val TextBold = Text.copy(
-        fontWeight = FontWeight.Bold
-    )
-
-    val TextBold12 = TextBold.copy(
+    val TextMeOne12 = TextMeOne.copy(
         fontSize = 12.sp
     )
 
-    val TextBold16 = TextBold.copy(
+    val TextMeOneBold = TextMeOne.copy(
+        fontWeight = FontWeight.Bold
+    )
+
+    val TextMeOneBold12 = TextMeOneBold.copy(
+        fontSize = 12.sp
+    )
+
+    val TextMeOneBold16 = TextMeOneBold.copy(
         fontSize = 16.sp
     )
 
@@ -46,6 +50,10 @@ object FGStyle {
 
     val TextOswaldBold = TextOswald.copy(
         fontWeight = FontWeight.Bold
+    )
+
+    val TextOswaldMedium = TextOswald.copy(
+        fontWeight = FontWeight.W500
     )
 
     val TextOswaldBold36 = TextOswaldBold.copy(
