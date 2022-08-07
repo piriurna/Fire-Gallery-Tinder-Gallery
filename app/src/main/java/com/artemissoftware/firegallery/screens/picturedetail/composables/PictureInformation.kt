@@ -59,7 +59,7 @@ private fun PictureDetail(title: String, description: String) {
         Text(
             text = description,
 
-            style = TextMeOne12
+            style = TextMeOne
         )
         Text(
             text = title,

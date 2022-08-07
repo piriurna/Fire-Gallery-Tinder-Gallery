@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.animations.FGLottieLoader
+import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
 import com.artemissoftware.common.models.NavigationItem
 import com.artemissoftware.common.theme.secondaryBackground
@@ -90,25 +91,8 @@ fun FGScaffold(
             content = content
         )
 
-        AnimatedVisibility(
-            modifier = Modifier.fillMaxSize(),
-            visible = isLoading
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable(enabled = false, onClick = {})
-                    .background(MaterialTheme.colors.secondaryBackground.copy(alpha = 0.8f)),
-                contentAlignment = Alignment.Center
-            ) {
-                FGLottieLoader(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(all = 40.dp),
-                    id = lottieId
-                )
-            }
-        }
+        FGLoading(isLoading = isLoading)
+
     }
 }
 

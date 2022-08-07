@@ -19,7 +19,7 @@ import com.artemissoftware.common.theme.secondaryBackground
 
 @Composable
 fun FGLoading(
-    isLoading: Boolean = false,
+    isLoading: Boolean,
     @RawRes lottieId: Int = R.raw.gallery_photo,
 ) {
 
