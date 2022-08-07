@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.artemissoftware.firegallery.navigation.models.Graph
+import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
 
 fun NavGraphBuilder.galleryNavigationGraph(navController: NavHostController) {
@@ -17,9 +18,13 @@ fun NavGraphBuilder.galleryNavigationGraph(navController: NavHostController) {
             PicturesScreen()
         }
 
+        composable(route = GalleryDestinationScreen.PictureDetail.route) {
+            PictureDetailScreen()
+        }
     }
 }
 
 sealed class GalleryDestinationScreen(val route: String) {
     object Pictures : GalleryDestinationScreen(route = "PICTURES")
+    object PictureDetail : GalleryDestinationScreen(route = "PICTURE_DETAIL")
 }

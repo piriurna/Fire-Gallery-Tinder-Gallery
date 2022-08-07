@@ -37,7 +37,7 @@ fun FGBottomSheetScaffold(
     ) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
-            sheetShape = sheetShape,//RoundedCornerShape(topStart = 0.dp, topEnd = 46.dp),
+            sheetShape = sheetShape,
             sheetPeekHeight =  40.dp,
             sheetContent = sheetContent,
             content = content

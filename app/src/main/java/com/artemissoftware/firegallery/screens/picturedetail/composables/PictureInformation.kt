@@ -23,12 +23,14 @@ import com.artemissoftware.common.theme.FGStyle.TextOswaldMedium
 
 @Composable
 fun PictureInformation(
+    modifier: Modifier = Modifier,
     title: String,
     author: String,
     filters: List<Chip>
 ) {
 
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
@@ -45,7 +47,7 @@ fun PictureInformation(
 @Composable
 private fun PictureInformationPreview() {
 
-    PictureInformation("title", "author", Chip.mockChips)
+    PictureInformation(modifier= Modifier,"title", "author", Chip.mockChips)
 }
 
 @Composable

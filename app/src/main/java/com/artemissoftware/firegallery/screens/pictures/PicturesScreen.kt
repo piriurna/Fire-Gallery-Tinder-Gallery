@@ -46,8 +46,6 @@ fun PicturesScreen(){
         viewModel.onTriggerEvent(PictureEvents.GetPictures(1))
     }
 
-
-
     FGScaffold(isLoading = state.isLoading) {
         Column(
             modifier = Modifier
