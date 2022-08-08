@@ -22,6 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -32,12 +34,13 @@ import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.GalleryDestinationScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryViewModel
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
 import java.util.*
 
 @Composable
-fun PicturesScreen(){
+fun PicturesScreen(navController: NavHostController){
 
     val viewModel: PicturesViewModel = hiltViewModel()
     val state = viewModel.state.value
@@ -60,7 +63,9 @@ fun PicturesScreen(){
 
                     PictureCard(
                         picture = picture,
-                        onClick = {}
+                        onClick = {
+                            navController.navigate(GalleryDestinationScreen.PictureDetail.route)
+                        }
                     )
 
                 }
@@ -74,5 +79,5 @@ fun PicturesScreen(){
 @Composable
 private fun GalleryScreenPreview() {
 
-    PicturesScreen()
+    PicturesScreen(rememberNavController())
 }

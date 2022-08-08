@@ -31,7 +31,7 @@ fun PictureInformation(
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
         PictureDetail(title = "Title", description = title)

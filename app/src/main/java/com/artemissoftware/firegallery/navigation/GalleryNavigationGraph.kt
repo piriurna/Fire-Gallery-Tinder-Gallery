@@ -15,7 +15,7 @@ fun NavGraphBuilder.galleryNavigationGraph(navController: NavHostController) {
     ) {
 
         composable(route = GalleryDestinationScreen.Pictures.route) {
-            PicturesScreen()
+            PicturesScreen(navController)
         }
 
         composable(route = GalleryDestinationScreen.PictureDetail.route) {

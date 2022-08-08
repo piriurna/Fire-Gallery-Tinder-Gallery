@@ -8,4 +8,5 @@ object FireStoreCollection{
 object FireStoreDocumentField {
     val DATE = "date"
     val GALLERY_ID = "galleryId"
+    val ID = "id"
 }

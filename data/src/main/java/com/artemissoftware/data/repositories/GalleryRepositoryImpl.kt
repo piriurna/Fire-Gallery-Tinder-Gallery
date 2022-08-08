@@ -1,6 +1,7 @@
 package com.artemissoftware.data.repositories
 
 import com.artemissoftware.data.firebase.FireStoreCollection
+import com.artemissoftware.data.firebase.FireStoreDocumentField
 import com.artemissoftware.data.firebase.cloudstore.source.CloudStoreSource
 import com.artemissoftware.data.firebase.entities.GalleryFso
 import com.artemissoftware.data.firebase.entities.PictureFso
@@ -28,5 +29,12 @@ class GalleryRepositoryImpl @Inject constructor(
         return cloudStoreSource.getPictures(galleryId).map { document ->
             document.toObject<PictureFso>()!!.toPicture()
         }
+    }
+
+    override suspend fun getPictureDetail(pictureId: String): Picture {
+
+        return cloudStoreSource.getDocumentItems(FireStoreCollection.PICTURES, FireStoreDocumentField.ID, pictureId as Object).map { document ->
+            document.toObject<PictureFso>()!!.toPicture()
+        }.first()
     }
 }
