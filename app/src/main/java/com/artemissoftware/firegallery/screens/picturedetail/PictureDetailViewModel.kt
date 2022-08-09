@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPictureDetailUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@HiltViewModel
 class PictureDetailViewModel @Inject constructor(
     private val getPictureDetailUseCase: GetPictureDetailUseCase
 ): FGBaseEventViewModel<PictureDetailEvents>(){

@@ -1,6 +1,7 @@
 package com.artemissoftware.firegallery.screens.pictures.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,7 +24,7 @@ fun PictureCard(
 
     Card(
         modifier = Modifier
-            .padding(4.dp),
+            .padding(4.dp).clickable { onClick() },
         elevation = 12.dp,
         shape = RoundedCornerShape(12.dp)
 
