@@ -20,6 +20,9 @@ fun HomeNavigationGraph(navController: NavHostController) {
             GalleryScreen(navController)
         }
 
+        composable(route = BottomBarItem.Favorites.route) {
+
+        }
 
         galleryNavigationGraph(navController)
     }

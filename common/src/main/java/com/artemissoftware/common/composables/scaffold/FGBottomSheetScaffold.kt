@@ -39,11 +39,11 @@ fun FGBottomSheetScaffold(
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetShape = sheetShape,
-            sheetPeekHeight =  32.dp,
+            sheetPeekHeight =  42.dp,
             sheetContent = {
 
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(4.dp),
+                    modifier = Modifier.fillMaxWidth().padding(12.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     FGIndicator()

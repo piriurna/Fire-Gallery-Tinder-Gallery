@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.animations.FGLottieLoader
 import com.artemissoftware.common.composables.loading.FGLoading
@@ -45,8 +47,9 @@ fun FGScaffold(
     isLoading: Boolean = false,
     @RawRes lottieId: Int = R.raw.gallery_photo,
 //    showTopBar: Boolean = true,
+    navController: NavHostController? = null,
     bottomBarItems: List<NavigationItem> = emptyList(),
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -82,10 +85,13 @@ fun FGScaffold(
             modifier = scaffoldModifier,
 //            topBar = topBar,
             bottomBar = {
-                        
-                        if(bottomBarItems.isNotEmpty()){
-                            FGBottomNavigationBar(items = bottomBarItems)
-                        }
+
+                navController?.let {
+                    if(bottomBarItems.isNotEmpty()){
+                        FGBottomNavigationBar(items = bottomBarItems, it)
+                    }
+                }
+
                         
             },
             content = content
@@ -100,6 +106,7 @@ fun FGScaffold(
 @Composable
 private fun FGScaffoldPreview() {
     FGScaffold(
+        navController = rememberNavController(),
         bottomBarItems = listOf(MockNavigationBar.Create, MockNavigationBar.Profile),
         content = {
 

@@ -14,6 +14,7 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
 
     FGScaffold(
         bottomBarItems = HomeTabs.TABS,
+        navController = navController
     ) {
         HomeNavigationGraph(navController = navController)
     }

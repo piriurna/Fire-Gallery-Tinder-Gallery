@@ -1,7 +1,9 @@
 package com.artemissoftware.firegallery.screens.home.models
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.artemissoftware.common.models.NavigationItem
@@ -18,5 +20,12 @@ sealed class BottomBarItem(
         title = "Gallery",
         activeIcon = Icons.Default.Place,
         inactiveIcon = Icons.Outlined.Place
+    )
+
+    object Favorites : BottomBarItem(
+        route = "FAVORITES",
+        title = "Favorites",
+        activeIcon = Icons.Default.Favorite,
+        inactiveIcon = Icons.Outlined.Favorite
     )
 }

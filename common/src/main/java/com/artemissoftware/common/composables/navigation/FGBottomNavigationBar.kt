@@ -8,13 +8,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Create
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,60 +18,83 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.artemissoftware.common.models.NavigationItem
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun FGBottomNavigationBar (
-    items: List<NavigationItem>
+    items: List<NavigationItem>,
+    navController: NavHostController
 ) {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
 
     var selectedScreen by remember { mutableStateOf(0) }
 
-    Box(
-        Modifier
-            .shadow(5.dp)
-            .background(color = MaterialTheme.colors.surface)
-            .height(64.dp)
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-    ) {
-        Row(
-            Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
+    if (showBottomBar(currentDestination, items = items)) {
+
+        Box(
+            Modifier
+                .shadow(5.dp)
+                .background(color = MaterialTheme.colors.surface)
+                .height(64.dp)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
         ) {
+            Row(
+                Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
 
-            for (item in items) {
-                val isSelected = item == items[selectedScreen]
-                val animatedWeight by animateFloatAsState(targetValue = if (isSelected) 1.5f else 1f)
+                for (item in items) {
+                    val isSelected = item == items[selectedScreen]
+                    val animatedWeight by animateFloatAsState(targetValue = if (isSelected) 1.5f else 1f)
 
-                Box(
-                    modifier = Modifier.weight(animatedWeight),
-                    contentAlignment = Alignment.Center,
-                ) {
+                    Box(
+                        modifier = Modifier.weight(animatedWeight),
+                        contentAlignment = Alignment.Center,
+                    ) {
 
-                    val interactionSource = remember { MutableInteractionSource() }
+                        FGBottomNavigationItem(
+                            modifier = Modifier.clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) {
+                                selectedScreen = items.indexOf(item)
 
-                    FGBottomNavigationItem(
-                        modifier = Modifier.clickable(
-                            interactionSource = interactionSource,
-                            indication = null
-                        ) {
-                            selectedScreen = items.indexOf(item)
-                        },
-                        item = item,
-                        isSelected = isSelected
-                    )
+                                navController.navigate(item.route) {
+
+                                    popUpTo(navController.graph.findStartDestination().id)
+                                    launchSingleTop = true
+                                }
+                            },
+                            item = item,
+                            isSelected = isSelected
+                        )
+                    }
                 }
             }
         }
     }
 }
 
+
+private fun showBottomBar(
+    currentDestination: NavDestination?,
+    items: List<NavigationItem>) = items.any { it.route == currentDestination?.route }
+
+
 @Preview(showBackground = false)
 @Composable
 private fun FGBottomNavigationBarPreview() {
 
-    FGBottomNavigationBar(items = listOf(MockNavigationBar.Create, MockNavigationBar.Profile))
+    FGBottomNavigationBar(items = listOf(MockNavigationBar.Create, MockNavigationBar.Profile), rememberNavController())
 }
 
 private sealed class MockNavigationBar(
