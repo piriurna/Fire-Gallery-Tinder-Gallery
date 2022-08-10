@@ -3,40 +3,40 @@ package com.artemissoftware.common.composables.animations
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.animations.models.PulsatingType
-import kotlinx.coroutines.launch
 import java.lang.IndexOutOfBoundsException
 
 @Composable
 fun FGPulsatingAnimation(
+    modifier: Modifier = Modifier,
     pulseFraction: Float = 1.2f,
-    type: PulsatingType = PulsatingType.INFINITE,
+    pulsatingType: PulsatingType = PulsatingType.INFINITE,
     content: @Composable () -> Unit
 ) {
 
-    when(type){
+    when(pulsatingType){
 
         PulsatingType.INFINITE ->{
-            PulsatingInfinite(pulseFraction = pulseFraction, content = content)
+            PulsatingInfinite(
+                modifier = modifier,
+                pulseFraction = pulseFraction,
+                content = content
+            )
         }
 
         PulsatingType.LIMITED ->{
-            PulsatingLimited(content = content)
+            PulsatingLimited(
+                modifier = modifier,
+                content = content
+            )
         }
     }
 }
@@ -85,6 +85,7 @@ private fun AnimateValues(
 
 @Composable
 private fun PulsatingInfinite(
+    modifier: Modifier = Modifier,
     pulseFraction: Float = 1.2f,
     content: @Composable () -> Unit
 ) {
@@ -100,7 +101,7 @@ private fun PulsatingInfinite(
         )
     )
 
-    Box(modifier = Modifier.scale(infiniteScaleAnimation)) {
+    Box(modifier = modifier.scale(infiniteScaleAnimation)) {
         content()
     }
 }
@@ -111,7 +112,7 @@ private fun PulsatingInfinitePreview() {
 
     Column {
         FGPulsatingAnimation(
-            type = PulsatingType.INFINITE,
+            pulsatingType = PulsatingType.INFINITE,
             content = {
                 Icon(imageVector = Icons.Outlined.Favorite, contentDescription = "")
             }
@@ -126,6 +127,7 @@ private fun PulsatingInfinitePreview() {
 
 @Composable
 private fun PulsatingLimited(
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
 
@@ -144,7 +146,7 @@ private fun PulsatingLimited(
         animationSpec = animationSpec
     )
 
-    Box(modifier = Modifier.scale(animationScale)) {
+    Box(modifier = modifier.scale(animationScale)) {
         content()
     }
 
@@ -156,7 +158,7 @@ private fun PulsatingLimitedPreview() {
 
     Column {
         FGPulsatingAnimation(
-            type = PulsatingType.LIMITED,
+            pulsatingType = PulsatingType.LIMITED,
             content = {
                 Icon(imageVector = Icons.Default.Favorite, contentDescription = "")
             }
@@ -171,13 +173,13 @@ private fun FGPulsatingAnimationPreview() {
 
     Column {
         FGPulsatingAnimation(
-            type = PulsatingType.INFINITE,
+            pulsatingType = PulsatingType.INFINITE,
             content = {
                 Icon(imageVector = Icons.Outlined.Favorite, contentDescription = "")
             }
         )
         FGPulsatingAnimation(
-            type = PulsatingType.LIMITED,
+            pulsatingType = PulsatingType.LIMITED,
             content = {
                 Icon(imageVector = Icons.Default.Favorite, contentDescription = "")
             }
