@@ -43,14 +43,14 @@ dependencies {
 
     api rootProject.libraries.firebaseFirestore
 
-//    implementation rootProject.libraries.datastore
+    implementation rootProject.libraries.datastore
 //    implementation rootProject.libraries.datastoreCore
 //    implementation rootProject.libraries.kotlinxSerializationJson
 //    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
 
     //DataStore
-    implementation "androidx.datastore:datastore-core:1.0.0"
+//    implementation "androidx.datastore:datastore-core:1.0.0"
 //    implementation "androidx.datastore:datastore-preferences:1.0.0"
 //    //ProtoBuf
 //    implementation "com.google.protobuf:protobuf-javalite:3.14.0"
