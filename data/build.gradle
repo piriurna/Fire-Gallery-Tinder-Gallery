@@ -40,7 +40,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    api rootProject.libraries.firebaseFirestore
+    implementation rootProject.libraries.firebaseFirestore
+
+    api rootProject.libraries.kotlinxSerializationJson
 
 
     implementation project(':domain')

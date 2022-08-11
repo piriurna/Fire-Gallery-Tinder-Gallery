@@ -34,25 +34,8 @@ fun PictureDetailScreen() {
         viewModel.onTriggerEvent(PictureDetailEvents.GetPicture("AABB"))
     }
 
-    FGBottomSheetScaffold(
-        isLoading = state.isLoading,
-        sheetShape = RoundedCornerShape(topStart = 0.dp, topEnd = 46.dp),
-        sheetContent = {
+    BuildPictureDetailScreen(state = state)
 
-            PictureInformation(
-               modifier = Modifier
-                   .padding(horizontal = 16.dp)
-                   .padding(top = 8.dp, bottom = 16.dp),
-               title = "title",
-               author = "authoes",
-               filters = Chip.mockChips
-            )
-
-        },
-        content = {
-            Content(state.picture)
-        }
-    )
 }
 
 
