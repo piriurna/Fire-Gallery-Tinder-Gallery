@@ -1,0 +1,83 @@
+package com.artemissoftware.firegallery.screens.profile.composables
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun ProfileOption(
+    icon: ImageVector,
+    iconBackgroundColor: Color = Color.Blue,
+    description: String,
+    onCheck: (Boolean) -> Unit
+) {
+
+    val checkedState = remember { mutableStateOf(true) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically) {
+
+        Box(modifier =Modifier
+            .weight(0.1F),
+        ){
+
+            Icon(
+                modifier = Modifier
+                    .background(color = iconBackgroundColor, shape = CircleShape)
+                    .padding(8.dp),
+                imageVector = icon,
+                contentDescription = "",
+            )
+        }
+
+        Text(text = description,
+            modifier = Modifier
+                .weight(0.8F)
+                .padding(horizontal = 12.dp)
+        )
+
+
+        Switch(
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = Color.Yellow,
+                checkedTrackColor = Color.Black,
+                uncheckedThumbColor = Color.DarkGray,
+                uncheckedTrackColor = Color.Green,
+            ),
+            modifier = Modifier.weight(0.1F),
+            checked = checkedState.value,
+            onCheckedChange = {
+                checkedState.value = it
+                onCheck.invoke(checkedState.value)
+            }
+        )
+
+    }
+}
+
+
+@Preview
+@Composable
+fun ProfileOptionPreview() {
+
+    Column {
+        ProfileOption(icon = Icons.Filled.LocationOn, description = "description", onCheck = {})
+        ProfileOption(icon = Icons.Filled.LocationOn, description = "descriptiondescriptiondescriptiondescription", onCheck = {})
+    }
+
+}
