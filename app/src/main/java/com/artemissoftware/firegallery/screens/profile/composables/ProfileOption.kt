@@ -16,16 +16,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.composables.icon.FGCircularIcon
 
 @Composable
 fun ProfileOption(
     icon: ImageVector,
+    iconColor: Color = Color.Green,
     iconBackgroundColor: Color = Color.Blue,
     description: String,
+    isChecked: Boolean = false,
     onCheck: (Boolean) -> Unit
 ) {
 
-    val checkedState = remember { mutableStateOf(true) }
+    val checkedState = remember { mutableStateOf(isChecked) }
 
     Row(
         modifier = Modifier
@@ -36,13 +39,12 @@ fun ProfileOption(
             .weight(0.1F),
         ){
 
-            Icon(
-                modifier = Modifier
-                    .background(color = iconBackgroundColor, shape = CircleShape)
-                    .padding(8.dp),
-                imageVector = icon,
-                contentDescription = "",
+            FGCircularIcon(
+                icon = icon,
+                iconColor = iconColor,
+                iconBackgroundColor = iconBackgroundColor
             )
+
         }
 
         Text(text = description,
