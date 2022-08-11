@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.firegallery.navigation.RootNavigationGraph
+import com.artemissoftware.firegallery.screens.profile.ProfileScreen
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +28,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    RootNavigationGraph(navController = rememberNavController())
+                    ProfileScreen()
+                    //RootNavigationGraph(navController = rememberNavController())
                     //SplashScreen()
                     //PicturesScreen()
                     //Greeting("roups")
