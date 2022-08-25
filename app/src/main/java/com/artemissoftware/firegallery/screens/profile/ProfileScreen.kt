@@ -12,19 +12,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.theme.FGStyle
+import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailState
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
 
 @Composable
 fun ProfileScreen() {
 
-//    val viewModel: ProfileViewModel = hiltViewModel()
-//
-//    viewModel.getGetGalleries()
-    //val state = viewModel.state.value
+    val viewModel: ProfileViewModel = hiltViewModel()
+    val state = viewModel.state.value
 
-    FGScaffold() {
+    BuildProfileScreen(state = state)
+
+
+}
+
+@Composable
+private fun BuildProfileScreen(state: ProfileState) {
+
+    FGScaffold(
+        isLoading = state.isLoading
+    ) {
 
         Column {
 
@@ -44,6 +54,7 @@ fun ProfileScreen() {
 
                     ProfileOption(
                         icon = Icons.Filled.Notifications,
+                        isChecked = state.profile.notifications,
                         description = "Allow app to receive push notifications",
                         onCheck = {}
                     )
@@ -55,11 +66,10 @@ fun ProfileScreen() {
 
 
     }
-
 }
 
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen()
+    BuildProfileScreen(ProfileState())
 }
