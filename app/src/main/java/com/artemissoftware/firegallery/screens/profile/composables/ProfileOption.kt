@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.icon.FGCircularIcon
+import com.artemissoftware.common.theme.FGStyle
 
 @Composable
 fun ProfileOption(
@@ -48,6 +49,7 @@ fun ProfileOption(
         }
 
         Text(text = description,
+            style = FGStyle.TextMeOne,
             modifier = Modifier
                 .weight(0.8F)
                 .padding(horizontal = 12.dp)

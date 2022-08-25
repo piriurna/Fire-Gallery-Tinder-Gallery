@@ -36,6 +36,9 @@ object FGStyle {
         fontSize = 16.sp
     )
 
+    val TextMeOneBold32 = TextMeOneBold.copy(
+        fontSize = 32.sp
+    )
 
     private val Oswald = FontFamily(
         Font(R.font.oswald_regular),
