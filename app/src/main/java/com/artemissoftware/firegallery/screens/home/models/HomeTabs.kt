@@ -4,6 +4,7 @@ object HomeTabs {
 
     val TABS = listOf(
         BottomBarItem.Gallery,
-        BottomBarItem.Favorites
+        BottomBarItem.Favorites,
+        BottomBarItem.Profile
     )
 }

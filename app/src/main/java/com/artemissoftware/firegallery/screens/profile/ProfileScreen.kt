@@ -24,24 +24,29 @@ fun ProfileScreen() {
     val viewModel: ProfileViewModel = hiltViewModel()
     val state = viewModel.state.value
 
-    BuildProfileScreen(state = state)
-
-
+    BuildProfileScreen(
+        state = state,
+        events = viewModel::onTriggerEvent
+    )
 }
 
 @Composable
-private fun BuildProfileScreen(state: ProfileState) {
+private fun BuildProfileScreen(
+    state: ProfileState,
+    events: ((ProfileEvents) -> Unit),
+) {
 
     FGScaffold(
         isLoading = state.isLoading
     ) {
 
-        Column {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
 
             Text(text = "Profile",
                 style = FGStyle.TextMeOneBold32,
             )
-
 
             LazyColumn(
                 modifier = Modifier
@@ -56,7 +61,11 @@ private fun BuildProfileScreen(state: ProfileState) {
                         icon = Icons.Filled.Notifications,
                         isChecked = state.profile.notifications,
                         description = "Allow app to receive push notifications",
-                        onCheck = {}
+                        onCheck = {
+                            val profile = state.profile
+                            profile.notifications = it
+                            events.invoke(ProfileEvents.UpdateProfile(profile))
+                        }
                     )
 
                 }
@@ -71,5 +80,5 @@ private fun BuildProfileScreen(state: ProfileState) {
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    BuildProfileScreen(ProfileState())
+    BuildProfileScreen(ProfileState(), events = {})
 }
