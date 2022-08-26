@@ -19,18 +19,21 @@ import com.artemissoftware.common.theme.FGStyle.TextMeOne
 
 @Composable
 fun FGSnackBar(
+    type: FGSnackBarType = FGSnackBarType.INFO,
     icon: ImageVector? = null,
     description: String
 ) {
 
     Card(
+        backgroundColor = type.backgroundColor,
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(2.dp, Color.White),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
 
     ) {
+
         Row(
             modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -38,6 +41,7 @@ fun FGSnackBar(
 
             icon?.let {
                 Icon(
+                    tint = type.textColor,
                     imageVector = it,
                     contentDescription = "",
                     modifier = Modifier.padding(end = 8.dp)
@@ -45,10 +49,12 @@ fun FGSnackBar(
             }
 
             Text(
+                color = type.textColor,
                 text = description,
                 style = TextMeOne
             )
         }
+
     }
 }
 
@@ -61,20 +67,24 @@ private fun FGSnackBarPreview() {
     ) {
 
         FGSnackBar(
+            type = FGSnackBarType.SUCCESS,
             icon = Icons.Default.Notifications,
             description = "snackbarData.message"
         )
 
         FGSnackBar(
+            type = FGSnackBarType.ALERT,
             description = "snackbarData.message.message.message.message.message"
         )
 
         FGSnackBar(
+            type = FGSnackBarType.ERROR,
             icon = Icons.Default.Notifications,
             description = "snackbarData.message.message.message.message.message.message.message.message.message.message.message.message.message"
         )
 
         FGSnackBar(
+            type = FGSnackBarType.INFO,
             description = "snackbarData.message.message.message.message.message.message.message.message"
         )
     }

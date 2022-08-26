@@ -2,6 +2,8 @@ package com.artemissoftware.common.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 @get:Composable
@@ -12,3 +14,8 @@ val Colors.secondaryBackground: Color
 val Orange = Color(0xFFFFC55C)
 val Red = Color(0xFFFC2E20)
 val RedOrange = Color(0xFFFF4500)
+
+val SuccessGreen = Color(0xFF4BCA81)
+val ErrorRed = Color(0xFFCC3300)
+val AlertYellow = Color(0xFFFFcc00)
+val InfoBlue = Color(0xFF840B5ED)
