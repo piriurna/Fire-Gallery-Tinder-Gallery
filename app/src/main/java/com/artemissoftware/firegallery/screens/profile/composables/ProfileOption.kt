@@ -1,9 +1,9 @@
 package com.artemissoftware.firegallery.screens.profile.composables
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Switch
+import androidx.compose.material.SwitchDefaults
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
@@ -11,25 +11,28 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.icon.FGCircularIcon
 import com.artemissoftware.common.theme.FGStyle
+import com.artemissoftware.common.theme.ToggleBlue
 
 @Composable
 fun ProfileOption(
     icon: ImageVector,
     iconColor: Color = Color.Green,
-    iconBackgroundColor: Color = Color.Blue,
+    iconBackgroundColor: Color? = null,
     description: String,
     isChecked: Boolean = false,
     onCheck: (Boolean) -> Unit
 ) {
 
-    val checkedState = remember { mutableStateOf(isChecked) }
+    val checkedColor = ToggleBlue
+    val uncheckedThumbColor = Color.DarkGray
+
+    val checkedState = isChecked//remember { mutableStateOf(isChecked) }
 
     Row(
         modifier = Modifier
@@ -43,9 +46,8 @@ fun ProfileOption(
             FGCircularIcon(
                 icon = icon,
                 iconColor = iconColor,
-                iconBackgroundColor = iconBackgroundColor
+                iconBackgroundColor = (iconBackgroundColor ?: iconColor).copy(alpha = 0.15f)
             )
-
         }
 
         Text(text = description,
@@ -55,19 +57,17 @@ fun ProfileOption(
                 .padding(horizontal = 12.dp)
         )
 
-
         Switch(
             colors = SwitchDefaults.colors(
-                checkedThumbColor = Color.Yellow,
-                checkedTrackColor = Color.Black,
-                uncheckedThumbColor = Color.DarkGray,
-                uncheckedTrackColor = Color.Green,
+                checkedThumbColor = checkedColor,
+                checkedTrackColor = checkedColor.copy(alpha = 0.1f),
+                uncheckedThumbColor = uncheckedThumbColor,
+                uncheckedTrackColor = uncheckedThumbColor.copy(alpha = 0.1f),
             ),
             modifier = Modifier.weight(0.1F),
-            checked = checkedState.value,
+            checked = checkedState/*.value*/,
             onCheckedChange = {
-                checkedState.value = it
-                onCheck.invoke(checkedState.value)
+                onCheck.invoke(it)
             }
         )
 
@@ -80,7 +80,7 @@ fun ProfileOption(
 fun ProfileOptionPreview() {
 
     Column {
-        ProfileOption(icon = Icons.Filled.LocationOn, description = "description", onCheck = {})
+        ProfileOption(icon = Icons.Filled.LocationOn, description = "description", onCheck = {}, isChecked = true)
         ProfileOption(icon = Icons.Filled.LocationOn, description = "descriptiondescriptiondescriptiondescription", onCheck = {})
     }
 

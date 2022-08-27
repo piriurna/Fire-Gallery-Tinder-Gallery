@@ -38,7 +38,7 @@ class ProfileViewModel @Inject constructor(
                 getGetProfile()
             }
             is UpdateProfile->{
-                updateProfile(profile = event.profile)
+                updateProfile(notificationsEnabled = event.notificationsEnabled)
             }
         }
     }
@@ -68,7 +68,9 @@ class ProfileViewModel @Inject constructor(
     }
 
 
-    private fun updateProfile(profile: Profile){
+    private fun updateProfile(notificationsEnabled: Boolean){
+
+        val profile = Profile(notifications = notificationsEnabled)
 
         updateProfileUseCase.invoke(profile).onEach { result ->
 
@@ -76,13 +78,7 @@ class ProfileViewModel @Inject constructor(
                 is Resource.Success -> {
 
                     _state.value = _state.value.copy(
-                        profile = profile,
-                        isLoading = false
-                    )
-                }
-                is Resource.Loading -> {
-                    _state.value = _state.value.copy(
-                        isLoading = true
+                        profile = profile
                     )
                 }
             }

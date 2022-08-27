@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.theme.FGStyle
+import com.artemissoftware.common.theme.InfoBlue
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailState
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
 
@@ -62,12 +63,12 @@ private fun BuildProfileScreen(
 
                     ProfileOption(
                         icon = Icons.Filled.Notifications,
+                        iconColor = InfoBlue,
                         isChecked = state.profile.notifications,
                         description = "Allow app to receive push notifications",
                         onCheck = {
-                            val profile = state.profile
-                            profile.notifications = it
-                            events.invoke(ProfileEvents.UpdateProfile(profile))
+
+                            events.invoke(ProfileEvents.UpdateProfile(notificationsEnabled = it))
 
                             scaffoldState.showSuccess("translateResource(R.string.access_email_to_recover_password, email)", "translateResource(R.string.ok)")
 

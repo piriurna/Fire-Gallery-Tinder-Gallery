@@ -11,10 +11,7 @@ class UpdateProfileUseCase @Inject constructor(private val dataStoreRepository: 
 
     operator fun invoke(profile : Profile): Flow<Resource<Any>> = flow {
 
-        emit(Resource.Loading())
-
         dataStoreRepository.saveProfile(profile)
-
         emit(Resource.Success())
     }
 
