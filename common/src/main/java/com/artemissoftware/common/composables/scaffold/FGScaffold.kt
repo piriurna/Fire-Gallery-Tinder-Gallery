@@ -5,9 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Person
@@ -85,15 +83,13 @@ fun FGScaffold(
             modifier = scaffoldModifier,
 //            topBar = topBar,
             bottomBar = {
-
                 navController?.let {
                     if(bottomBarItems.isNotEmpty()){
                         FGBottomNavigationBar(items = bottomBarItems, it)
                     }
                 }
-
-                        
             },
+//            snackbarHost = { state -> MySnackHost(state) },
             content = content
         )
 
@@ -101,6 +97,21 @@ fun FGScaffold(
 
     }
 }
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MySnackHost(state: SnackbarHostState) {
+    SnackbarHost(
+        state,
+        snackbar = { data ->
+            Snackbar(
+                data,
+                elevation = 1.dp
+            )
+        })
+}
+
 
 @Preview(showBackground = true)
 @Composable

@@ -10,14 +10,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
-import com.artemissoftware.firegallery.navigation.RootNavigationGraph
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.screens.profile.ProfileScreen
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    val scaffoldState by lazy { FGScaffoldState(/*viewModelScope*/) }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -28,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    ProfileScreen()
+                    ProfileScreen(scaffoldState)
                     //RootNavigationGraph(navController = rememberNavController())
                     //SplashScreen()
                     //PicturesScreen()

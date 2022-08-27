@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
@@ -19,6 +20,7 @@ import com.artemissoftware.common.theme.FGStyle.TextMeOne
 
 @Composable
 fun FGSnackBar(
+    //snackbarHostState: SnackbarHostState,
     type: FGSnackBarType = FGSnackBarType.INFO,
     icon: ImageVector? = null,
     description: String

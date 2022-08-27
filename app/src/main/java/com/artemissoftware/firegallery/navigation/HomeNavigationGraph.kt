@@ -26,7 +26,7 @@ fun HomeNavigationGraph(navController: NavHostController) {
         }
 
         composable(route = BottomBarItem.Profile.route) {
-            ProfileScreen()
+            //--ProfileScreen(scaffoldState)
         }
 
         galleryNavigationGraph(navController)
