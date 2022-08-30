@@ -35,7 +35,7 @@ fun ProfileScreen(scaffoldState: FGScaffoldState) {
 
 @Composable
 private fun BuildProfileScreen(
-    scaffoldState: FGScaffoldState,
+    scaffoldState: FGScaffoldState? = null,
     state: ProfileState,
     events: ((ProfileEvents) -> Unit),
 ) {
@@ -70,7 +70,7 @@ private fun BuildProfileScreen(
 
                             events.invoke(ProfileEvents.UpdateProfile(notificationsEnabled = it))
 
-                            scaffoldState.showSuccess("translateResource(R.string.access_email_to_recover_password, email)", "translateResource(R.string.ok)")
+                            scaffoldState?.showSuccess("translateResource(R.string.access_email_to_recover_password, email)", "translateResource(R.string.ok)")
 
                         }
                     )
@@ -88,7 +88,6 @@ private fun BuildProfileScreen(
 @Composable
 fun ProfileScreenPreview() {
     BuildProfileScreen(
-        scaffoldState =FGScaffoldState(),
         state = ProfileState(),
         events = {}
     )
