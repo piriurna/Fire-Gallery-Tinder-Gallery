@@ -48,10 +48,10 @@ class GalleryViewModel @Inject constructor(
                     )
                 }
                 is Resource.Error -> {
-//                    _state.value = _state.value.copy(
-//                        tickets = result.data ?: emptyList(),
-//                        //isLoading = false
-//                    )
+                    _state.value = _state.value.copy(
+                        galleries = result.data ?: emptyList(),
+                        isLoading = false
+                    )
 ////                            _eventFlow.emit(UIEvent.ShowSnackbar(
 ////                                result.message ?: "Unknown error"
 ////                            ))

@@ -14,9 +14,14 @@ class GetGalleriesUseCase @Inject constructor(private val galleryRepository: Gal
 
         emit(Resource.Loading())
 
-        val galleries = galleryRepository.getGalleries()
+        val result = galleryRepository.getGalleries()
 
-        emit(Resource.Success(data = galleries))
+        result.data?.let { galleries->
+            emit(Resource.Success(data = galleries))
+        } ?: kotlin.run {
+            emit(Resource.Error(message = result.error.message))
+        }
+
     }
 
 }
