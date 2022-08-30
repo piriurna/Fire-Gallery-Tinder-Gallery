@@ -1,9 +1,10 @@
 package com.artemissoftware.data.mappers
 
+import com.artemissoftware.data.errors.FireGalleryException
 import com.artemissoftware.domain.FirebaseError
 import com.google.firebase.firestore.FirebaseFirestoreException
 
-fun FirebaseFirestoreException.toFirebaseError() = FirebaseError(
-    code =  "${this.code.value()}  ${this.code.name}",
-    message = this.message ?: "FirebaseError"
+fun FireGalleryException.toFirebaseError() = FirebaseError(
+    code =  "${this.code} ${this.message}",
+    message = this.description ?: ""
 )

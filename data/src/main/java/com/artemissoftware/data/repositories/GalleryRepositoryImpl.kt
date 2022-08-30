@@ -1,7 +1,9 @@
 package com.artemissoftware.data.repositories
 
+import com.artemissoftware.data.errors.FireGalleryException
 import com.artemissoftware.data.firebase.FireStoreCollection
 import com.artemissoftware.data.firebase.FireStoreDocumentField
+import com.artemissoftware.data.firebase.HandleFirebase
 import com.artemissoftware.data.firebase.cloudstore.source.CloudStoreSource
 import com.artemissoftware.data.firebase.entities.GalleryFso
 import com.artemissoftware.data.firebase.entities.PictureFso
@@ -12,6 +14,7 @@ import com.artemissoftware.domain.FirebaseResponse
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.repositories.GalleryRepository
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.toObject
 import javax.inject.Inject
@@ -24,13 +27,13 @@ class GalleryRepositoryImpl @Inject constructor(
 
         return try {
 
-            val response = cloudStoreSource.getDocuments(collectionName = FireStoreCollection.GALLERY)
+            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso>{ cloudStoreSource.getDocuments(collectionName = FireStoreCollection.GALLERY) }
 
             return FirebaseResponse(data = response.map { document ->
                 document.toObject<GalleryFso>()!!.toGallery()
             })
 
-        } catch (ex: FirebaseFirestoreException) {
+        } catch (ex: FireGalleryException) {
             FirebaseResponse(error = ex.toFirebaseError())
         }
 
