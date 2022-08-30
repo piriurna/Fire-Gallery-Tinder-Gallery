@@ -1,9 +1,10 @@
 package com.artemissoftware.common.composables.scaffold.models
 
 import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
+import kotlinx.coroutines.CoroutineScope
 
 class FGScaffoldState(
-//    private val scope: CoroutineScope
+    private val scope: CoroutineScope
 ) {
 //    private val _scaffoldState = BottomSheetScaffoldState(
 //        DrawerState(DrawerValue.Closed),

@@ -30,9 +30,7 @@ fun ProfileOption(
 ) {
 
     val checkedColor = ToggleBlue
-    val uncheckedThumbColor = Color.DarkGray
-
-    val checkedState = isChecked//remember { mutableStateOf(isChecked) }
+    val uncheckedThumbColor = Color.LightGray
 
     Row(
         modifier = Modifier
@@ -60,12 +58,14 @@ fun ProfileOption(
         Switch(
             colors = SwitchDefaults.colors(
                 checkedThumbColor = checkedColor,
-                checkedTrackColor = checkedColor.copy(alpha = 0.1f),
+                checkedTrackColor = checkedColor,
                 uncheckedThumbColor = uncheckedThumbColor,
-                uncheckedTrackColor = uncheckedThumbColor.copy(alpha = 0.1f),
+                uncheckedTrackColor = uncheckedThumbColor,
+                checkedTrackAlpha = 0.1f,
+                uncheckedTrackAlpha = 0.1F
             ),
             modifier = Modifier.weight(0.1F),
-            checked = checkedState/*.value*/,
+            checked = isChecked,
             onCheckedChange = {
                 onCheck.invoke(it)
             }
