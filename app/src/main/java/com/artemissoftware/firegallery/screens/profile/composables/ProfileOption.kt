@@ -44,7 +44,7 @@ fun ProfileOption(
             FGCircularIcon(
                 icon = icon,
                 iconColor = iconColor,
-                iconBackgroundColor = (iconBackgroundColor ?: iconColor).copy(alpha = 0.15f)
+                iconBackgroundColor = iconBackgroundColor
             )
         }
 

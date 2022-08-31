@@ -19,13 +19,34 @@ fun FGCircularIcon(
     modifier: Modifier = Modifier,
     icon: ImageVector = Icons.Filled.LocationOn,
     iconColor: Color = Color.Green,
-    iconBackgroundColor: Color = Color.Blue,
+    iconBackgroundColor: Color? = null,
+    backgroundAlpha: Float? = null,
 ) {
+
+    val backgroundColor = when{
+
+        iconBackgroundColor != null && backgroundAlpha != null ->{
+            iconBackgroundColor.copy(alpha = backgroundAlpha)
+        }
+
+        iconBackgroundColor != null && backgroundAlpha == null ->{
+            iconBackgroundColor
+        }
+
+        iconBackgroundColor == null && backgroundAlpha != null ->{
+            iconColor.copy(alpha = backgroundAlpha)
+        }
+
+        else  ->{
+            Color.Transparent
+        }
+    }
+
 
     Icon(
         modifier = modifier
             .background(
-                color = iconBackgroundColor,
+                color = backgroundColor,
                 shape = CircleShape
             )
             .padding(8.dp),
@@ -35,13 +56,21 @@ fun FGCircularIcon(
     )
 }
 
+
+
 @Preview
 @Composable
 fun FGCircularIconPreview() {
 
 
     Column {
+        FGCircularIcon(iconBackgroundColor = Color.Red, backgroundAlpha = 0.4F)
+        FGCircularIcon(iconBackgroundColor = Color.Red)
+        FGCircularIcon(backgroundAlpha = 0.1F)
         FGCircularIcon()
-        FGCircularIcon()
+        FGCircularIcon(
+            iconColor = Color.DarkGray,
+            backgroundAlpha = 0.1F
+        )
     }
 }

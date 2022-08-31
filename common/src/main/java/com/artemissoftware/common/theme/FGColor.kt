@@ -22,3 +22,6 @@ val InfoBlue = Color(0xFF840B5ED)
 
 
 val ToggleBlue = Color(0xFF800AAEE)
+
+
+val Purple80 = Color(0xFFf3e5f5)
