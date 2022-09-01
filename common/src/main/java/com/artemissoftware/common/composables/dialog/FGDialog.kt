@@ -12,6 +12,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -20,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.icon.FGCircularIcon
 import com.artemissoftware.common.theme.FGStyle
@@ -31,68 +35,68 @@ import com.artemissoftware.common.theme.Purple80
 //}
 
 
-//@Composable
-//fun CustomDialog(openDialogCustom: MutableState<Boolean>) {
-//    Dialog(onDismissRequest = { openDialogCustom.value = false}) {
-//        CustomDialogUI(openDialogCustom = openDialogCustom)
-//    }
-//}
-
+@Composable
+fun FGDialog__a(openDialogCustom: MutableState<Boolean>, dialogType: DialogType) {
+    Dialog(onDismissRequest = { openDialogCustom.value = false}) {
+        FGDialog_(
+            openDialogCustom = openDialogCustom,
+            dialogType
+        )
+    }
+}
 
 @Composable
-private fun FGDialog(
+private fun FGDialog_(
 //    modifier: Modifier = Modifier,
-//    openDialogCustom: MutableState<Boolean>
-//    content: @Composable () -> Unit
-    @DrawableRes imageId: Int,
-    tint: Color = Color.Black
+    openDialogCustom: MutableState<Boolean>,
+    dialogType: DialogType
 ){
+    val imageContent: @Composable () -> Unit = when{
 
-    FGDialog(
-        content = {
-            Image(
-                painter = painterResource(id = imageId),
-                contentDescription = null, // decorative
+        dialogType.imageId != null ->{
+            {
+                Image(
+                    painter = painterResource(id = dialogType.imageId),
+                    contentDescription = null, // decorative
 //                contentScale = ContentScale.Fit,
-                colorFilter  = ColorFilter.tint(
-                    color = tint
-                ),
-                modifier = Modifier
-                    .padding(top = 35.dp)
-                    .height(70.dp)
-                    .fillMaxWidth(),
+                    colorFilter  = ColorFilter.tint(
+                        color = dialogType.iconColor
+                    ),
+                    modifier = Modifier
+                        .padding(top = 35.dp)
+                        .height(70.dp)
+                        .fillMaxWidth(),
 
+                    )
+            }
+        }
+        dialogType.icon != null ->{
+            {
+                FGCircularIcon(
+                    modifier = Modifier
+                            .padding(top = 35.dp),
+                     icon = dialogType.icon,
+                     iconColor = dialogType.iconColor,
+                     backgroundAlpha = 0.1F,
+                    size = 70.dp,
+                    iconPadding = 12.dp
                 )
 
+
+            }
         }
-    )
-
-}
-
-@Composable
-private fun FGDialog(
-//    modifier: Modifier = Modifier,
-//    openDialogCustom: MutableState<Boolean>
-//    content: @Composable () -> Unit
-    icon: ImageVector,
-    iconColor: Color = Color.Black,
-){
+        else ->{
+            {}
+        }
+    }
 
     FGDialog(
-        content = {
-            FGCircularIcon(
-                icon = icon,
-                iconColor = iconColor,
-                modifier = Modifier
-                    .padding(top = 35.dp)
-                    .height(70.dp)
-                    .fillMaxWidth(),
-            )
-
-        }
+        dialogType = dialogType,
+        imageContent = imageContent
     )
 
 }
+
 
 
 //Layout
@@ -100,7 +104,8 @@ private fun FGDialog(
 private fun FGDialog(
 //    modifier: Modifier = Modifier,
 //    openDialogCustom: MutableState<Boolean>
-    content: @Composable () -> Unit
+    dialogType: DialogType,
+    imageContent: @Composable () -> Unit
 ){
     Card(
         //shape = MaterialTheme.shapes.medium,
@@ -114,14 +119,14 @@ private fun FGDialog(
         Column {
 
 
-            content()
+            imageContent()
 
 
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = "Get Updates",
+                    text = dialogType.title,
                     style = FGStyle.TextAlbertSansBold,
                     modifier = Modifier
                         .padding(top = 5.dp)
@@ -130,7 +135,7 @@ private fun FGDialog(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "Allow Permission to send you notifications when new art styles added.",
+                    text = dialogType.description,
                     style = FGStyle.TextAlbertSans,
                     modifier = Modifier
                         .padding(top = 10.dp)
@@ -143,7 +148,7 @@ private fun FGDialog(
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .background(Purple80),
+                    .background(dialogType.mainColor),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
 
@@ -174,22 +179,23 @@ private fun FGDialog(
 }
 
 
-@Preview(name="Image Custom Dialog")
+@Preview
 @Composable
 fun FGDialogImagePreview(){
-    //CustomDialogUI(openDialogCustom = mutableStateOf(false))
-    FGDialog(
-        imageId = R.drawable.ic_android,
-        tint = Color.Magenta
-    )
-}
 
-@Preview(name="Vector Custom Dialog")
-@Composable
-fun FGDialogVectorPreview(){
-    //CustomDialogUI(openDialogCustom = mutableStateOf(false))
-    FGDialog(
-        icon = Icons.Filled.Build,
-        iconColor = Color.Green
+    val dialogTypeSuccess = DialogType.Success(
+        title =  "Get updates",
+        description = "Allow permission to send notifications every day of the year",
+        icon = Icons.Filled.Build
     )
+
+    val successDialog = remember { mutableStateOf(false) }
+
+    FGDialog_(successDialog, dialogTypeSuccess)
+
+    //CustomDialogUI(openDialogCustom = mutableStateOf(false))
+//    FGDialog(
+//        imageId = R.drawable.ic_android,
+//        tint = Color.Magenta
+//    )
 }
