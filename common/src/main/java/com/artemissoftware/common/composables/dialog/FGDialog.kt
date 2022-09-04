@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -72,15 +73,18 @@ private fun FGDialog_(
         }
         dialogType.icon != null ->{
             {
-                FGCircularIcon(
-                    modifier = Modifier
-                            .padding(top = 35.dp),
-                     icon = dialogType.icon,
-                     iconColor = dialogType.iconColor,
-                     backgroundAlpha = 0.1F,
-                    size = 70.dp,
-                    iconPadding = 12.dp
-                )
+                Box(modifier = Modifier.fillMaxWidth()) {
+
+                    FGCircularIcon(
+                        modifier = Modifier
+                            .padding(top = 35.dp).align(Alignment.Center),
+                        icon = dialogType.icon,
+                        iconColor = dialogType.iconColor,
+                        backgroundAlpha = 0.1F,
+                        size = 70.dp,
+                        iconPadding = 12.dp
+                    )
+                }
 
 
             }

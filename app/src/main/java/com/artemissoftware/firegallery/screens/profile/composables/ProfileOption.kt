@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.icon.FGCircularIcon
+import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.common.theme.ToggleBlue
 
@@ -35,10 +36,12 @@ fun ProfileOption(
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically) {
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
-        Box(modifier =Modifier
-            .weight(0.1F),
+        Box(
+            modifier = Modifier
+                .weight(0.1F),
         ){
 
             FGCircularIcon(
@@ -48,8 +51,8 @@ fun ProfileOption(
             )
         }
 
-        Text(text = description,
-            style = FGStyle.TextMeOne,
+        FGText(
+            text = description,
             modifier = Modifier
                 .weight(0.8F)
                 .padding(horizontal = 12.dp)

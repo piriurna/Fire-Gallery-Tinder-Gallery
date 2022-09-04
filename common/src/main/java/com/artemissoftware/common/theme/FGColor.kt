@@ -11,6 +11,10 @@ val Colors.secondaryBackground: Color
     get() = if (isLight) Color(0xffffffff) else Color(0xff252525)
 
 
+@get:Composable
+val Colors.primaryText: Color
+    get() = if (isLight) Color(0xff616161) else Color(0xfff3f5fb)
+
 val Orange = Color(0xFFFFC55C)
 val Red = Color(0xFFFC2E20)
 val RedOrange = Color(0xFFFF4500)
