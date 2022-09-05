@@ -26,6 +26,7 @@ import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.animations.FGLottieLoader
 import com.artemissoftware.common.composables.dialog.DialogType
 import com.artemissoftware.common.composables.dialog.FGDialog__b
+import com.artemissoftware.common.composables.dialog.FGDialog__final
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
@@ -102,16 +103,8 @@ fun FGScaffold(
 
         FGLoading(isLoading = isLoading)
 
-        if(fgScaffoldState?.isShowingBottomBar == true) {
+        fgScaffoldState?.let { FGDialog__final(fgScaffoldState = it) }
 
-            val successDialog = remember { mutableStateOf(true) }
-            val dialogTypeSuccess = DialogType.Success(
-                title = "Get updates",
-                description = "Allow permission to send notifications every day of the year",
-                icon = Icons.Filled.Build
-            )
-            FGDialog__b(fgScaffoldState = fgScaffoldState, dialogType = dialogTypeSuccess)
-        }
     }
 }
 

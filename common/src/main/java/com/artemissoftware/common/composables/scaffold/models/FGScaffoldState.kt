@@ -4,6 +4,7 @@ import androidx.compose.material.SnackbarData
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.artemissoftware.common.composables.dialog.DialogType
 import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
 import kotlinx.coroutines.CoroutineScope
 
@@ -24,8 +25,7 @@ class FGScaffoldState(
 //    private val _snackbarMode = mutableStateOf(EDPSnackbarMode.INFORMATIVE)
 //    private val _isShowingBottomBar = mutableStateOf(true)
 //    private val _currentPositionBottomBar = mutableStateOf(0)
-//    private val _modalVisible = mutableStateOf(true)
-//    private val _openSearch = mutableStateOf(false)
+    //    private val _openSearch = mutableStateOf(false)
 //    private val _openProgress = mutableStateOf(false)
 //    private val _openConsumptions = mutableStateOf(false)
 
@@ -33,7 +33,7 @@ class FGScaffoldState(
 //    val bottomSheetState = _bottomSheetState
     val snackbarHostState = _snackbarHostState
 //    val snackbarMode: EDPSnackbarMode get() = _snackbarMode.value
-//    val modalVisible: Boolean get() = _modalVisible.value
+
 //    val openSearch: Boolean get() = _openSearch.value
 //    val openProgress: Boolean get() = _openProgress.value
 //    val openConsumptions: Boolean get() = _openConsumptions.value
@@ -150,12 +150,15 @@ class FGScaffoldState(
 
     ///---------
 
-        private val _isShowingBottomBar = mutableStateOf(false)
-        val isShowingBottomBar: Boolean get() = _isShowingBottomBar.value
+    private val _isShowingBottomBar = mutableStateOf(false)
+    val isShowingBottomBar: Boolean get() = _isShowingBottomBar.value
 
+    private val _modalVisible = mutableStateOf<DialogType?>(null)
+    val modalVisible: DialogType? get() = _modalVisible.value
 
-    fun showBottomBar() {
+    fun showBottomBar(dialogType: DialogType) {
         _isShowingBottomBar.value = true
+        _modalVisible.value = dialogType
     }
 
     fun hideBottomBar() {
