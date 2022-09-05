@@ -1,5 +1,9 @@
 package com.artemissoftware.common.composables.scaffold.models
 
+import androidx.compose.material.SnackbarData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
 import kotlinx.coroutines.CoroutineScope
 
@@ -35,6 +39,14 @@ class FGScaffoldState(
 //    val openConsumptions: Boolean get() = _openConsumptions.value
 //    val isShowingBottomBar: Boolean get() = _isShowingBottomBar.value
 //    val currentPositionBottomBar: Int get() = _currentPositionBottomBar.value
+
+
+
+
+
+
+
+
 
     private fun showSnackbar(
 //        mode: EDPSnackbarMode,
@@ -133,4 +145,23 @@ class FGScaffoldState(
 //
 //        bottomSheetState.hide()
 //    }
+
+
+
+    ///---------
+
+        private val _isShowingBottomBar = mutableStateOf(false)
+        val isShowingBottomBar: Boolean get() = _isShowingBottomBar.value
+
+
+    fun showBottomBar() {
+        _isShowingBottomBar.value = true
+    }
+
+    fun hideBottomBar() {
+        _isShowingBottomBar.value = false
+    }
+
+
+
 }

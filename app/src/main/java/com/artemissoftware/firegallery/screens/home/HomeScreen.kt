@@ -5,18 +5,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.scaffold.FGScaffold
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.HomeNavigationGraph
 import com.artemissoftware.firegallery.screens.home.models.HomeTabs
 
 
 @Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()) {
+fun HomeScreen(
+    navController: NavHostController = rememberNavController(),
+    scaffoldState: FGScaffoldState
+) {
 
     FGScaffold(
+        fgScaffoldState = scaffoldState,
         bottomBarItems = HomeTabs.TABS,
         navController = navController
     ) {
-        HomeNavigationGraph(navController = navController)
+        HomeNavigationGraph(navController = navController, scaffoldState = scaffoldState)
     }
 
 }
@@ -28,5 +33,5 @@ fun HomeScreen(navController: NavHostController = rememberNavController()) {
 @Composable
 private fun HomeScreenPreview() {
 
-    HomeScreen()
+    //HomeScreen()
 }

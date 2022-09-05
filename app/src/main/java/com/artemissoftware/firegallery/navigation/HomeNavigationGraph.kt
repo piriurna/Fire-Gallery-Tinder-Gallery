@@ -4,13 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
 import com.artemissoftware.firegallery.screens.home.models.BottomBarItem
 import com.artemissoftware.firegallery.screens.profile.ProfileScreen
 
 @Composable
-fun HomeNavigationGraph(navController: NavHostController) {
+fun HomeNavigationGraph(navController: NavHostController, scaffoldState: FGScaffoldState) {
     NavHost(
         navController = navController,
         route = Graph.HOME,
@@ -26,7 +27,7 @@ fun HomeNavigationGraph(navController: NavHostController) {
         }
 
         composable(route = BottomBarItem.Profile.route) {
-            //--ProfileScreen(scaffoldState)
+            ProfileScreen(scaffoldState)
         }
 
         galleryNavigationGraph(navController)

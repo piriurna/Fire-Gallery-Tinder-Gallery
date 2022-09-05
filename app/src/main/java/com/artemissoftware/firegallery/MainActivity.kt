@@ -12,9 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.RootNavigationGraph
-import com.artemissoftware.firegallery.screens.profile.ProfileScreen
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +32,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     //ProfileScreen(viewModel.scaffoldState)
-                    RootNavigationGraph(navController = rememberNavController())
+                    RootNavigationGraph(navController = rememberNavController(), viewModel.scaffoldState)
                     //SplashScreen()
                     //PicturesScreen()
                     //Greeting("roups")

@@ -25,9 +25,10 @@ import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.animations.FGLottieLoader
 import com.artemissoftware.common.composables.dialog.DialogType
-import com.artemissoftware.common.composables.dialog.FGDialog__a
+import com.artemissoftware.common.composables.dialog.FGDialog__b
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.models.NavigationItem
 import com.artemissoftware.common.theme.secondaryBackground
 
@@ -47,6 +48,7 @@ fun FGScaffold(
 //    isSearchAppBar: Boolean = false,
 //    searchValue: String = "",
 //    onSearchValue: (String) -> Unit = {},
+    fgScaffoldState: FGScaffoldState? = null,
     isLoading: Boolean = false,
     @RawRes lottieId: Int = R.raw.gallery_photo,
 //    showTopBar: Boolean = true,
@@ -100,13 +102,16 @@ fun FGScaffold(
 
         FGLoading(isLoading = isLoading)
 
-        val successDialog = remember { mutableStateOf(true) }
-        val dialogTypeSuccess = DialogType.Success(
-            title =  "Get updates",
-            description = "Allow permission to send notifications every day of the year",
-            icon = Icons.Filled.Build
-        )
-        FGDialog__a(openDialogCustom = successDialog, dialogType = dialogTypeSuccess)
+        if(fgScaffoldState?.isShowingBottomBar == true) {
+
+            val successDialog = remember { mutableStateOf(true) }
+            val dialogTypeSuccess = DialogType.Success(
+                title = "Get updates",
+                description = "Allow permission to send notifications every day of the year",
+                icon = Icons.Filled.Build
+            )
+            FGDialog__b(fgScaffoldState = fgScaffoldState, dialogType = dialogTypeSuccess)
+        }
     }
 }
 

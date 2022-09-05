@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.common.theme.InfoBlue
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailState
@@ -48,8 +49,8 @@ private fun BuildProfileScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            Text(text = "Profile",
-                style = FGStyle.TextMeOneBold32,
+            FGText(
+                text = "Profile"
             )
 
             LazyColumn(
@@ -69,8 +70,8 @@ private fun BuildProfileScreen(
                         onCheck = {
 
                             events.invoke(ProfileEvents.UpdateProfile(notificationsEnabled = it))
-
-                            scaffoldState?.showSuccess("translateResource(R.string.access_email_to_recover_password, email)", "translateResource(R.string.ok)")
+                            scaffoldState?.showBottomBar()
+                            //--scaffoldState?.showSuccess("translateResource(R.string.access_email_to_recover_password, email)", "translateResource(R.string.ok)")
 
                         }
                     )
