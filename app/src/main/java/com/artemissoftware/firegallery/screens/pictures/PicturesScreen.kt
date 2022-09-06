@@ -37,6 +37,7 @@ import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.GalleryDestinationScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryViewModel
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
+import kotlinx.coroutines.flow.collectLatest
 import java.util.*
 
 @Composable
@@ -48,6 +49,8 @@ fun PicturesScreen(navController: NavHostController){
     LaunchedEffect(key1 = true){
         viewModel.onTriggerEvent(PictureEvents.GetPictures(1))
     }
+
+
 
     FGScaffold(isLoading = state.isLoading) {
         Column(
@@ -72,6 +75,8 @@ fun PicturesScreen(navController: NavHostController){
             }
         }
     }
+
+
 }
 
 

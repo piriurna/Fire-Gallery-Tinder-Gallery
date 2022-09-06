@@ -19,7 +19,7 @@ fun HomeNavigationGraph(navController: NavHostController, scaffoldState: FGScaff
     ) {
 
         composable(route = BottomBarItem.Gallery.route) {
-            GalleryScreen(navController)
+            GalleryScreen(navController, scaffoldState = scaffoldState)
         }
 
         composable(route = BottomBarItem.Favorites.route) {

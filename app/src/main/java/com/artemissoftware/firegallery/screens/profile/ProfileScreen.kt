@@ -70,9 +70,6 @@ private fun BuildProfileScreen(
                         onCheck = {
 
                             events.invoke(ProfileEvents.UpdateProfile(notificationsEnabled = it))
-                            //scaffoldState?.showBottomBar()
-                            //--scaffoldState?.showSuccess("translateResource(R.string.access_email_to_recover_password, email)", "translateResource(R.string.ok)")
-
                         }
                     )
 

@@ -31,7 +31,7 @@ import com.artemissoftware.common.theme.primaryText
 import kotlinx.coroutines.MainScope
 
 @Composable
-fun FGDialog__final(fgScaffoldState: FGScaffoldState) {
+fun FGDialog(fgScaffoldState: FGScaffoldState) {
 
     fgScaffoldState.modalVisible?.let { dialogType->
 

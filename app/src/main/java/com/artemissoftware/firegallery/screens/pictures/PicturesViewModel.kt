@@ -9,8 +9,7 @@ import com.artemissoftware.domain.usecases.GetPicturesUseCase
 import com.artemissoftware.firegallery.screens.gallery.GalleryState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +19,7 @@ class PicturesViewModel @Inject constructor(
 
     private val _state: MutableState<PictureState> = mutableStateOf(PictureState())
     val state: State<PictureState> = _state
+
 
     override fun onTriggerEvent(event: PictureEvents) {
         when(event){
@@ -44,15 +44,16 @@ class PicturesViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                is Resource.Error -> {
-//                    _state.value = _state.value.copy(
-//                        tickets = result.data ?: emptyList(),
-//                        //isLoading = false
+//                is Resource.Error -> {
+//
+//                    _state.value = state.value.copy(
+//                        pictures = result.data ?: emptyList(),
+//                        isLoading = false
 //                    )
-////                            _eventFlow.emit(UIEvent.ShowSnackbar(
-////                                result.message ?: "Unknown error"
-////                            ))
-                }
+//                    _eventFlow.emit(UIEvent.ShowSnackbar(
+//                        result.message ?: "Unknown error"
+//                    ))
+//                }
                 is Resource.Loading -> {
                     _state.value = _state.value.copy(
                         //pictures = result.data ?: emptyList(),

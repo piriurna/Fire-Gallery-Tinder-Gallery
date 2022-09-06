@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.R
-import com.artemissoftware.common.composables.dialog.FGDialog__final
+import com.artemissoftware.common.composables.dialog.FGDialog
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
@@ -95,7 +95,7 @@ fun FGScaffold(
 
         FGLoading(isLoading = isLoading)
 
-        fgScaffoldState?.let { FGDialog__final(fgScaffoldState = it) }
+        fgScaffoldState?.let { FGDialog(fgScaffoldState = it) }
 
     }
 }

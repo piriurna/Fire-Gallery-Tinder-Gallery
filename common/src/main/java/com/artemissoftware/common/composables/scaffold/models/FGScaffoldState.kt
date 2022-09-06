@@ -160,6 +160,7 @@ class FGScaffoldState(
 
     fun hideBottomBar() {
         _isShowingBottomBar.value = false
+        _modalVisible.value = null
     }
 
 

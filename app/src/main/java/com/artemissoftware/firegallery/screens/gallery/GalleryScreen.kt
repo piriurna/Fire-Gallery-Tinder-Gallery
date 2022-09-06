@@ -6,22 +6,53 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.scaffold.FGScaffold
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.firegallery.navigation.GalleryDestinationScreen
 import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
+import com.artemissoftware.firegallery.ui.UIEvent
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun GalleryScreen(navController: NavHostController) {
+fun GalleryScreen(
+    navController: NavHostController,
+    scaffoldState: FGScaffoldState
+) {
 
-    val galleryViewModel: GalleryViewModel = hiltViewModel()
-    val state = galleryViewModel.state.value
+    val viewModel: GalleryViewModel = hiltViewModel()
+    val state = viewModel.state.value
+
+    LaunchedEffect(key1 = true) {
+
+        viewModel.eventFlow.collectLatest { event ->
+            when(event) {
+                is UIEvent.ShowErrorDialog -> {
+
+                    val dialogType = DialogType.Error(
+                        title = event.title,
+                        description = event.message,
+                        dialogOptions = DialogOptions(
+                            confirmationText = "Aceito"
+                        )
+                    )
+
+                    scaffoldState.showBottomBar(dialogType)
+
+                }
+            }
+        }
+    }
+
 
     BuildGalleryScreen(state = state, navController)
 

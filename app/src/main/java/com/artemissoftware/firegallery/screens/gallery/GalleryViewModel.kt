@@ -4,9 +4,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetGalleriesUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
+import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -52,9 +54,13 @@ class GalleryViewModel @Inject constructor(
                         galleries = result.data ?: emptyList(),
                         isLoading = false
                     )
-////                            _eventFlow.emit(UIEvent.ShowSnackbar(
-////                                result.message ?: "Unknown error"
-////                            ))
+
+                    _eventFlow.emit(
+                        UIEvent.ShowErrorDialog(
+                            title = "Gallery error",
+                            message = result.message ?: "Unknown error"
+                        )
+                    )
                 }
                 is Resource.Loading -> {
                     _state.value = _state.value.copy(
