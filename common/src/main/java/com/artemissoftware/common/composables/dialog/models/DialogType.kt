@@ -1,9 +1,10 @@
-package com.artemissoftware.common.composables.dialog
+package com.artemissoftware.common.composables.dialog.models
 
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.theme.ErrorRed
 import com.artemissoftware.common.theme.SuccessGreen
 
 sealed class DialogType(
@@ -20,12 +21,14 @@ sealed class DialogType(
         description: String,
         @DrawableRes imageId: Int? = null,
         icon: ImageVector? = null,
-        dialogButtonType: DialogButtonType = DialogButtonType.SINGLE_OPTION,
         dialogOptions: DialogOptions
     ) : DialogType(title = title, description = description, mainColor = SuccessGreen, iconColor = SuccessGreen, imageId = imageId, icon = icon, dialogOptions = dialogOptions)
-}
 
-enum class DialogButtonType{
-    SINGLE_OPTION,
-    DOUBLE_OPTION
+    class Error(
+        title: String,
+        description: String,
+        @DrawableRes imageId: Int? = null,
+        icon: ImageVector? = null,
+        dialogOptions: DialogOptions
+    ) : DialogType(title = title, description = description, mainColor = ErrorRed, iconColor = ErrorRed, imageId = imageId, icon = icon, dialogOptions = dialogOptions)
 }

@@ -1,10 +1,7 @@
 package com.artemissoftware.common.composables.scaffold.models
 
-import androidx.compose.material.SnackbarData
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import com.artemissoftware.common.composables.dialog.DialogType
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
 import kotlinx.coroutines.CoroutineScope
 

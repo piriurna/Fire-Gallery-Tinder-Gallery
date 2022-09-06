@@ -1,55 +1,61 @@
 package com.artemissoftware.common.composables.dialog
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.artemissoftware.common.R
+import com.artemissoftware.common.composables.dialog.models.DialogButtonType
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.icon.FGCircularIcon
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
-import com.artemissoftware.common.theme.Purple80
-
-//@Composable
-//fun FGDialog() {
-//
-//}
-
+import com.artemissoftware.common.theme.primaryText
+import kotlinx.coroutines.MainScope
 
 @Composable
-fun FGDialog__a(openDialogCustom: MutableState<Boolean>, dialogType: DialogType) {
-    Dialog(onDismissRequest = { openDialogCustom.value = false}) {
-        FGDialog_(
-            openDialogCustom = openDialogCustom,
-            dialogType
-        )
+fun FGDialog__final(fgScaffoldState: FGScaffoldState) {
+
+    fgScaffoldState.modalVisible?.let { dialogType->
+
+        Dialog(
+            onDismissRequest = {
+                //fgScaffoldState.hideBottomBar()
+            }
+        ) {
+
+            FGDialog(
+                fgScaffoldState = fgScaffoldState,
+                dialogType = dialogType
+            )
+
+        }
     }
+
 }
 
+
+
 @Composable
-private fun FGDialog_(
-//    modifier: Modifier = Modifier,
-    openDialogCustom: MutableState<Boolean>,
+private fun FGDialog(
+    fgScaffoldState: FGScaffoldState,
     dialogType: DialogType
 ){
     val imageContent: @Composable () -> Unit = when{
@@ -77,7 +83,8 @@ private fun FGDialog_(
 
                     FGCircularIcon(
                         modifier = Modifier
-                            .padding(top = 35.dp).align(Alignment.Center),
+                            .padding(top = 35.dp)
+                            .align(Alignment.Center),
                         icon = dialogType.icon,
                         iconColor = dialogType.iconColor,
                         backgroundAlpha = 0.1F,
@@ -95,6 +102,7 @@ private fun FGDialog_(
     }
 
     FGDialog(
+        fgScaffoldState = fgScaffoldState,
         dialogType = dialogType,
         imageContent = imageContent
     )
@@ -103,18 +111,24 @@ private fun FGDialog_(
 
 
 
-//Layout
 @Composable
 private fun FGDialog(
-//    modifier: Modifier = Modifier,
-//    openDialogCustom: MutableState<Boolean>
+    fgScaffoldState: FGScaffoldState,
     dialogType: DialogType,
     imageContent: @Composable () -> Unit
 ){
+
+    val textColor = when(dialogType){
+
+        is DialogType.Error ->{
+            Color.White
+        }
+
+        else -> MaterialTheme.colors.primaryText
+    }
+
     Card(
-        //shape = MaterialTheme.shapes.medium,
         shape = RoundedCornerShape(10.dp),
-        // modifier = modifier.size(280.dp, 240.dp)
         modifier = Modifier
             .padding(horizontal = 10.dp)
             .padding(top = 5.dp, bottom = 10.dp),
@@ -122,84 +136,177 @@ private fun FGDialog(
     ) {
         Column {
 
-
             imageContent()
 
+            FGDialogMessage(dialogType = dialogType)
 
-            Column(
-                modifier = Modifier.padding(16.dp)
+            FGDialogOptions(
+                fgScaffoldState = fgScaffoldState,
+                mainColor = dialogType.mainColor,
+                textColor = textColor,
+                dialogOptions = dialogType.dialogOptions
+            )
+        }
+    }
+}
+
+
+
+@Composable
+private fun FGDialogMessage(dialogType: DialogType){
+
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        FGText(
+            text = dialogType.title,
+            style = FGStyle.TextAlbertSansBold,
+            modifier = Modifier
+                .padding(top = 5.dp)
+                .fillMaxWidth(),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+        FGText(
+            text = dialogType.description,
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .fillMaxWidth(),
+        )
+    }
+
+}
+
+
+@Composable
+private fun FGDialogOptions(
+    fgScaffoldState: FGScaffoldState,
+    mainColor : Color,
+    textColor: Color = MaterialTheme.colors.primaryText,
+    dialogOptions: DialogOptions
+){
+
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
+            .background(mainColor),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+
+        if(dialogOptions.getOptionsType() == DialogButtonType.DOUBLE_OPTION){
+            TextButton(
+                onClick = {
+                    dialogOptions.cancel()
+                    fgScaffoldState.hideBottomBar()
+                }
             ) {
-                Text(
-                    text = dialogType.title,
+
+                FGText(
+                    text = dialogOptions.cancelText ?: "Cancel",
                     style = FGStyle.TextAlbertSansBold,
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .fillMaxWidth(),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    color = textColor.copy(alpha = 0.4F),
+                    modifier = Modifier.padding(vertical = 5.dp)
                 )
-                Text(
-                    text = dialogType.description,
-                    style = FGStyle.TextAlbertSans,
-                    modifier = Modifier
-                        .padding(top = 10.dp)
-                        .fillMaxWidth(),
-                )
-            }
-
-
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
-                    .background(dialogType.mainColor),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-
-                TextButton(onClick = {
-//                    openDialogCustom.value = false
-                }) {
-
-                    Text(
-                        "Not Now",
-                        style = FGStyle.TextAlbertSansBold,
-                        color = Color.Gray,
-                        modifier = Modifier.padding(vertical = 5.dp)
-                    )
-                }
-                TextButton(onClick = {
-//                    openDialogCustom.value = false
-                }) {
-                    Text(
-                        "Allow",
-                        style = FGStyle.TextAlbertSansBold,
-                        color = Color.Black,
-                        modifier = Modifier.padding(vertical = 5.dp)
-                    )
-                }
             }
         }
+
+
+        TextButton(
+            onClick = {
+                dialogOptions.confirmation()
+                fgScaffoldState.hideBottomBar()
+            }
+        ) {
+            FGText(
+                text = dialogOptions.confirmationText,
+                style = FGStyle.TextAlbertSansBold,
+                color = textColor,
+                modifier = Modifier.padding(vertical = 5.dp)
+            )
+        }
+    }
+}
+
+
+
+
+
+@Preview
+@Composable
+private fun FGDialogMessagePreview(){
+
+    val dialogTypeSuccess = DialogType.Success(
+        title =  "Get updates",
+        description = "Allow permission to send notifications every day of the year",
+        icon = Icons.Filled.Build,
+        dialogOptions = DialogOptions(
+            confirmationText = "I confirm",
+            cancelText = "I dont confirm"
+        )
+    )
+
+    FGDialogMessage(dialogType = dialogTypeSuccess)
+}
+
+
+
+
+@Preview
+@Composable
+private fun FGDialogOptionsPreview(){
+
+    val dialogTypeSuccess = DialogType.Success(
+        title =  "Get updates",
+        description = "Allow permission to send notifications every day of the year",
+        icon = Icons.Filled.Build,
+        dialogOptions = DialogOptions(
+            confirmationText = "I confirm",
+            cancelText = "I dont confirm"
+        )
+    )
+
+    val dialogTypError = DialogType.Error(
+        title =  "Get updates",
+        description = "Allow permission to send notifications every day of the year",
+        imageId = R.drawable.ic_android,
+        dialogOptions = DialogOptions(
+            confirmationText = "I confirm"
+        )
+    )
+
+    Column {
+        FGDialogOptions(fgScaffoldState = FGScaffoldState(MainScope()), mainColor = dialogTypeSuccess.mainColor, dialogOptions = dialogTypeSuccess.dialogOptions)
+        FGDialogOptions(fgScaffoldState = FGScaffoldState(MainScope()), mainColor = dialogTypError.mainColor, dialogOptions = dialogTypError.dialogOptions)
     }
 }
 
 
 @Preview
 @Composable
-fun FGDialogImagePreview(){
+private fun FGDialogPreview(){
 
     val dialogTypeSuccess = DialogType.Success(
         title =  "Get updates",
         description = "Allow permission to send notifications every day of the year",
-        icon = Icons.Filled.Build
+        icon = Icons.Filled.Build,
+        dialogOptions = DialogOptions(
+            confirmationText = "I confirm",
+            cancelText = "I dont confirm"
+        )
     )
 
-    val successDialog = remember { mutableStateOf(false) }
+    val dialogTypError = DialogType.Error(
+        title =  "Get updates",
+        description = "Allow permission to send notifications every day of the year",
+        imageId = R.drawable.ic_android,
+        dialogOptions = DialogOptions(
+            confirmationText = "I confirm"
+        )
+    )
 
-    FGDialog_(successDialog, dialogTypeSuccess)
-
-    //CustomDialogUI(openDialogCustom = mutableStateOf(false))
-//    FGDialog(
-//        imageId = R.drawable.ic_android,
-//        tint = Color.Magenta
-//    )
+    Column {
+        FGDialog(FGScaffoldState(MainScope()), dialogTypeSuccess)
+        FGDialog(FGScaffoldState(MainScope()), dialogTypError)
+    }
 }
