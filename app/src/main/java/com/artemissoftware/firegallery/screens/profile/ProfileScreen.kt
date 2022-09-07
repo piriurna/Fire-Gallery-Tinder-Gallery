@@ -81,12 +81,3 @@ private fun BuildProfileScreen(
 
     }
 }
-
-@Preview
-@Composable
-fun ProfileScreenPreview() {
-    BuildProfileScreen(
-        state = ProfileState(),
-        events = {}
-    )
-}
