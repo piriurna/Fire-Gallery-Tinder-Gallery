@@ -54,7 +54,7 @@ fun GalleryScreen(
     }
 
 
-    BuildGalleryScreen(state = state, navController)
+    BuildGalleryScreen(state = state, navController = navController)
 
 }
 

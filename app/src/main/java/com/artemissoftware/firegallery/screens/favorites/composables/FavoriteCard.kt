@@ -1,12 +1,12 @@
-package com.artemissoftware.firegallery.screens.gallery.composables
+package com.artemissoftware.firegallery.screens.favorites.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,45 +19,37 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.FGCard
-import com.artemissoftware.common.theme.FGStyle
-import com.artemissoftware.domain.models.Gallery
+import com.artemissoftware.common.composables.animations.models.PulsatingType
+import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 
 @Composable
-fun GalleryCard(
-    gallery: Gallery,
-    onClick: (Int) -> Unit,
+fun FavoriteCard(
+    picture: Picture,
+    onClick: (String) -> Unit,
 ) {
 
-    FGCard(
-        onClick = { onClick.invoke(gallery.id) }
-    ) {
+    FGCard {
 
         val painter = rememberAsyncImagePainter(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(gallery.imageUrl)
+                .data(picture.imageUrl)
                 .size(Size.ORIGINAL)
                 .placeholder(R.drawable.ic_launcher_background)
-                .crossfade(2000)
+                .crossfade(500)
                 .build()
         )
 
-        GalleryImage(
-            painter = painter,
-            title = gallery.name,
-            showText = (painter.state is AsyncImagePainter.State.Success)
-        )
-
+        FavoriteContent(pictureId = picture.id, painter = painter, onClick = onClick)
     }
 }
 
-
-
 @Composable
-private fun GalleryImage(
+private fun FavoriteContent(
+    pictureId: String,
     painter: AsyncImagePainter,
-    title: String,
-    showText: Boolean
+    onClick: (String) -> Unit,
 ) {
 
     Box {
@@ -69,27 +61,36 @@ private fun GalleryImage(
             contentScale = ContentScale.Crop,
         )
 
-        if (showText) {
-            Column(modifier = Modifier.align(Alignment.Center)) {
-                Text(
-                    text = title,
-                    style = FGStyle.TextOswaldBold36,
-                    maxLines = 1,
-                )
-            }
-        }
+        FavoriteButton(
+            pulsatingType = PulsatingType.LIMITED,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp),
+            onClickToFavorite = {
+                onClick.invoke(pictureId)
+            },
+            onClickToRemoverFavorite = {
+                onClick.invoke(pictureId)
+            },
+        )
+
     }
 }
 
+
+
 @Preview(showBackground = true)
 @Composable
-private fun GalleryCardPreview() {
-    GalleryCard(gallery = Gallery.galleryMockList[0], onClick = {})
+private fun FavoriteCardPreview() {
+    FavoriteCard(
+        picture = Picture.picturesMockList[0],
+        onClick = {}
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun GalleryImagePreview() {
+private fun FavoriteContentPreview() {
 
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
@@ -101,5 +102,5 @@ private fun GalleryImagePreview() {
     )
 
 
-    GalleryImage(painter, title = Gallery.galleryMockList[0].name, true)
+    FavoriteContent(pictureId = "1", painter = painter, {})
 }
