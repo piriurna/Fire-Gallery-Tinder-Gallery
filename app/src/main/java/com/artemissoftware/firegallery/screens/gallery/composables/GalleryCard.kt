@@ -93,7 +93,7 @@ private fun GalleryImagePreview() {
 
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
-            .data("https://example.com/image.jpg")
+            .data("https://upload.wikimedia.org/wikipedia/commons/7/79/2010-brown-bear.jpg")
             .size(Size.ORIGINAL)
             .placeholder(R.drawable.ic_launcher_background)
             .crossfade(1500)

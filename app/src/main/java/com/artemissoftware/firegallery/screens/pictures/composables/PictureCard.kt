@@ -24,7 +24,8 @@ fun PictureCard(
 
     Card(
         modifier = Modifier
-            .padding(4.dp).clickable { onClick() },
+            .padding(4.dp)
+            .clickable { onClick() },
         elevation = 12.dp,
         shape = RoundedCornerShape(12.dp)
 
