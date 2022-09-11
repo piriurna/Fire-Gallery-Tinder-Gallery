@@ -23,6 +23,7 @@ import com.artemissoftware.common.composables.dialog.FGDialog
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.composables.topbar.FGTopBar
 import com.artemissoftware.common.models.NavigationItem
 
 @Composable
@@ -56,8 +57,8 @@ fun FGScaffold(
     ) {
         var scaffoldModifier = modifier.fillMaxSize()
 
-//        var topBar: @Composable () -> Unit = {
-//            EDPAppBar(
+        var topBar: @Composable () -> Unit = {
+            FGTopBar(
 //                color = color,
 //                title = title,
 //                subtitle = subtitle,
@@ -71,9 +72,9 @@ fun FGScaffold(
 //                isSearch = isSearchAppBar,
 //                searchValue = searchValue,
 //                onSearchValue = onSearchValue
-//            )
-//        }
-//
+            )
+        }
+
 //        if (!showTopBar) {
 //            scaffoldModifier = Modifier.padding(0.dp)
 //            topBar = {}
@@ -92,6 +93,8 @@ fun FGScaffold(
 //            snackbarHost = { state -> MySnackHost(state) },
             content = content
         )
+
+        topBar.invoke()
 
         FGLoading(isLoading = isLoading)
 
