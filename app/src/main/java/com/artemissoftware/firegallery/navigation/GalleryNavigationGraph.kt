@@ -11,20 +11,20 @@ import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
 fun NavGraphBuilder.galleryNavigationGraph(navController: NavHostController) {
     navigation(
         route = Graph.GALLERY,
-        startDestination = GalleryDestinationScreen.Pictures.route
+        startDestination = GalleryDestinations.Pictures.route
     ) {
 
-        composable(route = GalleryDestinationScreen.Pictures.route) {
+        composable(route = GalleryDestinations.Pictures.route) {
             PicturesScreen(navController)
         }
 
-        composable(route = GalleryDestinationScreen.PictureDetail.route) {
+        composable(route = GalleryDestinations.PictureDetail.route) {
             PictureDetailScreen()
         }
     }
 }
 
-sealed class GalleryDestinationScreen(val route: String) {
-    object Pictures : GalleryDestinationScreen(route = "PICTURES")
-    object PictureDetail : GalleryDestinationScreen(route = "PICTURE_DETAIL")
+sealed class GalleryDestinations(val route: String) {
+    object Pictures : GalleryDestinations(route = "PICTURES")
+    object PictureDetail : GalleryDestinations(route = "PICTURE_DETAIL")
 }

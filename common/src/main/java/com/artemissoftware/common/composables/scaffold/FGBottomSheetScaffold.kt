@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.indicator.FGIndicator
 import com.artemissoftware.common.composables.loading.FGLoading
+import com.artemissoftware.common.composables.topbar.FGTopBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -42,20 +43,34 @@ fun FGBottomSheetScaffold(
             sheetPeekHeight =  42.dp,
             sheetContent = {
 
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(12.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    FGIndicator()
-                }
-                sheetContent()
-                           },
+                BottomSheetContent(sheetContent = sheetContent)
+            },
             content = content
         )
+
+        FGTopBar()
 
         FGLoading(isLoading = isLoading)
     }
 }
+
+
+@Composable
+private fun ColumnScope.BottomSheetContent(
+    sheetContent: @Composable ColumnScope.() -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        FGIndicator()
+    }
+    sheetContent()
+}
+
+
 
 @Preview(showBackground = true)
 @Composable

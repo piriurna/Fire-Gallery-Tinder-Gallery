@@ -1,7 +1,6 @@
 package com.artemissoftware.firegallery.screens.gallery
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,7 +17,7 @@ import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Gallery
-import com.artemissoftware.firegallery.navigation.GalleryDestinationScreen
+import com.artemissoftware.firegallery.navigation.GalleryDestinations
 import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
 import com.artemissoftware.firegallery.ui.UIEvent
 import kotlinx.coroutines.flow.collectLatest
@@ -75,7 +74,7 @@ private fun BuildGalleryScreen(
                 GalleryCard(
                     gallery = gallery,
                     onClick = { galleryId->
-                        navController.navigate(GalleryDestinationScreen.Pictures.route)
+                        navController.navigate(GalleryDestinations.Pictures.route)
                     }
                 )
 
