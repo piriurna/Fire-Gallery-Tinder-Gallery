@@ -74,7 +74,8 @@ private fun BuildGalleryScreen(
                 GalleryCard(
                     gallery = gallery,
                     onClick = { galleryId->
-                        navController.navigate(GalleryDestinations.Pictures.route)
+                        navController.navigate(GalleryDestinations.Pictures.withArgs(galleryId))
+                        //navController.navigate(GalleryDestinations.Pictures.route)
                     }
                 )
 

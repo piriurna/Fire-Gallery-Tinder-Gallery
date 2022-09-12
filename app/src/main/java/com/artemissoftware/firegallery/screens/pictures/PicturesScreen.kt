@@ -9,24 +9,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.grid.StaggeredVerticalGrid
 import com.artemissoftware.common.composables.scaffold.FGScaffold
+import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.navigation.GalleryDestinations
+import com.artemissoftware.firegallery.navigation.NavigationArguments
+import com.artemissoftware.firegallery.screens.gallery.GalleryState
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
 
 @Composable
-fun PicturesScreen(navController: NavHostController){
+fun PicturesScreen(
+    navController: NavHostController,
+    backStackEntry: NavBackStackEntry
+){
+
+    val galleryId = backStackEntry.arguments!!.getString(NavigationArguments.GALLERY_ID)!!
 
     val viewModel: PicturesViewModel = hiltViewModel()
     val state = viewModel.state.value
 
     LaunchedEffect(key1 = true){
-        viewModel.onTriggerEvent(PictureEvents.GetPictures(1))
+        viewModel.onTriggerEvent(PictureEvents.GetPictures(galleryId = 1))
     }
 
+    BuildPicturesScreen(state = state, navController = navController)
 
+}
+
+@Composable
+private fun BuildPicturesScreen(
+    state: PictureState,
+    navController: NavHostController
+) {
 
     FGScaffold(isLoading = state.isLoading) {
         Column(
@@ -52,13 +69,13 @@ fun PicturesScreen(navController: NavHostController){
         }
     }
 
-
 }
+
 
 
 @Preview(showBackground = true)
 @Composable
 private fun GalleryScreenPreview() {
 
-    PicturesScreen(rememberNavController())
+    BuildPicturesScreen(state = PictureState(pictures = Picture.picturesMockList), navController = rememberNavController())
 }
