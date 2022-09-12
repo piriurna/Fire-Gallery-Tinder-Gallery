@@ -4,6 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.artemissoftware.common.composables.navigation.BaseDestinations
+import com.artemissoftware.common.composables.navigation.CustomArguments
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
@@ -24,7 +26,11 @@ fun NavGraphBuilder.galleryNavigationGraph(navController: NavHostController) {
     }
 }
 
-sealed class GalleryDestinations(val route: String) {
-    object Pictures : GalleryDestinations(route = "PICTURES")
+sealed class GalleryDestinations(
+    val route: String,
+    customArguments: List<CustomArguments> = emptyList()
+) : BaseDestinations(route = route, customArguments = customArguments){
+
+    object Pictures : GalleryDestinations(route = "PICTURES", listOf(CustomArguments(NavigationArguments.GALLERY_ID)))
     object PictureDetail : GalleryDestinations(route = "PICTURE_DETAIL")
 }
