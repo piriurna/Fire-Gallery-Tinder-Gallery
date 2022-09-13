@@ -25,13 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.button.FGCircularButton
+import com.artemissoftware.common.composables.text.FGText
 
 
-//@OptIn(ExperimentalAnimationApi::class)
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun FGTopBar(
-    modifier: Modifier = Modifier,
+fun FGTopBar_(
+    modifier: Modifier = Modifier.padding(top = 20.dp),
 //    color: EDPAppBarColor = EDPAppBarColor.GREY,
 //    title: String? = null,
 //    subtitle: String? = null,
@@ -41,7 +41,7 @@ fun FGTopBar(
 //    @DrawableRes optionIconId: Int? = null,
 //    optionText: String? = null,
 //    onOptionClick: (() -> Unit) = {},
-//    optionComposable: (@Composable BoxScope.() -> Unit)? = null,
+    optionComposable: (@Composable BoxScope.() -> Unit)? = null,
 //    isSearch: Boolean = false,
 //    searchValue: String = "",
 //    onSearchValue: (String) -> Unit = {}
@@ -86,7 +86,7 @@ fun FGTopBar(
 //        if (isSearch) {
             AnimatedVisibility(
                 modifier = Modifier.align(Alignment.CenterStart),
-                visible = false,
+                visible = true,
                             enter = slideInLeft(),
             exit = slideOutLeft()
             ) {
@@ -159,18 +159,104 @@ private fun AppBar(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 4.dp)
+                .padding(horizontal = 24.dp)
                 .height(56.dp),
             content = content
         )
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun FGTopBar(
+    modifier: Modifier = Modifier.padding(top = 20.dp),
+    onNavigationClick: (() -> Unit),
+    optionComposable: (@Composable BoxScope.() -> Unit)? = null,
+) {
+
+
+    AppBar(
+        modifier = modifier,
+        backgroundColor = Color.Transparent,
+    ) {
+
+
+
+                    FGCircularButton(
+                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        modifier = Modifier.align(Alignment.CenterStart),
+                        onClick= onNavigationClick
+                    )
+
+                    AnimatedVisibility(
+                        modifier = Modifier.fillMaxHeight().align(Alignment.Center),
+                        visible = true,
+                        enter = slideInLeft(),
+                        exit = slideOutLeft()
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxHeight().align(Alignment.Center),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+
+                            FGText(
+                                text = "it",
+                                textAlign = TextAlign.Center
+                            )
+
+
+                            FGText(
+                                text = "it",
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+
+
+        optionComposable?.let {
+            it()
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+}
+
+
 @Preview(showBackground = true)
 @Composable
 private fun FGTopBarPreview() {
 
-    FGTopBar()
+    FGTopBar_()
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun FGTopBarFinalPreview() {
+
+    FGTopBar(
+        onNavigationClick = {},
+        optionComposable = {
+            FGCircularButton(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
+        }
+    )
 }
 
 

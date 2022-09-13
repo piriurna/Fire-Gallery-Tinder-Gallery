@@ -4,7 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -18,6 +21,8 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.animations.models.PulsatingType
+import com.artemissoftware.common.composables.button.FGCircularButton
+import com.artemissoftware.common.composables.chip.ChipSurface
 import com.artemissoftware.common.composables.scaffold.FGBottomSheetScaffold
 import com.artemissoftware.common.models.Chip
 import com.artemissoftware.domain.models.Picture
@@ -44,6 +49,27 @@ private fun BuildPictureDetailScreen(state: PictureDetailState) {
 
     FGBottomSheetScaffold(
         isLoading = state.isLoading,
+        onNavigationClick = {
+
+        },
+        topBarOptionComposable = {
+
+            FavoriteButton(
+                pulsatingType = PulsatingType.LIMITED,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd),
+                onClickToFavorite = {},
+                onClickToRemoverFavorite = {},
+            )
+//            ChipSurface(
+//                shape = CircleShape
+//            )
+
+//            FGCircularButton(
+//                imageVector = Icons.Default.KeyboardArrowLeft,
+//                modifier = Modifier.align(Alignment.CenterEnd)
+//            )
+        },
         sheetShape = RoundedCornerShape(topStart = 0.dp, topEnd = 46.dp),
         sheetContent = {
 
@@ -76,14 +102,6 @@ private fun Content(picture: Picture?) {
 
         Box{
 
-            FavoriteButton(
-                pulsatingType = PulsatingType.LIMITED,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(36.dp),
-                onClickToFavorite = {},
-                onClickToRemoverFavorite = {},
-            )
 
             Image(
                 painter = painter,
@@ -91,6 +109,16 @@ private fun Content(picture: Picture?) {
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
             )
+
+            FavoriteButton(
+                pulsatingType = PulsatingType.LIMITED,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(36.dp),
+                onClickToFavorite = {},
+                onClickToRemoverFavorite = {},
+            )
+
         }
     }
 

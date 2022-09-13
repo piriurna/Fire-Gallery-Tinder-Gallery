@@ -16,7 +16,7 @@ fun RootNavigationGraph(navController: NavHostController, scaffoldState: FGScaff
     NavHost(
         navController = navController,
         route = Graph.ROOT,
-        startDestination = RootDestinationScreen.Home.route
+        startDestination = RootDestinationScreen.Splash.route
     ) {
 
         //--authenticationNavGraph(navController = navController)
@@ -26,7 +26,13 @@ fun RootNavigationGraph(navController: NavHostController, scaffoldState: FGScaff
         }
 
         composable(route = RootDestinationScreen.Splash.route) {
-            SplashScreen()
+            SplashScreen(
+                onAnimationFinish = {
+                    navController.popBackStack()
+                    navController.navigate(RootDestinationScreen.Home.route)
+
+                }
+            )
         }
     }
 

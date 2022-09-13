@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
+import com.artemissoftware.firegallery.screens.favorites.FavoritesScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
 import com.artemissoftware.firegallery.screens.home.models.BottomBarItem
 import com.artemissoftware.firegallery.screens.profile.ProfileScreen
@@ -23,7 +24,7 @@ fun HomeNavigationGraph(navController: NavHostController, scaffoldState: FGScaff
         }
 
         composable(route = BottomBarItem.Favorites.route) {
-
+            FavoritesScreen(navController = navController)
         }
 
         composable(route = BottomBarItem.Profile.route) {

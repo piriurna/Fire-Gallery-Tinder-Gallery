@@ -32,7 +32,8 @@ fun Logo(
     modifier: Modifier = Modifier,
     preRevealColor: Color = Orange,
     borderColor: Color = RedOrange,
-    logoColor: Color = Red
+    logoColor: Color = Red,
+    onAnimationFinish: () -> Unit = {}
 ) {
 
     val boxSize = 180.dp
@@ -86,6 +87,8 @@ fun Logo(
 
         jobA.join()
         jobB.join()
+
+        onAnimationFinish.invoke()
     }
 
     Box(

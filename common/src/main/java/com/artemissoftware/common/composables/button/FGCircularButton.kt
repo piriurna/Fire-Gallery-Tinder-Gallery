@@ -35,11 +35,13 @@ import com.artemissoftware.common.R
 fun FGCircularButton(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
-    clickListener: () -> Unit = {}
+    onClick: () -> Unit = {}
 ) {
     Surface(
         shape = CircleShape,
-        modifier = modifier.size(48.dp),
+        modifier = modifier.size(48.dp).clickable {
+            onClick.invoke()
+        },
         elevation = 4.dp, // play with the elevation values
     ) {
 

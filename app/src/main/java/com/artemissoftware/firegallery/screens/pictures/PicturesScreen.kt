@@ -32,7 +32,7 @@ fun PicturesScreen(
     val state = viewModel.state.value
 
     LaunchedEffect(key1 = true){
-        viewModel.onTriggerEvent(PictureEvents.GetPictures(galleryId = 1))
+        viewModel.onTriggerEvent(PictureEvents.GetPictures(galleryId = galleryId.toInt()))
     }
 
     BuildPicturesScreen(state = state, navController = navController)
@@ -45,7 +45,9 @@ private fun BuildPicturesScreen(
     navController: NavHostController
 ) {
 
-    FGScaffold(isLoading = state.isLoading) {
+    FGScaffold(
+        isLoading = state.isLoading,
+    ) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())

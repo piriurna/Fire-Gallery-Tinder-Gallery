@@ -75,7 +75,6 @@ private fun BuildGalleryScreen(
                     gallery = gallery,
                     onClick = { galleryId->
                         navController.navigate(GalleryDestinations.Pictures.withArgs(galleryId))
-                        //navController.navigate(GalleryDestinations.Pictures.route)
                     }
                 )
 

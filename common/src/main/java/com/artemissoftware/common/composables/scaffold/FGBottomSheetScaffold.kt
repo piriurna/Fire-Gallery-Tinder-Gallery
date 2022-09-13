@@ -5,12 +5,16 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.composables.button.FGCircularButton
 import com.artemissoftware.common.composables.indicator.FGIndicator
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.topbar.FGTopBar
@@ -21,7 +25,10 @@ fun FGBottomSheetScaffold(
     isLoading: Boolean = false,
     sheetShape: Shape = MaterialTheme.shapes.large,
     sheetContent: @Composable ColumnScope.() -> Unit,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
+    showTopBar: Boolean = true,
+    onNavigationClick: (() -> Unit) = {},
+    topBarOptionComposable: (@Composable BoxScope.() -> Unit)? = null,
 ) {
 
     val sheetState = rememberBottomSheetState(
@@ -48,7 +55,12 @@ fun FGBottomSheetScaffold(
             content = content
         )
 
-        FGTopBar()
+        if(showTopBar) {
+            FGTopBar(
+                onNavigationClick = onNavigationClick,
+                optionComposable = topBarOptionComposable
+            )
+        }
 
         FGLoading(isLoading = isLoading)
     }
@@ -92,6 +104,12 @@ private fun FGBottomSheetScaffoldPreview() {
                 Text(text = "Text")
             }
 
+        },
+        topBarOptionComposable = {
+            FGCircularButton(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
         }
     )
 }

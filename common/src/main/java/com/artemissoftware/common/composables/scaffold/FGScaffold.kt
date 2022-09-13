@@ -58,7 +58,7 @@ fun FGScaffold(
         var scaffoldModifier = modifier.fillMaxSize()
 
         var topBar: @Composable () -> Unit = {
-            FGTopBar(
+//            FGTopBar(
 //                color = color,
 //                title = title,
 //                subtitle = subtitle,
@@ -72,7 +72,7 @@ fun FGScaffold(
 //                isSearch = isSearchAppBar,
 //                searchValue = searchValue,
 //                onSearchValue = onSearchValue
-            )
+//            )
         }
 
 //        if (!showTopBar) {

@@ -28,7 +28,9 @@ import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    onAnimationFinish: () -> Unit = {}
+) {
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -37,6 +39,7 @@ fun SplashScreen() {
     ) {
 
         Logo(
+            onAnimationFinish = onAnimationFinish,
             modifier = Modifier
         )
     }
