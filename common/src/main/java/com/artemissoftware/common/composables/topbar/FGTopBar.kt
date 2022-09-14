@@ -25,7 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.button.FGCircularButton
+import com.artemissoftware.common.composables.chip.Purple200
 import com.artemissoftware.common.composables.text.FGText
+import com.artemissoftware.common.theme.FGStyle
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -159,7 +161,7 @@ private fun AppBar(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = 16.dp)
                 .height(56.dp),
             content = content
         )
@@ -169,7 +171,10 @@ private fun AppBar(
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun FGTopBar(
-    modifier: Modifier = Modifier.padding(top = 20.dp),
+    modifier: Modifier = Modifier.padding(top = 0.dp),
+    backgroundColor: Color = Color.Transparent,
+    title: String? = null,
+    subTitle: String? = null,
     onNavigationClick: (() -> Unit),
     optionComposable: (@Composable BoxScope.() -> Unit)? = null,
 ) {
@@ -177,47 +182,113 @@ fun FGTopBar(
 
     AppBar(
         modifier = modifier,
-        backgroundColor = Color.Transparent,
+        backgroundColor = backgroundColor,
     ) {
 
+        AnimatedVisibility(
+            visible = true,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier,
+        ) {
 
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                FGCircularButton(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    modifier = Modifier,
+                    onClick = onNavigationClick
+                )
 
-                    FGCircularButton(
-                        imageVector = Icons.Default.KeyboardArrowLeft,
-                        modifier = Modifier.align(Alignment.CenterStart),
-                        onClick= onNavigationClick
-                    )
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(0.5F)
+                        .padding(start = 16.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
+                ) {
 
-                    AnimatedVisibility(
-                        modifier = Modifier.fillMaxHeight().align(Alignment.Center),
-                        visible = true,
-                        enter = slideInLeft(),
-                        exit = slideOutLeft()
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxHeight().align(Alignment.Center),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
+                    title?.let {
 
-                            FGText(
-                                text = "it",
-                                textAlign = TextAlign.Center
-                            )
-
-
-                            FGText(
-                                text = "it",
-                                textAlign = TextAlign.Center
-                            )
-                        }
+                        FGText(
+                            text = it,
+                            style = FGStyle.TextAlbertSansBold16,
+                            textAlign = TextAlign.Start
+                        )
                     }
 
 
-        optionComposable?.let {
-            it()
+                    subTitle?.let {
+                        FGText(
+                            text = it,
+                            style = FGStyle.TextAlbertSansMedium,
+                            textAlign = TextAlign.Start
+                        )
+                    }
+                }
+
+
+                Box(modifier = Modifier.weight(0.1F)) {
+                    optionComposable?.let {
+                        it()
+                    }
+                }
+
+
+            }
+
         }
 
+//        FGCircularButton(
+//            imageVector = Icons.Default.KeyboardArrowLeft,
+//            modifier = Modifier.align(Alignment.CenterStart),
+//            onClick= onNavigationClick
+//        )
+//
+//
+////        AnimatedVisibility(
+////            modifier = Modifier.fillMaxHeight().align(Alignment.Center),
+////            visible = true,
+////            enter = slideInLeft(),
+////            exit = slideOutLeft()
+////        ) {
+//            Column(
+//                modifier = Modifier.fillMaxHeight().align(Alignment.Center),
+//                horizontalAlignment = Alignment.Start,
+//                verticalArrangement = Arrangement.Center
+//            ) {
+//
+//                title?.let {
+//
+//                    FGText(
+//                        text = it,
+//                        style = FGStyle.TextAlbertSansBold,
+//                        textAlign = TextAlign.Start
+//                    )
+//                }
+//
+//
+//                subTitle?.let {
+//                    FGText(
+//                        text = it,
+//                        style = FGStyle.TextAlbertSansMedium,
+//                        textAlign = TextAlign.Start
+//                    )
+//                }
+//
+//
+//            }
+////        }
+//
+//
+//        optionComposable?.let {
+//            it()
+//        }
+//
 
 
 
@@ -236,17 +307,32 @@ fun FGTopBar(
 }
 
 
+
 @Preview(showBackground = true)
 @Composable
-private fun FGTopBarPreview() {
+private fun FGTopBar_1_Preview() {
 
-    FGTopBar_()
+    FGTopBar(
+        onNavigationClick = {},
+        optionComposable = {}
+    )
 }
 
+@Preview(showBackground = true)
+@Composable
+private fun FGTopBar_2_Preview() {
+
+    FGTopBar(
+        title = "Title",
+        subTitle = "subTitle",
+        onNavigationClick = {},
+        optionComposable = {}
+    )
+}
 
 @Preview(showBackground = true)
 @Composable
-private fun FGTopBarFinalPreview() {
+private fun FGTopBar_3_Preview() {
 
     FGTopBar(
         onNavigationClick = {},
@@ -259,6 +345,21 @@ private fun FGTopBarFinalPreview() {
     )
 }
 
+@Preview(showBackground = true)
+@Composable
+private fun FGTopBar_4_Preview() {
+
+    FGTopBar(
+        title = "Title",
+        onNavigationClick = {},
+        optionComposable = {
+            FGCircularButton(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
+        }
+    )
+}
 
 
 @Stable

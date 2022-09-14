@@ -39,7 +39,7 @@ fun FGCircularButton(
 ) {
     Surface(
         shape = CircleShape,
-        modifier = modifier.size(48.dp).clickable {
+        modifier = modifier.clip(CircleShape).size(48.dp).clickable {
             onClick.invoke()
         },
         elevation = 4.dp, // play with the elevation values
@@ -59,11 +59,11 @@ fun FGCircularButton(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colors.primary,
     contentScale: ContentScale = ContentScale.Fit,
-    clickListener: () -> Unit = {}
+    onClick: () -> Unit = {}
 ) {
     Surface(
         shape = CircleShape,
-        modifier = modifier.size(48.dp),
+        modifier = modifier.clip(CircleShape).size(48.dp),
         elevation = 4.dp, // play with the elevation values
     ) {
 

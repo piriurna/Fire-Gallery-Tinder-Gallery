@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
@@ -26,17 +27,21 @@ import com.artemissoftware.common.composables.chip.ChipSurface
 import com.artemissoftware.common.composables.scaffold.FGBottomSheetScaffold
 import com.artemissoftware.common.models.Chip
 import com.artemissoftware.domain.models.Picture
+import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 import com.artemissoftware.firegallery.screens.picturedetail.composables.PictureInformation
 
 @Composable
-fun PictureDetailScreen() {
+fun PictureDetailScreen(
+    backStackEntry: NavBackStackEntry
+) {
+    val pictureId = backStackEntry.arguments!!.getString(NavigationArguments.PICTURE_ID)!!
 
     val viewModel: PictureDetailViewModel = hiltViewModel()
     val state = viewModel.state.value
 
     LaunchedEffect(key1 = true){
-        viewModel.onTriggerEvent(PictureDetailEvents.GetPicture("AABB"))
+        viewModel.onTriggerEvent(PictureDetailEvents.GetPicture(pictureId))
     }
 
     BuildPictureDetailScreen(state = state)
@@ -56,19 +61,9 @@ private fun BuildPictureDetailScreen(state: PictureDetailState) {
 
             FavoriteButton(
                 pulsatingType = PulsatingType.LIMITED,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd),
                 onClickToFavorite = {},
                 onClickToRemoverFavorite = {},
             )
-//            ChipSurface(
-//                shape = CircleShape
-//            )
-
-//            FGCircularButton(
-//                imageVector = Icons.Default.KeyboardArrowLeft,
-//                modifier = Modifier.align(Alignment.CenterEnd)
-//            )
         },
         sheetShape = RoundedCornerShape(topStart = 0.dp, topEnd = 46.dp),
         sheetContent = {
@@ -108,15 +103,6 @@ private fun Content(picture: Picture?) {
                 contentDescription = "",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
-            )
-
-            FavoriteButton(
-                pulsatingType = PulsatingType.LIMITED,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(36.dp),
-                onClickToFavorite = {},
-                onClickToRemoverFavorite = {},
             )
 
         }

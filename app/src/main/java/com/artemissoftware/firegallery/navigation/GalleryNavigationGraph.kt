@@ -20,8 +20,8 @@ fun NavGraphBuilder.galleryNavigationGraph(navController: NavHostController) {
             PicturesScreen(navController, it)
         }
 
-        composable(route = GalleryDestinations.PictureDetail.route) {
-            PictureDetailScreen()
+        composable(route = GalleryDestinations.PictureDetail.fullRoute, arguments = GalleryDestinations.Pictures.arguments) {
+            PictureDetailScreen(it)
         }
     }
 }
@@ -32,5 +32,5 @@ sealed class GalleryDestinations(
 ) : BaseDestinations(route = route, customArguments = customArguments){
 
     object Pictures : GalleryDestinations(route = "PICTURES", listOf(CustomArguments(NavigationArguments.GALLERY_ID)))
-    object PictureDetail : GalleryDestinations(route = "PICTURE_DETAIL")
+    object PictureDetail : GalleryDestinations(route = "PICTURE_DETAIL", listOf(CustomArguments(NavigationArguments.PICTURE_ID)))
 }

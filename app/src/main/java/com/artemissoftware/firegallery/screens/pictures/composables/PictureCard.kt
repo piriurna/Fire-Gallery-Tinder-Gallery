@@ -19,13 +19,13 @@ import com.artemissoftware.domain.models.Picture
 @Composable
 fun PictureCard(
     picture: Picture,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
 ) {
 
     Card(
         modifier = Modifier
             .padding(4.dp)
-            .clickable { onClick() },
+            .clickable { onClick(picture.id) },
         elevation = 12.dp,
         shape = RoundedCornerShape(12.dp)
 

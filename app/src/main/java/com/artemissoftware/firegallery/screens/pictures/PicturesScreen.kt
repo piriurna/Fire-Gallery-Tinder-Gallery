@@ -61,8 +61,8 @@ private fun BuildPicturesScreen(
 
                     PictureCard(
                         picture = picture,
-                        onClick = {
-                            navController.navigate(GalleryDestinations.PictureDetail.route)
+                        onClick = { pictureId ->
+                            navController.navigate(GalleryDestinations.PictureDetail.withArgs(pictureId))
                         }
                     )
 

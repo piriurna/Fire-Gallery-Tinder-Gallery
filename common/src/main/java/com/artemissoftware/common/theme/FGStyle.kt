@@ -48,6 +48,10 @@ object FGStyle {
         fontWeight = FontWeight.Bold
     )
 
+    val TextAlbertSansBold16 = TextAlbertSansBold.copy(
+        fontSize = 16.sp
+    )
+
     val TextAlbertSansMedium = TextAlbertSans.copy(
         fontWeight = FontWeight.W500
     )
