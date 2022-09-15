@@ -53,7 +53,8 @@ fun PictureDetailScreen(
 private fun BuildPictureDetailScreen(state: PictureDetailState) {
 
     FGBottomSheetScaffold(
-        isLoading = state.isLoading,
+        showTopBar = state.picture != null,
+        isLoading = false /*state.isLoading*/,
         onNavigationClick = {
 
         },
@@ -118,6 +119,6 @@ private fun Content(picture: Picture?) {
 @Composable
 private fun BuildPictureDetailScreenPreview() {
 
-    val state = PictureDetailState(picture = Picture.picturesMockList[0])
+    val state = PictureDetailState(picture = Picture.picturesMockList[0], isLoading = false)
     BuildPictureDetailScreen(state = state)
 }

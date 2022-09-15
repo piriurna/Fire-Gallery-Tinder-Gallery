@@ -2,14 +2,14 @@ package com.artemissoftware.common.composables.topbar
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -17,9 +17,11 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +30,8 @@ import com.artemissoftware.common.composables.button.FGCircularButton
 import com.artemissoftware.common.composables.chip.Purple200
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -175,6 +179,7 @@ fun FGTopBar(
     backgroundColor: Color = Color.Transparent,
     title: String? = null,
     subTitle: String? = null,
+    isVisible: Boolean = false,
     onNavigationClick: (() -> Unit),
     optionComposable: (@Composable BoxScope.() -> Unit)? = null,
 ) {
@@ -186,7 +191,7 @@ fun FGTopBar(
     ) {
 
         AnimatedVisibility(
-            visible = true,
+            visible = isVisible,
             enter = fadeIn(),
             exit = fadeOut(),
             modifier = Modifier,
@@ -372,4 +377,55 @@ fun slideInLeft(durationMillis: Int = 300): EnterTransition {
 @ExperimentalAnimationApi
 fun slideOutLeft(durationMillis: Int = 300): ExitTransition {
     return slideOutHorizontally(targetOffsetX = { -it }, animationSpec = tween(durationMillis))
+}
+
+
+
+
+
+
+enum class AlertState {
+    Collapsed,
+    Expanded
+}
+
+@Preview
+@Composable
+fun HomeScreen() {
+    val scope = rememberCoroutineScope()
+    val alertHeight = 40.dp
+    var currentState by remember { mutableStateOf(AlertState.Collapsed) }
+    val transition = updateTransition(currentState, label = "")
+    val alertOffset by transition.animateDp(label = "") {
+        when (it) {
+            AlertState.Collapsed -> -alertHeight
+            AlertState.Expanded -> 0.dp
+        }
+    }
+    Column(Modifier.fillMaxHeight()) {
+
+        Column(
+            modifier = Modifier.clipToBounds().offset(y = alertOffset)
+        ) {
+            Row(
+                Modifier.height(alertHeight).fillMaxWidth().background(Color.Red).padding(start = 16.dp)
+            ) {
+                Text(
+                    "An error has occurred", style = TextStyle(Color.White),
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
+            }
+            Button(modifier = Modifier.padding(16.dp), onClick = {
+                scope.launch {
+//                    currentState = AlertState.Expanded
+//                    delay(1000)
+//                    currentState = AlertState.Collapsed
+
+                    currentState = if(currentState == AlertState.Collapsed) AlertState.Expanded else AlertState.Collapsed
+                }
+            }) {
+                Text("Show Alert")
+            }
+        }
+    }
 }

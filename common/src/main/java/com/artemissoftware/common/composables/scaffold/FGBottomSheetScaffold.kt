@@ -26,7 +26,7 @@ fun FGBottomSheetScaffold(
     sheetShape: Shape = MaterialTheme.shapes.large,
     sheetContent: @Composable ColumnScope.() -> Unit,
     content: @Composable (PaddingValues) -> Unit,
-    showTopBar: Boolean = true,
+    showTopBar: Boolean = false,
     onNavigationClick: (() -> Unit) = {},
     topBarOptionComposable: (@Composable BoxScope.() -> Unit)? = null,
 ) {
@@ -55,12 +55,11 @@ fun FGBottomSheetScaffold(
             content = content
         )
 
-        if(showTopBar) {
             FGTopBar(
+                isVisible = showTopBar,
                 onNavigationClick = onNavigationClick,
                 optionComposable = topBarOptionComposable
             )
-        }
 
         FGLoading(isLoading = isLoading)
     }
