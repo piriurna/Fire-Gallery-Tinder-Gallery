@@ -2,10 +2,7 @@ package com.artemissoftware.common.composables.topbar
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,6 +16,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
@@ -29,6 +27,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
@@ -508,6 +507,7 @@ enum class AlertState {
 
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 fun HomeScreen() {
@@ -521,6 +521,22 @@ fun HomeScreen() {
             AlertState.Expanded -> 0.dp
         }
     }
+
+    val size: Dp by animateDpAsState(
+        targetValue = if (currentState == AlertState.Expanded) 0.dp else 56.dp,
+        animationSpec = tween(
+            durationMillis = 300, // duration
+            delayMillis = 200, // delay before start animation
+            easing = FastOutSlowInEasing
+        ),
+        finishedListener = {
+            // disable the button
+            //isEnabled.value = true
+        }
+    )
+
+
+
     Column(Modifier.fillMaxHeight()) {
 //
 //        Column(
@@ -586,6 +602,9 @@ fun HomeScreen() {
 //
 //        }
 
+
+
+        val animationTime = 300
         AppBar(
             backgroundColor = Color.Red,
             modifier = Modifier.padding(top = 20.dp)
@@ -595,17 +614,30 @@ fun HomeScreen() {
                     .fillMaxHeight(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                FGCircularButton(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    modifier = Modifier.offset(y = alertOffset),
-                    onClick = {  }
-                )
+                AnimatedVisibility(
+                    visible = kiki(currentState),
+                    enter = slideInHorizontally(
+                        initialOffsetX = { -300 }, // it == fullWidth
+                        animationSpec = tween(
+                            durationMillis = animationTime,
+                            easing = LinearEasing
+                        ),
+                    ),
+                    exit = slideOutLeft()
+                ) {
+
+                    FGCircularButton(
+                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        modifier = Modifier,
+                        onClick = { }
+                    )
+                }
 
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
                         .weight(0.5F)
-                        .padding(start = 16.dp),
+                        .padding(start = 16.dp).offset(y = alertOffset).alpha(0.4F),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -630,11 +662,15 @@ fun HomeScreen() {
                 }
 
 
-//                    Box(modifier = Modifier.weight(0.1F)) {
-//                        optionComposable?.let {
-//                            it()
-//                        }
-//                    }
+                    Box(modifier = Modifier
+                        .weight(0.1F).offset(y = size)
+                    ) {
+                        FGCircularButton(
+                            imageVector = Icons.Default.KeyboardArrowLeft,
+                            modifier = Modifier,
+                            onClick = { }
+                        )
+                    }
 
 
             }
@@ -650,6 +686,10 @@ fun HomeScreen() {
             Text("Show Alert" + "  - " + alertOffset.value + "...." + currentState)
         }
     }
+}
+
+fun kiki (currentState: AlertState): Boolean {
+    return !if(currentState == AlertState.Expanded) false else true
 }
 
 
