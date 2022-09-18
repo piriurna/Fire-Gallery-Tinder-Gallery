@@ -53,8 +53,10 @@ fun PictureDetailScreen(
 private fun BuildPictureDetailScreen(state: PictureDetailState) {
 
     FGBottomSheetScaffold(
+        isLoading = state.isLoading,
         showTopBar = state.picture != null,
-        isLoading = false /*state.isLoading*/,
+        title = "null",
+        subtitle = "null",
         onNavigationClick = {
 
         },

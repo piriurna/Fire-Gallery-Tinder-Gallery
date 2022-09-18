@@ -27,6 +27,8 @@ fun FGBottomSheetScaffold(
     sheetContent: @Composable ColumnScope.() -> Unit,
     content: @Composable (PaddingValues) -> Unit,
     showTopBar: Boolean = false,
+    title: String? = null,
+    subtitle: String? = null,
     onNavigationClick: (() -> Unit) = {},
     topBarOptionComposable: (@Composable BoxScope.() -> Unit)? = null,
 ) {
@@ -56,6 +58,8 @@ fun FGBottomSheetScaffold(
         )
 
             FGTopBar(
+                title = title,
+                subTitle = subtitle,
                 isVisible = showTopBar,
                 onNavigationClick = onNavigationClick,
                 optionComposable = topBarOptionComposable
