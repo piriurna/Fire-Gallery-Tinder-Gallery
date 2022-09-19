@@ -1,10 +1,7 @@
 package com.artemissoftware.common.composables.scaffold
 
 import androidx.annotation.RawRes
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
@@ -12,9 +9,18 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -23,8 +29,8 @@ import com.artemissoftware.common.composables.dialog.FGDialog
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.common.composables.topbar.FGTopBar
 import com.artemissoftware.common.models.NavigationItem
+import kotlin.math.roundToInt
 
 @Composable
 fun FGScaffold(
@@ -50,8 +56,33 @@ fun FGScaffold(
     bottomBarItems: List<NavigationItem> = emptyList(),
     content: @Composable (PaddingValues) -> Unit,
 ) {
+
+    val bottomBarHeight = 64.dp
+    val bottomBarHeightPx = with(LocalDensity.current) {
+        bottomBarHeight.roundToPx().toFloat()
+    }
+    val bottomBarOffsetHeightPx = remember { mutableStateOf(0f) }
+
+
+
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                val delta = available.y
+
+                val newOffset = bottomBarOffsetHeightPx.value + delta
+                bottomBarOffsetHeightPx.value = newOffset.coerceIn(-bottomBarHeightPx, 0f)
+
+
+                return Offset.Zero
+            }
+        }
+    }
+
+
+
     Box(
-        modifier = Modifier
+        modifier = Modifier.nestedScroll(nestedScrollConnection)
             .fillMaxSize()
 //            .background(color.getBackgroundColor())
     ) {
@@ -84,11 +115,19 @@ fun FGScaffold(
             modifier = scaffoldModifier,
 //            topBar = topBar,
             bottomBar = {
-                navController?.let {
-                    if(bottomBarItems.isNotEmpty()){
-                        FGBottomNavigationBar(items = bottomBarItems, it)
-                    }
-                }
+
+
+                            FGBottomNavigationBar(
+                                modifier = Modifier
+                                    .height(bottomBarHeight)
+                                    .offset {
+                                        IntOffset(x = 0, y = -bottomBarOffsetHeightPx.value.roundToInt())
+                                    },
+                                items = bottomBarItems,
+                                navController = navController
+                            )
+
+
             },
 //            snackbarHost = { state -> MySnackHost(state) },
             content = content
@@ -103,19 +142,6 @@ fun FGScaffold(
     }
 }
 
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun MySnackHost(state: SnackbarHostState) {
-    SnackbarHost(
-        state,
-        snackbar = { data ->
-            Snackbar(
-                data,
-                elevation = 1.dp
-            )
-        })
-}
 
 
 @Preview(showBackground = true)
