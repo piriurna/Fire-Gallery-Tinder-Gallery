@@ -27,20 +27,13 @@ import com.artemissoftware.firegallery.screens.picturedetail.composables.Picture
 
 @Composable
 fun PictureDetailScreen(
-    backStackEntry: NavBackStackEntry
+    viewModel: PictureDetailViewModel = hiltViewModel()
 ) {
-    val pictureId = backStackEntry.arguments!!.getString(NavigationArguments.PICTURE_ID)!!
 
-    val viewModel: PictureDetailViewModel = hiltViewModel()
     val state = viewModel.state.value
     val isFavorite = viewModel.isFavorite
 
-    LaunchedEffect(key1 = true){
-        viewModel.onTriggerEvent(PictureDetailEvents.GetPicture(pictureId))
-    }
-
     BuildPictureDetailScreen(state = state, events = viewModel::onTriggerEvent, isFavorite = isFavorite)
-
 }
 
 

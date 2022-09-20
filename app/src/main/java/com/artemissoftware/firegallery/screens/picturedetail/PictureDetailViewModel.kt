@@ -3,10 +3,12 @@ package com.artemissoftware.firegallery.screens.picturedetail
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPictureDetailUseCase
 import com.artemissoftware.domain.usecases.UpdateFavoriteUseCase
+import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -16,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PictureDetailViewModel @Inject constructor(
     private val getPictureDetailUseCase: GetPictureDetailUseCase,
-    private val updateFavoriteUseCase: UpdateFavoriteUseCase
+    private val updateFavoriteUseCase: UpdateFavoriteUseCase,
+    savedStateHandle: SavedStateHandle
 ): FGBaseEventViewModel<PictureDetailEvents>(){
 
     private val _state: MutableState<PictureDetailState> = mutableStateOf(PictureDetailState())
@@ -24,6 +27,12 @@ class PictureDetailViewModel @Inject constructor(
 
     private val _isFavorite = mutableStateOf(false)
     val isFavorite: State<Boolean> = _isFavorite
+
+
+    init {
+        val pictureId = savedStateHandle.get<String>(NavigationArguments.PICTURE_ID).orEmpty()
+        onTriggerEvent(PictureDetailEvents.GetPicture(pictureId))
+    }
 
     override fun onTriggerEvent(event: PictureDetailEvents) {
 
@@ -43,26 +52,8 @@ class PictureDetailViewModel @Inject constructor(
 
         _isFavorite.value = isFavorite
 
-        updateFavoriteUseCase(pictureId = pictureId, isFavorite = isFavorite).onEach { result->
-
-            when(result) {
-                is Resource.Success -> {
-
-                }
-                is Resource.Error -> {
-//                    _state.value = _state.value.copy(
-//                        tickets = result.data ?: emptyList(),
-//                        //isLoading = false
-//                    )
-////                            _eventFlow.emit(UIEvent.ShowSnackbar(
-////                                result.message ?: "Unknown error"
-////                            ))
-                }
-                is Resource.Loading -> {
-
-                }
-            }
-
+        updateFavoriteUseCase(pictureId = pictureId, isFavorite = isFavorite)
+            .onEach {
 
         }.launchIn(viewModelScope)
     }
@@ -79,21 +70,14 @@ class PictureDetailViewModel @Inject constructor(
                         picture = result.data,
                         isLoading = false
                     )
+                    result.data?.let {
+                        _isFavorite.value = it.isFavorite
+                    }
 
-                    _isFavorite.value =result.data!!.isFavorite
                 }
-                is Resource.Error -> {
-//                    _state.value = _state.value.copy(
-//                        tickets = result.data ?: emptyList(),
-//                        //isLoading = false
-//                    )
-////                            _eventFlow.emit(UIEvent.ShowSnackbar(
-////                                result.message ?: "Unknown error"
-////                            ))
-                }
+
                 is Resource.Loading -> {
                     _state.value = _state.value.copy(
-                        //tickets = result.data ?: emptyList(),
                         isLoading = true
                     )
                 }
