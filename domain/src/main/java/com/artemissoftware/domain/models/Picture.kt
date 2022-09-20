@@ -2,7 +2,8 @@ package com.artemissoftware.domain.models
 
 data class Picture(
     val id: String,
-    val imageUrl: String
+    val imageUrl: String,
+    var isFavorite: Boolean = false
 ){
 
     companion object{

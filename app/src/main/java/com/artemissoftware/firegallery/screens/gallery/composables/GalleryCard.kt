@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.FGCard
+import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.firegallery.R
@@ -37,8 +39,7 @@ fun GalleryCard(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(gallery.imageUrl)
                 .size(Size.ORIGINAL)
-                .placeholder(R.drawable.ic_launcher_background)
-                .crossfade(2000)
+                .crossfade(1500)
                 .build()
         )
 
@@ -71,8 +72,9 @@ private fun GalleryImage(
 
         if (showText) {
             Column(modifier = Modifier.align(Alignment.Center)) {
-                Text(
+                FGText(
                     text = title,
+                    color = Color.White,
                     style = FGStyle.TextOswaldBold36,
                     maxLines = 1,
                 )

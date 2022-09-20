@@ -16,6 +16,24 @@ class DataStoreRepositoryImpl(private val context: Context) : DataStoreRepositor
         }
     }
 
+    override suspend fun updateFavorite(pictureId : String, isFavorite: Boolean) {
+        context.profileStore.updateData {
+
+            var favorites = it.favorites.toMutableList()
+            if(isFavorite){
+                favorites.add(pictureId)
+            }
+            else{
+                favorites.remove(pictureId)
+            }
+
+            it.copy(
+                favorites = favorites,
+            )
+        }
+    }
+
+
     override suspend fun getProfile(): Flow<Profile> {
         return context.profileStore.data
     }

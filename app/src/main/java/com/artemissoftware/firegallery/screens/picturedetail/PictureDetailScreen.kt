@@ -1,16 +1,12 @@
 package com.artemissoftware.firegallery.screens.picturedetail
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -22,8 +18,6 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.animations.models.PulsatingType
-import com.artemissoftware.common.composables.button.FGCircularButton
-import com.artemissoftware.common.composables.chip.ChipSurface
 import com.artemissoftware.common.composables.scaffold.FGBottomSheetScaffold
 import com.artemissoftware.common.models.Chip
 import com.artemissoftware.domain.models.Picture
@@ -39,18 +33,24 @@ fun PictureDetailScreen(
 
     val viewModel: PictureDetailViewModel = hiltViewModel()
     val state = viewModel.state.value
+    val isFavorite = viewModel.isFavorite
 
     LaunchedEffect(key1 = true){
         viewModel.onTriggerEvent(PictureDetailEvents.GetPicture(pictureId))
     }
 
-    BuildPictureDetailScreen(state = state)
+    BuildPictureDetailScreen(state = state, events = viewModel::onTriggerEvent, isFavorite = isFavorite)
 
 }
 
 
 @Composable
-private fun BuildPictureDetailScreen(state: PictureDetailState) {
+private fun BuildPictureDetailScreen(
+    state: PictureDetailState,
+    events: ((PictureDetailEvents) -> Unit)? = null,
+    isFavorite: State<Boolean>,
+) {
+
 
     FGBottomSheetScaffold(
         isLoading = state.isLoading,
@@ -62,11 +62,19 @@ private fun BuildPictureDetailScreen(state: PictureDetailState) {
         },
         topBarOptionComposable = {
 
-            FavoriteButton(
-                pulsatingType = PulsatingType.LIMITED,
-                onClickToFavorite = {},
-                onClickToRemoverFavorite = {},
-            )
+            state.picture?.let { picture->
+
+                FavoriteButton(
+                    isFavorite = isFavorite.value,
+                    pulsatingType = PulsatingType.LIMITED,
+                    onClickToFavorite = {
+                        events?.invoke(PictureDetailEvents.FavoritePicture(picture.id, true))
+                    },
+                    onClickToRemoverFavorite = {
+                        events?.invoke(PictureDetailEvents.FavoritePicture(picture.id, false))
+                    },
+                )
+            }
         },
         sheetShape = RoundedCornerShape(topStart = 0.dp, topEnd = 46.dp),
         sheetContent = {
@@ -117,10 +125,11 @@ private fun Content(picture: Picture?) {
 
 
 
+@SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 private fun BuildPictureDetailScreenPreview() {
 
     val state = PictureDetailState(picture = Picture.picturesMockList[0], isLoading = false)
-    BuildPictureDetailScreen(state = state)
+    BuildPictureDetailScreen(state = state, isFavorite = mutableStateOf(true))
 }

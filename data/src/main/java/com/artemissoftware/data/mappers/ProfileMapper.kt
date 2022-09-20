@@ -4,9 +4,9 @@ import com.artemissoftware.data.local.models.ProfileSettings
 import com.artemissoftware.domain.models.profile.Profile
 
 fun ProfileSettings.toProfile() : Profile{
-    return Profile(notifications = this.notifications)
+    return Profile(notifications = this.notifications, favorites = this.favorites)
 }
 
 fun Profile.toProfileSettings() : ProfileSettings{
-    return ProfileSettings(notifications = this.notifications)
+    return ProfileSettings(notifications = this.notifications, favorites = this.favorites)
 }

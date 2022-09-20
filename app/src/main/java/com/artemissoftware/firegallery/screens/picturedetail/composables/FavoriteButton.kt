@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -21,17 +22,14 @@ import com.artemissoftware.common.composables.animations.models.PulsatingType
 fun FavoriteButton(
     pulsatingType: PulsatingType,
     modifier: Modifier = Modifier,
-    onClickToFavorite: ()-> Unit = {},
-    onClickToRemoverFavorite: ()-> Unit = {}
+    onClickToFavorite: () -> Unit = {},
+    onClickToRemoverFavorite: () -> Unit = {},
+    isFavorite: Boolean
 ) {
-
-    val animate = remember {
-        mutableStateOf(false)
-    }
 
     Box(modifier = modifier) {
 
-        if (animate.value) {
+        if (isFavorite) {
 
             FGPulsatingAnimation(
                 pulsatingType = pulsatingType
@@ -39,7 +37,6 @@ fun FavoriteButton(
 
                 IconButton(
                     onClick = {
-                        animate.value = false
                         onClickToRemoverFavorite()
                     },
                 ) {
@@ -55,7 +52,6 @@ fun FavoriteButton(
 
             IconButton(
                 onClick = {
-                    animate.value = true
                     onClickToFavorite()
                 },
             ) {
@@ -75,5 +71,13 @@ fun FavoriteButton(
 @Composable
 private fun FavoriteButtonPreview() {
 
-    FavoriteButton(pulsatingType = PulsatingType.INFINITE, modifier = Modifier)
+    val isFavorite = remember {
+        mutableStateOf(false)
+    }
+
+    FavoriteButton(
+        pulsatingType = PulsatingType.INFINITE,
+        modifier = Modifier,
+        isFavorite = false
+    )
 }

@@ -2,11 +2,13 @@ package com.artemissoftware.firegallery.screens.gallery
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,6 +19,7 @@ import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Gallery
+import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.GalleryDestinations
 import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
 import com.artemissoftware.firegallery.ui.UIEvent
@@ -31,6 +34,8 @@ fun GalleryScreen(
     val viewModel: GalleryViewModel = hiltViewModel()
     val state = viewModel.state.value
 
+    val ll = stringResource(R.string.accept)
+
     LaunchedEffect(key1 = true) {
 
         viewModel.eventFlow.collectLatest { event ->
@@ -41,7 +46,7 @@ fun GalleryScreen(
                         title = event.title,
                         description = event.message,
                         dialogOptions = DialogOptions(
-                            confirmationText = "Aceito"
+                            confirmationText = ll
                         )
                     )
 
@@ -65,7 +70,10 @@ private fun BuildGalleryScreen(
 
     FGScaffold(isLoading = state.isLoading ) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+            ,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
