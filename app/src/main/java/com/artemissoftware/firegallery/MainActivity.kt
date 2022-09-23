@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -11,9 +12,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.firegallery.navigation.RootNavigationGraph
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,8 +33,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
+                    //val dd = rememberAnimatedNavController()
                     //ProfileScreen(viewModel.scaffoldState)
-                    RootNavigationGraph(navController = rememberNavController(), viewModel.scaffoldState)
+                    RootNavigationGraph(navController = rememberAnimatedNavController(), viewModel.scaffoldState)
                     //SplashScreen()
                     //PicturesScreen()
                     //Greeting("roups")
