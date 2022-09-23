@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.R
+import com.artemissoftware.common.theme.LightBlue
 
 @Composable
 fun FGCircularButton(
@@ -40,7 +41,7 @@ fun FGCircularButton(
     Surface(
         shape = CircleShape,
         color = Color.White,
-        border = BorderStroke(color = Color.Cyan, width = (0.1).dp),
+        border = BorderStroke(width = 2.dp, color = LightBlue),
         modifier = modifier
             .clip(CircleShape)
             .size(48.dp)
@@ -52,7 +53,7 @@ fun FGCircularButton(
 
         Icon(
             imageVector = imageVector,
-            contentDescription = "", tint=Color(0XFF0F9D58),
+            contentDescription = "", tint = Color(0XFF0F9D58),
         )
     }
 }
