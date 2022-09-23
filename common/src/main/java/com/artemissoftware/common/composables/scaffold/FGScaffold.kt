@@ -1,5 +1,6 @@
 package com.artemissoftware.common.composables.scaffold
 
+import android.annotation.SuppressLint
 import androidx.annotation.RawRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -29,9 +30,13 @@ import com.artemissoftware.common.composables.dialog.FGDialog
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.common.composables.topbar.FGCollapsedState
+import com.artemissoftware.common.composables.topbar.FGTopBar
+import com.artemissoftware.common.composables.topbar.TopBar
 import com.artemissoftware.common.models.NavigationItem
 import kotlin.math.roundToInt
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun FGScaffold(
     modifier: Modifier = Modifier/*.statusBarsPadding()*/,
@@ -51,7 +56,11 @@ fun FGScaffold(
     fgScaffoldState: FGScaffoldState? = null,
     isLoading: Boolean = false,
     @RawRes lottieId: Int = R.raw.gallery_photo,
-//    showTopBar: Boolean = true,
+    showTopBar: Boolean = false,
+    title: String? = null,
+    subtitle: String? = null,
+    onNavigationClick: (() -> Unit)? = null,
+    topBarOptionComposable: (@Composable BoxScope.() -> Unit)? = null,
     navController: NavHostController? = null,
     bottomBarItems: List<NavigationItem> = emptyList(),
     content: @Composable (PaddingValues) -> Unit,
@@ -88,54 +97,50 @@ fun FGScaffold(
     ) {
         var scaffoldModifier = modifier.fillMaxSize()
 
-        var topBar: @Composable () -> Unit = {
-//            FGTopBar(
-//                color = color,
-//                title = title,
-//                subtitle = subtitle,
-//                navigationIconId = navigationIconId,
-//                navigationText = navigationText,
-//                onNavigationClick = onNavigationClick,
-//                optionIconId = optionIconId,
-//                optionText = optionText,
-//                onOptionClick = onOptionClick,
-//                optionComposable = optionComposable,
-//                isSearch = isSearchAppBar,
-//                searchValue = searchValue,
-//                onSearchValue = onSearchValue
-//            )
-        }
 
-//        if (!showTopBar) {
-//            scaffoldModifier = Modifier.padding(0.dp)
-//            topBar = {}
-//        }
+
 
         Scaffold(
             modifier = scaffoldModifier,
-//            topBar = topBar,
             bottomBar = {
 
-
-                            FGBottomNavigationBar(
-                                modifier = Modifier
-                                    .height(bottomBarHeight)
-                                    .offset {
-                                        IntOffset(x = 0, y = -bottomBarOffsetHeightPx.value.roundToInt())
-                                    },
-                                items = bottomBarItems,
-                                navController = navController
-                            )
-
+                FGBottomNavigationBar(
+                    modifier = Modifier
+                        .height(bottomBarHeight)
+                        .offset {
+                            IntOffset(x = 0, y = -bottomBarOffsetHeightPx.value.roundToInt())
+                        },
+                    items = bottomBarItems,
+                    navController = navController
+                )
 
             },
 //            snackbarHost = { state -> MySnackHost(state) },
             content = content
         )
 
-        topBar.invoke()
+        onNavigationClick?.let {
+            FGTopBar(
+                title = title,
+                subTitle = subtitle,
+                isVisible = showTopBar,
+                onNavigationClick = onNavigationClick!!,
+                optionComposable = topBarOptionComposable
+            )
+        }
 
-        FGLoading(isLoading = isLoading)
+
+//        com.artemissoftware.common.composables.topbar.AppBar(
+//            backgroundColor = Color.Green,
+//            modifier = Modifier
+//        ) {
+//
+//            TopBar(
+//                currentState = mutableStateOf(FGCollapsedState.EXPANDED),
+//                onNavigationClick = { })
+//        }
+
+        FGLoading(isLoading = isLoading, lottieId = lottieId)
 
         fgScaffoldState?.let { FGDialog(fgScaffoldState = it) }
 

@@ -3,10 +3,13 @@ package com.artemissoftware.firegallery.screens.pictures
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPicturesUseCase
+import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.screens.gallery.GalleryState
+import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailEvents
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -14,12 +17,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PicturesViewModel @Inject constructor(
-    private val getPicturesUseCase: GetPicturesUseCase
+    private val getPicturesUseCase: GetPicturesUseCase,
+    savedStateHandle: SavedStateHandle
 ): FGBaseEventViewModel<PictureEvents>() {
 
     private val _state: MutableState<PictureState> = mutableStateOf(PictureState())
     val state: State<PictureState> = _state
 
+    init {
+        val galleryId = savedStateHandle.get<String>(NavigationArguments.GALLERY_ID).orEmpty()
+        onTriggerEvent(PictureEvents.GetPictures(galleryId = galleryId.toInt()))
+    }
 
     override fun onTriggerEvent(event: PictureEvents) {
         when(event){

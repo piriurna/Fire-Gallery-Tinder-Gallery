@@ -4,23 +4,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.artemissoftware.common.composables.grid.StaggeredVerticalGrid
+import com.artemissoftware.common.composables.grid.FGStaggeredVerticalGrid
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.domain.models.Picture
-import com.artemissoftware.firegallery.navigation.GalleryDestinations
-import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.screens.favorites.composables.FavoriteCard
-import com.artemissoftware.firegallery.screens.gallery.GalleryState
 import com.artemissoftware.firegallery.screens.pictures.PictureState
-import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
 
 @Composable
 fun FavoritesScreen(
@@ -53,7 +47,7 @@ private fun BuildFavoritesScreen(
                 .verticalScroll(rememberScrollState())
         ) {
 
-            StaggeredVerticalGrid(
+            FGStaggeredVerticalGrid(
                 numColumns = 2, //put the how many column you want
                 modifier = Modifier.padding(4.dp)
             ) {

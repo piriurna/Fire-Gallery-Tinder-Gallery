@@ -17,11 +17,11 @@ fun NavGraphBuilder.galleryNavigationGraph(navController: NavHostController) {
     ) {
 
         composable(route = GalleryDestinations.Pictures.fullRoute, arguments = GalleryDestinations.Pictures.arguments) {
-            PicturesScreen(navController, it)
+            PicturesScreen(navController)
         }
 
         composable(route = GalleryDestinations.PictureDetail.fullRoute, arguments = GalleryDestinations.Pictures.arguments) {
-            PictureDetailScreen(it)
+            PictureDetailScreen()
         }
     }
 }

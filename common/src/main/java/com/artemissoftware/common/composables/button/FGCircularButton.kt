@@ -39,16 +39,20 @@ fun FGCircularButton(
 ) {
     Surface(
         shape = CircleShape,
-        modifier = modifier.clip(CircleShape).size(48.dp).clickable {
-            onClick.invoke()
+        color = Color.White,
+        border = BorderStroke(color = Color.Cyan, width = (0.1).dp),
+        modifier = modifier
+            .clip(CircleShape)
+            .size(48.dp)
+            .clickable {
+                onClick.invoke()
         },
         elevation = 4.dp, // play with the elevation values
     ) {
 
-
         Icon(
             imageVector = imageVector,
-            contentDescription = "", tint=Color(0XFF0F9D58)
+            contentDescription = "", tint=Color(0XFF0F9D58),
         )
     }
 }

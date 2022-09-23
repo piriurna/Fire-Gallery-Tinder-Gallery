@@ -1,7 +1,9 @@
 package com.artemissoftware.common.composables.topbar
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -24,6 +26,7 @@ import kotlinx.coroutines.launch
 
 
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun FGTopBar(
@@ -65,7 +68,7 @@ fun FGTopBar(
     }
 
     val optionHeight: Dp by animateDpAsState(
-        targetValue = if (currentState.value == FGCollapsedState.EXPANDED) 0.dp else -56.dp,
+        targetValue = if (currentState.value == FGCollapsedState.EXPANDED) 0.dp else (-56).dp,
         animationSpec = tween(
             durationMillis = animationTime, // duration
             delayMillis = 200, // delay before start animation
@@ -78,81 +81,23 @@ fun FGTopBar(
     )
 
 
-
-
     AppBar(
         backgroundColor = backgroundColor,
         modifier = Modifier
     ) {
-        Row(
+
+        TopBar(
             modifier = Modifier
                 .fillMaxHeight(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            AnimatedVisibility(
-                visible = isVisible(currentState.value),
-                enter = slideInHorizontally(durationMillis = animationTime),
-                exit = slideOutLeft()
-            ) {
-
-                FGCircularButton(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    modifier = Modifier,
-                    onClick = {
-                        currentState.value = FGCollapsedState.COLLAPSED
-                        onNavigationClick.invoke()
-                    }
-                )
-            }
-
-            TitleSection(
-                modifier = Modifier
-                    .weight(0.5F)
-                    .offset(y = height)
-                    .alpha(alpha),
-                title = title,
-                subTitle = subTitle
-            )
-
-
-            Box(modifier = Modifier
-                .weight(0.1F)
-                .offset(y = optionHeight)
-            ) {
-
-                optionComposable?.let {
-                    it()
-                }
-
-            }
-
-        }
-    }
-
-}
-
-
-
-@Composable
-private fun AppBar(
-    modifier: Modifier = Modifier,
-    backgroundColor: Color,
-    content: @Composable BoxScope.() -> Unit
-) {
-    Surface(
-        modifier = modifier,
-        color = backgroundColor,
-        contentColor = backgroundColor,
-        elevation = 0.dp,
-        shape = RectangleShape,
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .height(56.dp),
-            content = content
+            animationTime = animationTime,
+            title = title,
+            subTitle = subTitle,
+            height = height,
+            alpha = alpha,
+            optionHeight = optionHeight,
+            currentState = currentState,
+            onNavigationClick = onNavigationClick,
+            optionComposable = optionComposable,
         )
     }
 }
@@ -195,6 +140,95 @@ private fun TitleSection(
 
 
 
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun TopBar(
+    modifier: Modifier = Modifier,
+    animationTime: Int = 300,
+    height: Dp = 56.dp,
+    alpha: Float = 1F,
+    optionHeight: Dp = 56.dp,
+    currentState: MutableState<FGCollapsedState>,
+    title: String? = null,
+    subTitle: String? = null,
+    onNavigationClick: () -> Unit,
+    optionComposable: @Composable() (BoxScope.() -> Unit)? = null,
+){
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        AnimatedVisibility(
+            visible = isVisible(currentState.value),
+            enter = slideInHorizontally(durationMillis = animationTime),
+            exit = slideOutLeft(),
+
+        ) {
+
+            FGCircularButton(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                modifier = Modifier,
+                onClick = {
+                    currentState.value = FGCollapsedState.COLLAPSED
+                    onNavigationClick.invoke()
+                }
+            )
+        }
+
+        TitleSection(
+            modifier = Modifier
+                .weight(0.5F)
+                .offset(y = height)
+                .alpha(alpha),
+            title = title,
+            subTitle = subTitle
+        )
+
+
+        Box(modifier = Modifier
+            .weight(0.1F)
+            .offset(y = optionHeight)
+        ) {
+
+            optionComposable?.let {
+                it()
+            }
+
+        }
+
+    }
+
+}
+
+
+
+@Composable
+fun AppBar(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color,
+    content: @Composable BoxScope.() -> Unit
+) {
+    Surface(
+        modifier = modifier,
+        color = backgroundColor,
+        contentColor = backgroundColor,
+        elevation = 0.dp,
+        shape = RectangleShape,
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(56.dp),
+            content = content
+        )
+    }
+}
+
+
+
 
 @Stable
 @ExperimentalAnimationApi
@@ -219,6 +253,15 @@ private fun slideOutLeft(durationMillis: Int = 300): ExitTransition {
 
 private fun isVisible (currentState: FGCollapsedState): Boolean {
     return currentState == FGCollapsedState.EXPANDED
+}
+
+
+@SuppressLint("UnrememberedMutableState")
+@Preview(showBackground = true)
+@Composable
+private fun TopBarPreview() {
+
+    TopBar(currentState = mutableStateOf(FGCollapsedState.EXPANDED), onNavigationClick = {  })
 }
 
 

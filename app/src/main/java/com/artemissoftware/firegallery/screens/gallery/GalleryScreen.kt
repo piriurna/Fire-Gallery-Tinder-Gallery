@@ -34,6 +34,7 @@ fun GalleryScreen(
     val viewModel: GalleryViewModel = hiltViewModel()
     val state = viewModel.state.value
 
+    //TODO: Resolver isto
     val ll = stringResource(R.string.accept)
 
     LaunchedEffect(key1 = true) {
@@ -57,9 +58,7 @@ fun GalleryScreen(
         }
     }
 
-
     BuildGalleryScreen(state = state, navController = navController)
-
 }
 
 @Composable
@@ -68,12 +67,13 @@ private fun BuildGalleryScreen(
     navController: NavHostController
 ) {
 
-    FGScaffold(isLoading = state.isLoading ) {
+    FGScaffold(
+        isLoading = state.isLoading
+    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-            ,
+                .padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
@@ -85,9 +85,7 @@ private fun BuildGalleryScreen(
                         navController.navigate(GalleryDestinations.Pictures.withArgs(galleryId))
                     }
                 )
-
             }
-
         }
     }
 }

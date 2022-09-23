@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import java.util.*
 
 @Composable
-fun StaggeredVerticalGrid(
+fun FGStaggeredVerticalGrid(
     modifier: Modifier = Modifier,
     numColumns: Int = 2,
     content: @Composable () -> Unit
@@ -100,7 +100,7 @@ private fun DefaultPreview() {
 //            .verticalScroll(rememberScrollState())
 //            .padding(5.dp)
 //    ) {
-        StaggeredVerticalGrid(
+        FGStaggeredVerticalGrid(
             numColumns = 2, //put the how many column you want
             modifier = Modifier.padding(5.dp)
         ) {
