@@ -31,9 +31,13 @@ import com.artemissoftware.common.composables.topbar.AppBar
 import com.artemissoftware.common.composables.topbar.FGCollapsedState
 import com.artemissoftware.common.composables.topbar.FGTopBar
 import com.artemissoftware.common.composables.topbar.TopBar
+import com.artemissoftware.common.extensions.getNavigationResult
+import com.artemissoftware.common.extensions.getParcelable
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.GalleryDestinations
+import com.artemissoftware.firegallery.navigation.NavigationArguments
+import com.artemissoftware.firegallery.screens.gallery.models.GalleryUI
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
 import com.artemissoftware.firegallery.ui.UIEvent
 import kotlinx.coroutines.flow.collectLatest
