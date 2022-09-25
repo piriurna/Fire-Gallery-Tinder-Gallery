@@ -51,14 +51,16 @@ class PicturesViewModel @Inject constructor(
 
                     _state.value = _state.value.copy(
                         pictures = result.data ?: emptyList(),
-                        isLoading = false
+                        isLoading = false,
+                        showOptions = true
                     )
                 }
                 is Resource.Error -> {
 
                     _state.value = state.value.copy(
                         pictures = result.data ?: emptyList(),
-                        isLoading = false
+                        isLoading = false,
+                        showOptions = false
                     )
 
                     result.message?.let { showDialog(it) }

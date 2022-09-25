@@ -85,7 +85,7 @@ private fun BuildPicturesScreen(
 
     FGScaffold(
         isLoading = state.isLoading,
-        showTopBar = !state.isLoading,
+        showTopBar = state.showOptions,
         title = "null",
         onNavigationClick = {
             navController.popBackStack()
