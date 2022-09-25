@@ -41,7 +41,6 @@ class PicturesViewModel @Inject constructor(
         }
     }
 
-
     private fun getPictures(galleryId : Int){
 
         getPicturesUseCase.invoke(galleryId = galleryId).onEach { result ->

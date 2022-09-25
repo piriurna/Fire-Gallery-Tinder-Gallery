@@ -12,6 +12,7 @@ object HandleFirebase {
 
             val apiResponse = callFunction.invoke()
 
+            //TODO: testar isto
 //            with(apiResponse as List<DocumentSnapshot>) {
 //
 //                this.map { document ->
