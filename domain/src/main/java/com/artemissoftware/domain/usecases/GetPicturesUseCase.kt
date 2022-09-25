@@ -16,7 +16,16 @@ class GetPicturesUseCase @Inject constructor(private val galleryRepository: Gall
 
         val pictures = galleryRepository.getPictures(galleryId = galleryId)
 
-        emit(Resource.Success(data = pictures))
+        if(pictures.isEmpty()){
+            emit(Resource.Error(message = NO_PICTURES_AVAILABLE, data = pictures))
+        }
+        else{
+            emit(Resource.Success(data = pictures))
+        }
+
     }
 
+    companion object{
+        const val NO_PICTURES_AVAILABLE = "No pictures available"
+    }
 }

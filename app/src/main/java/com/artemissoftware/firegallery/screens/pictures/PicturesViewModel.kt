@@ -7,10 +7,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPicturesUseCase
+import com.artemissoftware.domain.usecases.GetPicturesUseCase.Companion.NO_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.screens.gallery.GalleryState
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailEvents
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
+import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -52,16 +54,15 @@ class PicturesViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-//                is Resource.Error -> {
-//
-//                    _state.value = state.value.copy(
-//                        pictures = result.data ?: emptyList(),
-//                        isLoading = false
-//                    )
-//                    _eventFlow.emit(UIEvent.ShowSnackbar(
-//                        result.message ?: "Unknown error"
-//                    ))
-//                }
+                is Resource.Error -> {
+
+                    _state.value = state.value.copy(
+                        pictures = result.data ?: emptyList(),
+                        isLoading = false
+                    )
+
+                    result.message?.let { showDialog(it) }
+                }
                 is Resource.Loading -> {
                     _state.value = _state.value.copy(
                         //pictures = result.data ?: emptyList(),
@@ -72,6 +73,23 @@ class PicturesViewModel @Inject constructor(
 
         }.launchIn(viewModelScope)
 
+    }
+
+
+    private suspend fun showDialog(message: String){
+
+        when(message){
+
+            NO_PICTURES_AVAILABLE ->{
+
+                _eventFlow.emit(
+                    UIEvent.ShowInfoDialog(
+                        title = "Pictures",
+                        message = message
+                    )
+                )
+            }
+        }
     }
 
 }

@@ -120,7 +120,7 @@ private fun FGDialog(
 
     val textColor = when(dialogType){
 
-        is DialogType.Error ->{
+        is DialogType.Error, is DialogType.Info ->{
             Color.White
         }
 
@@ -186,6 +186,8 @@ private fun FGDialogOptions(
     dialogOptions: DialogOptions
 ){
 
+    val confirmModifier = if(dialogOptions.getOptionsType() == DialogButtonType.DOUBLE_OPTION) Modifier else Modifier.fillMaxWidth()
+
     Row(
         Modifier
             .fillMaxWidth()
@@ -211,8 +213,8 @@ private fun FGDialogOptions(
             }
         }
 
-
         TextButton(
+            modifier = confirmModifier,
             onClick = {
                 dialogOptions.confirmation()
                 fgScaffoldState.hideBottomBar()

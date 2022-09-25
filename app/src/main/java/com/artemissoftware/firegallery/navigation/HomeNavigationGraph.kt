@@ -12,7 +12,10 @@ import com.artemissoftware.firegallery.screens.home.models.BottomBarItem
 import com.artemissoftware.firegallery.screens.profile.ProfileScreen
 
 @Composable
-fun HomeNavigationGraph(navController: NavHostController, scaffoldState: FGScaffoldState) {
+fun HomeNavigationGraph(
+    navController: NavHostController,
+    scaffoldState: FGScaffoldState
+) {
     NavHost(
         navController = navController,
         route = Graph.HOME,
@@ -31,6 +34,6 @@ fun HomeNavigationGraph(navController: NavHostController, scaffoldState: FGScaff
             ProfileScreen(scaffoldState)
         }
 
-        galleryNavigationGraph(navController)
+        galleryNavigationGraph(navController = navController, scaffoldState = scaffoldState)
     }
 }

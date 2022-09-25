@@ -1,5 +1,6 @@
 buildscript {
     apply from: 'config.gradle'
+    //apply from: 'flavors.gradle'
     ext {
         compose_version = '1.1.1' //'1.2.0-alpha07'
     }

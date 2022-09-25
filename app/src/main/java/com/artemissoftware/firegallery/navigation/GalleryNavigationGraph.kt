@@ -6,18 +6,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
 
-fun NavGraphBuilder.galleryNavigationGraph(navController: NavHostController) {
+fun NavGraphBuilder.galleryNavigationGraph(
+    navController: NavHostController,
+    scaffoldState: FGScaffoldState
+) {
     navigation(
         route = Graph.GALLERY,
         startDestination = GalleryDestinations.Pictures.route
     ) {
 
         composable(route = GalleryDestinations.Pictures.fullRoute, arguments = GalleryDestinations.Pictures.arguments) {
-            PicturesScreen(navController)
+            PicturesScreen(navController = navController, scaffoldState = scaffoldState)
         }
 
         composable(route = GalleryDestinations.PictureDetail.fullRoute, arguments = GalleryDestinations.Pictures.arguments) {
