@@ -1,4 +1,4 @@
-package com.artemissoftware.common.composables.navigation
+package com.artemissoftware.common.composables.navigation.models
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.navArgument

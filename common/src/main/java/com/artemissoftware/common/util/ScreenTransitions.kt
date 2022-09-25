@@ -15,22 +15,22 @@ object ScreenTransitions {
 
     @Stable
     @ExperimentalAnimationApi
+    fun slideInLeft(durationMillis: Int = 300): EnterTransition {
+        return slideInHorizontally(animationSpec = tween(durationMillis))
+    }
+
+    @Stable
+    @ExperimentalAnimationApi
     fun slideOutLeft(durationMillis: Int = 300): ExitTransition {
         return slideOutHorizontally(targetOffsetX = { -it }, animationSpec = tween(durationMillis))
     }
 
-//    @Stable
-//    @ExperimentalAnimationApi
-//    fun slideOutVertically(durationMillis: Int = 300): ExitTransition {
-//        return slideOutVertically(targetOffsetY = { -it }, animationSpec = tween(durationMillis))
-//    }
-
-
     @Stable
     @ExperimentalAnimationApi
-    fun slideInLeft(durationMillis: Int = 300): EnterTransition {
-        return slideInHorizontally(animationSpec = tween(durationMillis))
+    fun slideOutVertically(durationMillis: Int = 300): ExitTransition {
+        return slideOutVertically(targetOffsetY = { -it }, animationSpec = tween(durationMillis))
     }
+
     @Stable
     @ExperimentalAnimationApi
     fun slideOutRight(durationMillis: Int = 300): ExitTransition {

@@ -4,8 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.artemissoftware.common.composables.navigation.BaseDestinations
-import com.artemissoftware.common.composables.navigation.CustomArguments
+import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
