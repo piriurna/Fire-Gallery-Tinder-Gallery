@@ -90,7 +90,7 @@ private fun BuildPicturesScreen(
     FGScaffold(
         isLoading = state.isLoading,
         showTopBar = state.showOptions,
-        title = "null",
+        title = state.galleryName,
         onNavigationClick = {
             navController.popBackStack()
         },

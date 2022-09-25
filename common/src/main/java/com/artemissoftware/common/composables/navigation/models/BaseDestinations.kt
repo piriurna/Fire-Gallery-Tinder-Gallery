@@ -35,12 +35,13 @@ abstract class BaseDestinations(
     }
 
     fun withCustomArgs(vararg args: Any?): String {
-        val json = Uri.encode(Gson().toJson(args))
+
         return buildString {
             append(route)
-            json.forEachIndexed { index, arg ->
+            args.forEachIndexed { index, arg ->
+                val json = Uri.encode(Gson().toJson(arg))
                 val symbol = if (index == 0) "?" else "&"
-                append("$symbol${customArguments[index].key}=$arg")
+                append("$symbol${customArguments[index].key}=$json")
             }
         }
     }
