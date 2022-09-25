@@ -1,7 +1,9 @@
 package com.artemissoftware.common.composables.navigation.models
 
+import android.net.Uri
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.navArgument
+import com.google.gson.Gson
 
 abstract class BaseDestinations(
     private val route: String,
@@ -31,4 +33,16 @@ abstract class BaseDestinations(
             }
         }
     }
+
+    fun withCustomArgs(vararg args: Any?): String {
+        val json = Uri.encode(Gson().toJson(args))
+        return buildString {
+            append(route)
+            json.forEachIndexed { index, arg ->
+                val symbol = if (index == 0) "?" else "&"
+                append("$symbol${customArguments[index].key}=$arg")
+            }
+        }
+    }
+
 }

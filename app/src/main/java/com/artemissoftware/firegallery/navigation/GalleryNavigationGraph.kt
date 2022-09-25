@@ -8,6 +8,7 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
+import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 import com.artemissoftware.firegallery.screens.pictures.PicturesScreen
 
@@ -20,7 +21,7 @@ fun NavGraphBuilder.galleryNavigationGraph(
         startDestination = GalleryDestinations.Pictures.route
     ) {
 
-        composable(route = GalleryDestinations.Pictures.fullRoute, arguments = GalleryDestinations.Pictures.arguments) {
+        composable(route = GalleryDestinations.Pictures.fullRoute, arguments = GalleryDestinations.Pictures.arguments){
             PicturesScreen(navController = navController, scaffoldState = scaffoldState)
         }
 
@@ -35,6 +36,6 @@ sealed class GalleryDestinations(
     customArguments: List<CustomArguments> = emptyList()
 ) : BaseDestinations(route = route, customArguments = customArguments){
 
-    object Pictures : GalleryDestinations(route = "PICTURES", listOf(CustomArguments(NavigationArguments.GALLERY_ID)))
+    object Pictures : GalleryDestinations(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType()  )))
     object PictureDetail : GalleryDestinations(route = "PICTURE_DETAIL", listOf(CustomArguments(NavigationArguments.PICTURE_ID)))
 }
