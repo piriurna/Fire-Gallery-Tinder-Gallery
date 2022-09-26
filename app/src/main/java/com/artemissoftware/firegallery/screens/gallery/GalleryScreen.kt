@@ -1,6 +1,5 @@
 package com.artemissoftware.firegallery.screens.gallery
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,17 +18,12 @@ import com.artemissoftware.common.composables.dialog.models.DialogOptions
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.common.extensions.navigateWithParcelable
-import com.artemissoftware.common.extensions.putParcelable
-import com.artemissoftware.common.extensions.setNavigationResult
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.GalleryDestinations
-import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
 import com.artemissoftware.firegallery.screens.gallery.mappers.toUI
 import com.artemissoftware.firegallery.ui.UIEvent
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

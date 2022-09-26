@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.button.FGCircularButton
+import com.artemissoftware.common.composables.text.FGOutlinedText
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle
 import kotlinx.coroutines.delay
@@ -110,6 +111,8 @@ private fun TitleSection(
     subTitle: String? = null
 ) {
 
+    val textSize = if(subTitle == null) 50F else 40F
+
     Column(
         modifier = modifier
             .fillMaxHeight()
@@ -120,11 +123,13 @@ private fun TitleSection(
 
         title?.let {
 
-            FGText(
-                text = it,
-                style = FGStyle.TextAlbertSansBold16,
-                textAlign = TextAlign.Start
-            )
+            FGOutlinedText(text = it, textSize = textSize)
+
+//            FGText(
+//                text = it,
+//                style = FGStyle.TextAlbertSansBold16,
+//                textAlign = TextAlign.Start
+//            )
         }
 
         subTitle?.let {
@@ -205,7 +210,7 @@ fun TopBar(
 
 
 @Composable
-fun AppBar(
+private fun AppBar(
     modifier: Modifier = Modifier,
     backgroundColor: Color,
     content: @Composable BoxScope.() -> Unit
@@ -254,6 +259,23 @@ private fun slideOutLeft(durationMillis: Int = 300): ExitTransition {
 private fun isVisible (currentState: FGCollapsedState): Boolean {
     return currentState == FGCollapsedState.EXPANDED
 }
+
+
+
+
+
+
+@Preview(showBackground = true)
+@Composable
+private fun TitleSectionPreview() {
+
+    TitleSection(
+        title = "I am the title",
+        subTitle = "You are my subtitle",
+    )
+}
+
+
 
 
 @SuppressLint("UnrememberedMutableState")
