@@ -9,6 +9,7 @@ interface GalleryRepository {
     suspend fun getGalleries(): FirebaseResponse<List<Gallery>>
 
     suspend fun getPictures(galleryId: Int): List<Picture>
+    suspend fun getFavoritePictures(pictureIds: List<String>): List<Picture>
 
     suspend fun getPictureDetail(pictureId: String): Picture
 }

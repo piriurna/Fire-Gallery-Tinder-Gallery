@@ -17,24 +17,22 @@ import androidx.compose.ui.unit.dp
 fun FGOutlinedText(
     text : String,
     textSize: Float = 100F,
-    outsideColor: Int = android.graphics.Color.BLACK,
-    insideColor: Int = android.graphics.Color.WHITE
+    outsideColor: Int = Color.BLACK,
+    insideColor: Int = Color.WHITE
 ) {
 
 
-    // Create a Paint that has black stroke
-    val textPaintStroke = Paint().asFrameworkPaint().apply {
+    val outsideTextPaintStroke = Paint().asFrameworkPaint().apply {
         isAntiAlias = true
         style = android.graphics.Paint.Style.STROKE
         this.textSize = textSize
         color = outsideColor
-        strokeWidth = 2f
-        strokeMiter= 2f
+        strokeWidth = 4f
+        strokeMiter= 4f
         strokeJoin = android.graphics.Paint.Join.ROUND
     }
 
-    // Create a Paint that has white fill
-    val textPaint = Paint().asFrameworkPaint().apply {
+    val insideTextPaint = Paint().asFrameworkPaint().apply {
         isAntiAlias = true
         style = android.graphics.Paint.Style.FILL
         this.textSize = textSize
@@ -57,7 +55,7 @@ fun FGOutlinedText(
                     0F,textSize,
                     //200f,
                     //55.dp.toPx(),
-                    textPaintStroke
+                    outsideTextPaintStroke
                 )
 
                 it.nativeCanvas.drawText(
@@ -65,7 +63,7 @@ fun FGOutlinedText(
                     0F,textSize,
 //                    200f,
 //                    200.dp.toPx(),
-                    textPaint
+                    insideTextPaint
                 )
             }
         }
@@ -76,9 +74,7 @@ fun FGOutlinedText(
 @Composable
 private fun FGOutlinedTextPreview() {
 
-    Column(
-        //verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    Column {
         FGOutlinedText(text = "Fire gallery one")
         FGOutlinedText(text = "Fire gallery two", outsideColor = Color.CYAN, textSize = 12F)
         FGOutlinedText(text = "Fire gallery three", outsideColor = Color.GREEN)

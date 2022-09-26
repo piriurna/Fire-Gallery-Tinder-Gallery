@@ -46,10 +46,23 @@ class GalleryRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getFavoritePictures(pictureIds: List<String>): List<Picture> {
+
+        return cloudStoreSource.getDocumentItems(
+            FireStoreCollection.PICTURES,
+            FireStoreDocumentField.ID,
+            pictureIds as Object
+        ).map { document ->
+            document.toObject<PictureFso>()!!.toPicture()
+        }
+    }
+
     override suspend fun getPictureDetail(pictureId: String): Picture {
 
         return cloudStoreSource.getDocumentItems(FireStoreCollection.PICTURES, FireStoreDocumentField.ID, pictureId as Object).map { document ->
             document.toObject<PictureFso>()!!.toPicture()
         }.first()
     }
+
+
 }
