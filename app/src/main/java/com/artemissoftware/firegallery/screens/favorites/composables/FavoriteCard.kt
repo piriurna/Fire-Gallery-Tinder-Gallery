@@ -26,7 +26,7 @@ import com.artemissoftware.firegallery.screens.picturedetail.composables.Favorit
 @Composable
 fun FavoriteCard(
     picture: Picture,
-    onClick: (String) -> Unit,
+    onFavoriteClick: (String) -> Unit,
 ) {
 
     FGCard {
@@ -40,7 +40,7 @@ fun FavoriteCard(
                 .build()
         )
 
-        FavoriteContent(pictureId = picture.id, painter = painter, onClick = onClick)
+        FavoriteContent(pictureId = picture.id, painter = painter, onClick = onFavoriteClick)
     }
 }
 
@@ -73,7 +73,7 @@ private fun FavoriteContent(
             onClickToRemoverFavorite = {
                 onClick.invoke(pictureId)
             },
-            isFavorite = false,
+            isFavorite = true,
         )
 
     }
@@ -86,7 +86,7 @@ private fun FavoriteContent(
 private fun FavoriteCardPreview() {
     FavoriteCard(
         picture = Picture.picturesMockList[0],
-        onClick = {}
+        onFavoriteClick = {}
     )
 }
 

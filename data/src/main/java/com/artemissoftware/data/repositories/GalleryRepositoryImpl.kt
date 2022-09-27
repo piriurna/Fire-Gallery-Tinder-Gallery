@@ -15,7 +15,6 @@ import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.repositories.GalleryRepository
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.toObject
 import javax.inject.Inject
 
@@ -51,7 +50,7 @@ class GalleryRepositoryImpl @Inject constructor(
         return cloudStoreSource.getDocumentItems(
             FireStoreCollection.PICTURES,
             FireStoreDocumentField.ID,
-            pictureIds as Object
+            pictureIds
         ).map { document ->
             document.toObject<PictureFso>()!!.toPicture()
         }

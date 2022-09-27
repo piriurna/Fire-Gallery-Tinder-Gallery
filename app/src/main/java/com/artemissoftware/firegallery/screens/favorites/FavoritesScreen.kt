@@ -4,40 +4,72 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.grid.FGStaggeredVerticalGrid
 import com.artemissoftware.common.composables.scaffold.FGScaffold
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Picture
+import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.favorites.composables.FavoriteCard
+import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailEvents
 import com.artemissoftware.firegallery.screens.pictures.PictureState
+import com.artemissoftware.firegallery.ui.UIEvent
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun FavoritesScreen(
     navController: NavHostController,
-    //backStackEntry: NavBackStackEntry
+    scaffoldState: FGScaffoldState
 ){
-
-    //val galleryId = backStackEntry.arguments!!.getString(NavigationArguments.GALLERY_ID)!!
 
     val viewModel: FavoritesViewModel = hiltViewModel()
     val state = viewModel.state.value
 
-//    LaunchedEffect(key1 = true){
-//        viewModel.onTriggerEvent(PictureEvents.GetPictures(galleryId = 1))
-//    }
+    //TODO: Resolver isto
+    val ll = stringResource(R.string.accept)
 
-    BuildFavoritesScreen(state = state, navController = navController)
+    LaunchedEffect(key1 = true) {
+
+        viewModel.eventFlow.collectLatest { event ->
+            when(event) {
+                is UIEvent.ShowInfoDialog -> {
+
+                    val dialogType = DialogType.Info(
+                        title = event.title,
+                        description = event.message,
+                        dialogOptions = DialogOptions(
+                            confirmationText = ll,
+                            confirmation = {
+                                //TODO: ir para a galeria tab
+                                //navController.popBackStack()
+                            }
+                        )
+                    )
+
+                    scaffoldState.showBottomBar(dialogType)
+                }
+            }
+        }
+    }
+
+
+    BuildFavoritesScreen(state = state, navController = navController, events = viewModel::onTriggerEvent)
 
 }
 
 @Composable
 private fun BuildFavoritesScreen(
     state: PictureState,
+    events: ((FavoriteEvents) -> Unit)? = null,
     navController: NavHostController
 ) {
 
@@ -55,8 +87,8 @@ private fun BuildFavoritesScreen(
 
                     FavoriteCard(
                         picture = picture,
-                        onClick = {
-                            //navController.navigate(GalleryDestinations.PictureDetail.route)
+                        onFavoriteClick = { pictureId ->
+                            events?.invoke(FavoriteEvents.Remove(pictureId))
                         }
                     )
 
@@ -71,7 +103,7 @@ private fun BuildFavoritesScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun GalleryScreenPreview() {
+private fun BuildFavoritesScreenPreview() {
 
     BuildFavoritesScreen(state = PictureState(pictures = Picture.picturesMockList), navController = rememberNavController())
 }

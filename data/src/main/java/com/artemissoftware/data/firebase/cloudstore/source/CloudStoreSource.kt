@@ -58,4 +58,19 @@ class CloudStoreSource @Inject constructor(private val firebaseFirestore: Fireba
         }
     }
 
+    suspend fun getDocumentItems(collectionName: String, documentField: String, id: List<String>): List<DocumentSnapshot> {
+
+        return suspendCoroutine { continuation ->
+            firebaseFirestore
+                .collection(collectionName)
+                .whereIn(documentField, id)
+                .get()
+                .addOnSuccessListener {
+                    continuation.resume(it.documents)
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
 }

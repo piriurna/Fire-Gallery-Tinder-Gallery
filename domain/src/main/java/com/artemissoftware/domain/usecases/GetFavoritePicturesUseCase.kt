@@ -5,6 +5,7 @@ import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.repositories.DataStoreRepository
 import com.artemissoftware.domain.repositories.GalleryRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -17,15 +18,20 @@ class GetFavoritePicturesUseCase @Inject constructor(
 
         emit(Resource.Loading())
 
-        val pictures = galleryRepository.getFavoritePictures(listOf("AABB"))
+        val favorites = dataStoreRepository.getProfile().first().favorites
 
-        if(pictures.isEmpty()){
-            emit(Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE, data = pictures))
+        if(favorites.isEmpty()){
+            emit(Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE))
         }
-        else{
-            emit(Resource.Success(data = pictures))
-        }
+        else {
+            val pictures = galleryRepository.getFavoritePictures(favorites)
 
+            if (pictures.isEmpty()) {
+                emit(Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE, data = pictures))
+            } else {
+                emit(Resource.Success(data = pictures))
+            }
+        }
     }
 
     companion object{
