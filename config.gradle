@@ -1,11 +1,17 @@
-ext.versions = [
+ext.androidconfig = [
+
 //        buildTools             : '30.0.2',
-//        minSdk                 : 21,
-//        targetSdk              : 31,
-//        compileSdk             : 31,
-//        versionCode            : 1,
-//        versionName            : 'sprint-v92',
-//
+        minSdk                 : 24,
+        targetSdk              : 33,
+        compileSdk             : 33,
+        versionCode            : 1,
+        versionName            : '1.0',
+
+]
+
+
+ext.versions = [
+
 
 
         compose                     : '1.1.1', //'1.2.0-alpha07'

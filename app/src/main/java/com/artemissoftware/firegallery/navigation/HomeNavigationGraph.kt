@@ -27,7 +27,7 @@ fun HomeNavigationGraph(
         }
 
         composable(route = BottomBarItem.Favorites.route) {
-            FavoritesScreen(navController = navController)
+            FavoritesScreen(navController = navController, scaffoldState = scaffoldState)
         }
 
         composable(route = BottomBarItem.Profile.route) {

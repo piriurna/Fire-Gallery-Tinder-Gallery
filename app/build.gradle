@@ -8,14 +8,14 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk rootProject.androidconfig.compileSdk
 
     defaultConfig {
         applicationId "com.artemissoftware.firegallery"
-        minSdk 24
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        minSdk rootProject.androidconfig.minSdk
+        targetSdk rootProject.androidconfig.targetSdk
+        versionCode rootProject.androidconfig.versionCode
+        versionName rootProject.androidconfig.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
