@@ -28,6 +28,7 @@ fun RootNavigationGraph(
 
         animatedComposable(route = RootDestinations.Splash.route) {
             SplashScreen(
+                scaffoldState = scaffoldState,
                 onAnimationFinish = {
                     navController.popBackStack()
                     navController.navigate(RootDestinations.Home.route)

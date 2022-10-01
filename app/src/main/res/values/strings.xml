@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">FireGallery</string>
+    <string name="app_name">Fire Gallery</string>
     <string name="accept">Aceito</string>
+    <string name="fcm_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>

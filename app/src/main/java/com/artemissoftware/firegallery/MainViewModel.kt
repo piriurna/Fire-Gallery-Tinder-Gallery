@@ -11,4 +11,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(): FGBaseEventViewModel<MainEvents>() {
 
     val scaffoldState by lazy { FGScaffoldState(viewModelScope) }
+
+
+
 }
