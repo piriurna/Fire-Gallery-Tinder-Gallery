@@ -2,19 +2,22 @@ package com.artemissoftware.firegallery.services
 
 import android.util.Log
 import com.artemissoftware.domain.usecases.GetFavoritePicturesUseCase
+import com.artemissoftware.domain.usecases.UpdateFirebaseTokenUseCase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class FGFirebaseMessagingService : FirebaseMessagingService() {
 
-//    @Inject
-//    internal lateinit var getFavoritePicturesUseCase: GetFavoritePicturesUseCase
+    @Inject
+    internal lateinit var updateFirebaseTokenUseCase: UpdateFirebaseTokenUseCase
 
     private val job = SupervisorJob()
 
@@ -28,9 +31,16 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun saveToken(token: String){
 
-        CoroutineScope(job).launch {
-            //--generateLocalNotificationUseCase.invoke(localNotification)
-        }
+            updateFirebaseTokenUseCase.invoke(token).onEach {result ->
+
+                result
+                val d = 0
+                val dd = d +2
+
+            }.launchIn(
+                CoroutineScope(job)
+            )
+
     }
 
 

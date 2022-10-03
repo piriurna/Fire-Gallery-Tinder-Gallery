@@ -46,24 +46,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        lolo()
-    }
-
-
-    private fun lolo(){
-        Firebase.messaging.getToken().addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("MainActivity", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-
-            // Log and toast
-            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
-        })
     }
 
 }
