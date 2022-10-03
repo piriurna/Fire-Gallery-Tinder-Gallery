@@ -33,6 +33,15 @@ class DataStoreRepositoryImpl(private val context: Context) : DataStoreRepositor
         }
     }
 
+    override suspend fun updateFirebaseToken(firebaseToken: String) {
+        context.profileStore.updateData {
+
+            it.copy(
+                firebaseToken = firebaseToken,
+            )
+        }
+    }
+
 
     override suspend fun getProfile(): Flow<Profile> {
         return context.profileStore.data

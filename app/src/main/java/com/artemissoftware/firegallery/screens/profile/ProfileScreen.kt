@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -73,6 +74,16 @@ private fun BuildProfileScreen(
                         }
                     )
 
+                }
+
+                item {
+                    ProfileOption(
+                        icon = Icons.Filled.AccountBox,
+                        iconColor = InfoBlue,
+                        title = "Firebase Token",
+                        description = state.profile.firebaseToken,
+
+                    )
                 }
 
             }

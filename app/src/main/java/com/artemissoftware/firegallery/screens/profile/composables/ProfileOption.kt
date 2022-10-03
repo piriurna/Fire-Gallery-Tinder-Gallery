@@ -78,6 +78,64 @@ fun ProfileOption(
 }
 
 
+
+@Composable
+fun ProfileOption(
+    icon: ImageVector,
+    iconColor: Color = Color.Green,
+    iconBackgroundColor: Color? = null,
+    title: String,
+    description: String? = null,
+) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Box(
+            modifier = Modifier
+                .weight(0.1F),
+        ){
+
+            FGCircularIcon(
+                icon = icon,
+                iconColor = iconColor,
+                iconBackgroundColor = iconBackgroundColor
+            )
+        }
+
+
+        Column(
+            modifier = Modifier
+                .weight(0.8F)
+        ) {
+
+            FGText(
+                text = title,
+                style = FGStyle.TextAlbertSansBold,
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+            )
+
+            description?.let {
+                FGText(
+                    text = it,
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp)
+                )
+            }
+
+
+        }
+
+
+    }
+}
+
+
+
 @Preview
 @Composable
 fun ProfileOptionPreview() {
@@ -85,6 +143,7 @@ fun ProfileOptionPreview() {
     Column {
         ProfileOption(icon = Icons.Filled.LocationOn, description = "description", onCheck = {}, isChecked = true)
         ProfileOption(icon = Icons.Filled.LocationOn, description = "descriptiondescriptiondescriptiondescription", onCheck = {})
+        ProfileOption(icon = Icons.Filled.LocationOn, title = "title", description = "descriptiondescriptiondescriptiondescription")
     }
 
 }
