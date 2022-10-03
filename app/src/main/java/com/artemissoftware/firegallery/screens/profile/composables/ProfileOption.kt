@@ -1,5 +1,6 @@
 package com.artemissoftware.firegallery.screens.profile.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Switch
 import androidx.compose.material.SwitchDefaults
@@ -86,6 +87,7 @@ fun ProfileOption(
     iconBackgroundColor: Color? = null,
     title: String,
     description: String? = null,
+    onClick: () -> Unit
 ) {
 
     Row(
@@ -106,10 +108,12 @@ fun ProfileOption(
             )
         }
 
-
         Column(
             modifier = Modifier
                 .weight(0.8F)
+                .clickable {
+                    onClick.invoke()
+                }
         ) {
 
             FGText(
@@ -143,7 +147,7 @@ fun ProfileOptionPreview() {
     Column {
         ProfileOption(icon = Icons.Filled.LocationOn, description = "description", onCheck = {}, isChecked = true)
         ProfileOption(icon = Icons.Filled.LocationOn, description = "descriptiondescriptiondescriptiondescription", onCheck = {})
-        ProfileOption(icon = Icons.Filled.LocationOn, title = "title", description = "descriptiondescriptiondescriptiondescription")
+        ProfileOption(icon = Icons.Filled.LocationOn, title = "title", description = "descriptiondescriptiondescriptiondescription", onClick = {})
     }
 
 }

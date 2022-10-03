@@ -22,7 +22,6 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
     private val job = SupervisorJob()
 
     override fun onNewToken(token: String) {
-        //dkjw_B9cRamOSs7EZRwuwl:APA91bHIQ-1nhemvHRBItPeP_EbNCaN4UK-oRgJU2KyXvfkp6JmxW5g9Q2-oYiz6po08lLqa3hrJe5SbcE0FkNTbrn49lwVR4Jq2AfPu82-QraYMRqyHn6dXW1jO0zUXl0DrZuHdpQXA
         Log.d("PushNotificationService", "Refreshed token: $token")
         saveToken(token = token)
         super.onNewToken(token)
@@ -30,17 +29,9 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
 
 
     private fun saveToken(token: String){
-
-            updateFirebaseTokenUseCase.invoke(token).onEach {result ->
-
-                result
-                val d = 0
-                val dd = d +2
-
-            }.launchIn(
-                CoroutineScope(job)
-            )
-
+        updateFirebaseTokenUseCase.invoke(token).onEach {}.launchIn(
+            CoroutineScope(job)
+        )
     }
 
 

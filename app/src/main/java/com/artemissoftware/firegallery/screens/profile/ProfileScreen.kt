@@ -1,26 +1,30 @@
 package com.artemissoftware.firegallery.screens.profile
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
-import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.common.theme.InfoBlue
-import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailState
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
+
 
 @Composable
 fun ProfileScreen(scaffoldState: FGScaffoldState) {
@@ -41,6 +45,8 @@ private fun BuildProfileScreen(
     state: ProfileState,
     events: ((ProfileEvents) -> Unit),
 ) {
+
+    val context = LocalContext.current
 
     FGScaffold(
         isLoading = state.isLoading
@@ -82,6 +88,13 @@ private fun BuildProfileScreen(
                         iconColor = InfoBlue,
                         title = "Firebase Token",
                         description = state.profile.firebaseToken,
+                        onClick = {
+
+                            val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip = ClipData.newPlainText("token", state.profile.firebaseToken)
+                            clipboard.setPrimaryClip(clip)
+                            Toast.makeText(context, "Token copiado", Toast.LENGTH_SHORT).show()
+                        }
 
                     )
                 }
