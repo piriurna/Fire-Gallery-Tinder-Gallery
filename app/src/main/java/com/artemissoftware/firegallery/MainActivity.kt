@@ -1,6 +1,9 @@
 package com.artemissoftware.firegallery
 
 import android.Manifest
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -21,6 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import com.artemissoftware.domain.models.LocalNotification
+import com.artemissoftware.firegallery.navigation.MY_ARG
+import com.artemissoftware.firegallery.navigation.MY_LOLO
+import com.artemissoftware.firegallery.navigation.MY_URI
 import com.artemissoftware.firegallery.navigation.RootNavigationGraph
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -43,9 +51,31 @@ class MainActivity : ComponentActivity() {
 
 
     private fun lolo(){
-        notificationManager.notify(1, notificationBuilder
-            .setContentTitle("NEW TITLE")
+        val flag =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_IMMUTABLE
+            else
+                0
+        val clickIntent = Intent(
+            Intent.ACTION_VIEW,
+            "$MY_URI/$MY_ARG=Coming from Notification&$MY_LOLO=lopes".toUri(),
+            //"$MY_URI/$MY_ARG=Coming from Notification&".toUri(),
+            this,
+            MainActivity::class.java
+        )
+        val clickPendingIntent: PendingIntent = TaskStackBuilder.create(this).run {
+            addNextIntentWithParentStack(clickIntent)
+            getPendingIntent(1, flag)
+        }
+
+        val localNotification = LocalNotification(title = "Title notification", text = "text notification", )
+
+        val notif = notificationBuilder
+            .setContentIntent(clickPendingIntent)
+            .setContentTitle(localNotification.title)
             .build()
+
+        notificationManager.notify(1, notif
         )
     }
 
