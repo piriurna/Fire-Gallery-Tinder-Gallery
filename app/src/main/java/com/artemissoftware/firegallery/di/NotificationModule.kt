@@ -3,6 +3,7 @@ package com.artemissoftware.firegallery.di
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -10,8 +11,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
 import androidx.core.app.NotificationCompat.VISIBILITY_SECRET
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.net.toUri
 import com.artemissoftware.firegallery.MainActivity
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.MY_ARG
+import com.artemissoftware.firegallery.navigation.MY_LOLO
+import com.artemissoftware.firegallery.navigation.MY_URI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,14 +53,16 @@ object NotificationModule {
 
 
             val clickIntent = Intent(
-                //Intent.ACTION_VIEW,
-                //"$MY_URI/$MY_ARG=Coming from Notification".toUri(),
+                Intent.ACTION_VIEW,
+                "$MY_URI/$MY_ARG=Coming from Notification&$MY_LOLO=lopes".toUri(),
+                //"$MY_URI/$MY_ARG=Coming from Notification&".toUri(),
                 context,
                 MainActivity::class.java
             )
-            val clickPendingIntent: PendingIntent = PendingIntent.getActivity(
-                context, 1, clickIntent, flag
-            )
+            val clickPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
+                addNextIntentWithParentStack(clickIntent)
+                getPendingIntent(1, flag)
+            }
 
             return NotificationCompat
                 .Builder(this, getString(R.string.fg_fcm_notification_channel_id))

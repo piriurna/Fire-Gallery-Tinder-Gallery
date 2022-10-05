@@ -35,5 +35,6 @@ fun HomeNavigationGraph(
         }
 
         galleryNavigationGraph(navController = navController, scaffoldState = scaffoldState)
+
     }
 }

@@ -18,6 +18,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.artemissoftware.firegallery.navigation.RootNavigationGraph
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
@@ -26,11 +28,26 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
+
+
+    @Inject
+    internal lateinit var notificationBuilder: NotificationCompat.Builder
+    @Inject
+    internal lateinit var notificationManager: NotificationManagerCompat
+
+
+    private fun lolo(){
+        notificationManager.notify(1, notificationBuilder
+            .setContentTitle("NEW TITLE")
+            .build()
+        )
+    }
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +63,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        lolo()
     }
 
 }
