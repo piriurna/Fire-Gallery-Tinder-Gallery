@@ -27,21 +27,7 @@ class LocalNotificationsRepositoryImpl @Inject constructor(
                 PendingIntent.FLAG_IMMUTABLE
             else
                 0
-//        val clickIntent = Intent(
-//            Intent.ACTION_VIEW,
-//            "${NavigationArguments.ARTEMIS_SOFTWARE_URI}/${NavigationArguments.PICTURE_ID}=AABB".toUri(),
-//            //"$MY_URI/$MY_ARG=Coming from Notification&".toUri(),
-//            this,
-//            MainActivity::class.java
-//        )
-//        val clickPendingIntent: PendingIntent = TaskStackBuilder.create(this).run {
-//            addNextIntentWithParentStack(clickIntent)
-//            getPendingIntent(1, flag)
-//        }
 
-//            .setContentIntent(clickPendingIntent)
-            //.setContentTitle(localNotification.title)
-            //.build()
 
         with(notificationBuilder){
 
@@ -63,8 +49,11 @@ class LocalNotificationsRepositoryImpl @Inject constructor(
             }
         }
 
-        notificationManager.notify(1, notificationBuilder.build())
+        notificationManager.notify(++notificationId, notificationBuilder.build())
     }
 
 
+    companion object {
+        var notificationId = 0
+    }
 }
