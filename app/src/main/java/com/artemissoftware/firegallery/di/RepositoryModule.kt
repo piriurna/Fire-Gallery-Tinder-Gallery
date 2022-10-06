@@ -1,11 +1,15 @@
 package com.artemissoftware.firegallery.di
 
 import android.app.Application
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.artemissoftware.data.firebase.cloudstore.source.CloudStoreSource
 import com.artemissoftware.data.repositories.DataStoreRepositoryImpl
 import com.artemissoftware.data.repositories.GalleryRepositoryImpl
+import com.artemissoftware.data.repositories.LocalNotificationsRepositoryImpl
 import com.artemissoftware.domain.repositories.DataStoreRepository
 import com.artemissoftware.domain.repositories.GalleryRepository
+import com.artemissoftware.domain.repositories.LocalNotificationsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +30,11 @@ object RepositoryModule {
     @Singleton
     fun provideDataStoreRepository(app: Application): DataStoreRepository {
         return DataStoreRepositoryImpl(app)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalNotificationsRepository(app: Application, notification : NotificationCompat.Builder, notificationManager: NotificationManagerCompat): LocalNotificationsRepository {
+        return LocalNotificationsRepositoryImpl(notification, notificationManager, app)
     }
 }

@@ -52,18 +52,18 @@ object NotificationModule {
 //            )
 
 
-            val clickIntent = Intent(
-                Intent.ACTION_VIEW,
-                "${NavigationArguments.ARTEMIS_SOFTWARE_URI}/${NavigationArguments.PICTURE_ID}=AABB".toUri(),
-                //"$MY_URI/$MY_ARG=Coming from Notification&$MY_LOLO=lopes".toUri(),
-                //"$MY_URI/$MY_ARG=Coming from Notification&".toUri(),
-                context,
-                MainActivity::class.java
-            )
-            val clickPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
-                addNextIntentWithParentStack(clickIntent)
-                getPendingIntent(1, flag)
-            }
+//            val clickIntent = Intent(
+//                Intent.ACTION_VIEW,
+//                "${NavigationArguments.ARTEMIS_SOFTWARE_URI}/${NavigationArguments.PICTURE_ID}=AABB".toUri(),
+//                //"$MY_URI/$MY_ARG=Coming from Notification&$MY_LOLO=lopes".toUri(),
+//                //"$MY_URI/$MY_ARG=Coming from Notification&".toUri(),
+//                context,
+//                MainActivity::class.java
+//            )
+//            val clickPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
+//                addNextIntentWithParentStack(clickIntent)
+//                getPendingIntent(1, flag)
+//            }
 
             return NotificationCompat
                 .Builder(this, getString(R.string.fg_fcm_notification_channel_id))
@@ -71,7 +71,7 @@ object NotificationModule {
                 .setContentText(getString(R.string.default_notification_text))
                 .setSmallIcon(R.drawable.ic_fire_gallery_notification_logo)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(clickPendingIntent)
+                //.setContentIntent(clickPendingIntent)
         }
     }
 
