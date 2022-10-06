@@ -6,4 +6,7 @@
 
     <string name="default_notification_title">All the galleries</string>
     <string name="default_notification_text">Share the beauty</string>
+    <string name="code">Code</string>
+    <string name="Author">author</string>
+    <string name="Title">title</string>
 </resources>

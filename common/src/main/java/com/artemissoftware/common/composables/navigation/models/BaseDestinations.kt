@@ -2,11 +2,14 @@ package com.artemissoftware.common.composables.navigation.models
 
 import android.net.Uri
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavDeepLink
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.google.gson.Gson
 
 abstract class BaseDestinations(
     private val route: String,
+    private val baseDeepLink: String? = null,
     private val customArguments: List<CustomArguments> = emptyList()
 ) {
     val fullRoute: String = buildString {
@@ -16,6 +19,16 @@ abstract class BaseDestinations(
             append("$symbol${custom.key}={${custom.key}}")
         }
     }
+
+    private val link: String = buildString {
+        append(baseDeepLink)
+        customArguments.forEachIndexed { index, custom ->
+            val symbol = if (index == 0) "/" else "&"
+            append("$symbol${custom.key}={${custom.key}}")
+        }
+    }
+
+    val deepLink: List<NavDeepLink> = listOf(navDeepLink { uriPattern = link })
 
     val arguments: List<NamedNavArgument> = customArguments.map {
         navArgument(it.key) {

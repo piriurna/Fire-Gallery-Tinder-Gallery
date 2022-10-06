@@ -11,7 +11,6 @@ import com.artemissoftware.firegallery.screens.HomeScreen
 import com.artemissoftware.firegallery.screens.SplashScreen
 
 
-const val MY_URI = "https://stevdza-san.com"
 const val MY_ARG = "message"
 const val MY_LOLO = "lolo"
 

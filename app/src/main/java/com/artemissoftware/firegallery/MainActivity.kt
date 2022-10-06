@@ -1,40 +1,26 @@
 package com.artemissoftware.firegallery
 
-import android.Manifest
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.artemissoftware.domain.models.LocalNotification
-import com.artemissoftware.firegallery.navigation.MY_ARG
-import com.artemissoftware.firegallery.navigation.MY_LOLO
-import com.artemissoftware.firegallery.navigation.MY_URI
+import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.RootNavigationGraph
 import com.artemissoftware.firegallery.ui.theme.FireGalleryTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -58,7 +44,7 @@ class MainActivity : ComponentActivity() {
                 0
         val clickIntent = Intent(
             Intent.ACTION_VIEW,
-            "$MY_URI/$MY_ARG=Coming from Notification&$MY_LOLO=lopes".toUri(),
+            "${NavigationArguments.ARTEMIS_SOFTWARE_URI}/${NavigationArguments.PICTURE_ID}=AABB".toUri(),
             //"$MY_URI/$MY_ARG=Coming from Notification&".toUri(),
             this,
             MainActivity::class.java

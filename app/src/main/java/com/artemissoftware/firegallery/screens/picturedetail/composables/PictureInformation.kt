@@ -3,29 +3,22 @@ package com.artemissoftware.firegallery.screens.picturedetail.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.chip.FilterChipSection
+import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.models.Chip
-import com.artemissoftware.common.theme.FGStyle.TextMeOne
-import com.artemissoftware.common.theme.FGStyle.TextMeOneBold12
-import com.artemissoftware.common.theme.FGStyle.TextMeOne12
-import com.artemissoftware.common.theme.FGStyle.TextMeOneBold
-import com.artemissoftware.common.theme.FGStyle.TextOswaldBold
-import com.artemissoftware.common.theme.FGStyle.TextOswaldMedium
+import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold16
+import com.artemissoftware.domain.models.Picture
+import com.artemissoftware.firegallery.R
 
 @Composable
 fun PictureInformation(
     modifier: Modifier = Modifier,
-    title: String,
-    author: String,
+    picture: Picture? = null,
     filters: List<Chip>
 ) {
 
@@ -34,21 +27,16 @@ fun PictureInformation(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
-        PictureDetail(title = "Title", description = title)
-        PictureDetail(title = "Author", description = author)
-        FilterChipSection(filters = filters)
-
+        picture?.let {
+            PictureDetail(title = stringResource(R.string.Title), description = "it.title")
+            PictureDetail(title = stringResource(R.string.Author), description = "it.author")
+            PictureDetail(title = stringResource(R.string.code), description = it.id)
+            FilterChipSection(filters = filters)
+        }
     }
 
 }
 
-
-@Preview(showBackground = true)
-@Composable
-private fun PictureInformationPreview() {
-
-    PictureInformation(modifier= Modifier,"title", "author", Chip.mockChips)
-}
 
 @Composable
 private fun PictureDetail(title: String, description: String) {
@@ -58,14 +46,12 @@ private fun PictureDetail(title: String, description: String) {
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
 
-        Text(
-            text = description,
-
-            style = TextMeOne
+        FGText(
+            text = description
         )
-        Text(
+        FGText(
             text = title,
-            style = TextMeOneBold12
+            style = TextAlbertSansBold16
         )
     }
 }
@@ -75,4 +61,12 @@ private fun PictureDetail(title: String, description: String) {
 private fun PictureDetailPreview() {
 
     PictureDetail("title", "description")
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun PictureInformationPreview() {
+
+    PictureInformation(modifier= Modifier,Picture.picturesMockList[0], Chip.mockChips)
 }

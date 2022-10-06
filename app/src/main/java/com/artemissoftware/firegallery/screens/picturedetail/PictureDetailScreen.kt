@@ -76,8 +76,7 @@ private fun BuildPictureDetailScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 16.dp),
-                title = "title",
-                author = "authoes",
+                picture = state.picture,
                 filters = Chip.mockChips
             )
 

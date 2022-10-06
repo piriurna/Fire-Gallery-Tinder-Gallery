@@ -16,7 +16,7 @@ import com.artemissoftware.firegallery.MainActivity
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.MY_ARG
 import com.artemissoftware.firegallery.navigation.MY_LOLO
-import com.artemissoftware.firegallery.navigation.MY_URI
+import com.artemissoftware.firegallery.navigation.NavigationArguments
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,7 +54,8 @@ object NotificationModule {
 
             val clickIntent = Intent(
                 Intent.ACTION_VIEW,
-                "$MY_URI/$MY_ARG=Coming from Notification&$MY_LOLO=lopes".toUri(),
+                "${NavigationArguments.ARTEMIS_SOFTWARE_URI}/${NavigationArguments.PICTURE_ID}=AABB".toUri(),
+                //"$MY_URI/$MY_ARG=Coming from Notification&$MY_LOLO=lopes".toUri(),
                 //"$MY_URI/$MY_ARG=Coming from Notification&".toUri(),
                 context,
                 MainActivity::class.java

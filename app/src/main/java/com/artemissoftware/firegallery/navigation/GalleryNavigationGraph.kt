@@ -9,6 +9,7 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.DetailsScreen
+import com.artemissoftware.firegallery.navigation.NavigationArguments.ARTEMIS_SOFTWARE_URI
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
@@ -97,9 +98,8 @@ fun NavGraphBuilder.loloNavigationGraph(
 
         composable(
             route = LoloDestinations.Details.route,
-            arguments = listOf(navArgument(MY_ARG) { type = NavType.StringType }, navArgument(
-                MY_LOLO) { type = NavType.StringType }),
-            deepLinks = listOf(navDeepLink { uriPattern = "$MY_URI/$MY_ARG={$MY_ARG}&$MY_LOLO={$MY_LOLO}" })
+            arguments = LoloDestinations.Details.arguments,
+            deepLinks = LoloDestinations.Details.deepLink
         ) {
 
             startDestination.value = RootDestinations.Home.route
@@ -108,34 +108,37 @@ fun NavGraphBuilder.loloNavigationGraph(
             val my_arg = arguments?.getString(MY_ARG)?: "SEM my_arg"
             val my_lolo = arguments?.getString(MY_LOLO)?: "SEM my_lolo"
 
-                DetailsScreen(message = "Details1 $my_arg ++++ $my_lolo")
+            PictureDetailScreen()
+                //DetailsScreen(message = "Details1 $my_arg ++++ $my_lolo")
 
         }
 
-        composable(
-            route = LoloDestinations.Details2.route,
-            arguments = listOf(navArgument(MY_ARG) { type = NavType.StringType }),
-            deepLinks = listOf(navDeepLink { uriPattern = "$MY_URI/$MY_ARG={$MY_ARG}" })
-        ) {
-
-            startDestination.value = RootDestinations.Home.route
-
-            val arguments = it.arguments
-            val my_arg = arguments?.getString(MY_ARG)?: "SEM my_arg"
-            val my_lolo = arguments?.getString(MY_LOLO)?: "SEM my_loloFIsj"
-
-            DetailsScreen(message = "Details2 $my_arg ++++ $my_lolo")
-
-        }
+//        composable(
+//            route = LoloDestinations.Details2.route,
+//            arguments = listOf(navArgument(MY_ARG) { type = NavType.StringType }),
+//            deepLinks = listOf(navDeepLink { uriPattern = "$MY_URI/$MY_ARG={$MY_ARG}" })
+        //deepLinks = listOf(navDeepLink { uriPattern = "$MY_URI/$MY_ARG={$MY_ARG}&$MY_LOLO={$MY_LOLO}" })
+//        ) {
+//
+//            startDestination.value = RootDestinations.Home.route
+//
+//            val arguments = it.arguments
+//            val my_arg = arguments?.getString(MY_ARG)?: "SEM my_arg"
+//            val my_lolo = arguments?.getString(MY_LOLO)?: "SEM my_loloFIsj"
+//
+//            DetailsScreen(message = "Details2 $my_arg ++++ $my_lolo")
+//
+//        }
     }
 }
 
 
 sealed class LoloDestinations(
     val route: String,
-    customArguments: List<CustomArguments> = emptyList()
-) : BaseDestinations(route = route, customArguments = customArguments){
+    customArguments: List<CustomArguments> = emptyList(),
+    baseDeepLink: String = ARTEMIS_SOFTWARE_URI
+) : BaseDestinations(route = route, customArguments = customArguments, baseDeepLink = baseDeepLink){
 
-    object Details : RootDestinations(route = "DETAIL")
-    object Details2 : RootDestinations(route = "DETAIL2")
+    object Details : LoloDestinations(route = "DETAIL", customArguments = listOf(CustomArguments(NavigationArguments.PICTURE_ID)))
+    //object Details2 : RootDestinations(route = "DETAIL2")
 }
