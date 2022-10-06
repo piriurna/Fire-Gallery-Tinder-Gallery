@@ -31,43 +31,6 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
 
 
-    @Inject
-    lateinit var localNotificationsRepository: LocalNotificationsRepository
-
-
-    private fun lolo(){
-//        val flag =
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-//                PendingIntent.FLAG_IMMUTABLE
-//            else
-//                0
-//        val clickIntent = Intent(
-//            Intent.ACTION_VIEW,
-//            "${NavigationArguments.ARTEMIS_SOFTWARE_URI}/${NavigationArguments.PICTURE_ID}=AABB".toUri(),
-//            //"$MY_URI/$MY_ARG=Coming from Notification&".toUri(),
-//            this,
-//            MainActivity::class.java
-//        )
-//        val clickPendingIntent: PendingIntent = TaskStackBuilder.create(this).run {
-//            addNextIntentWithParentStack(clickIntent)
-//            getPendingIntent(1, flag)
-//        }
-//
-//        val localNotification = LocalNotification(title = "Title notification", text = "text notification", )
-//
-//        val notif = notificationBuilder
-//            .setContentIntent(clickPendingIntent)
-//            .setContentTitle(localNotification.title)
-//            .build()
-//
-//        notificationManager.notify(1, notif
-//        )
-
-        val localNotification = LocalNotification(title = "New Image", text = "Check artemis by artemisSoftware", link = "https://artemis-software.com/pictureId=AABB", cls = MainActivity::class.java)
-        localNotificationsRepository.generateNotification(localNotification)
-
-    }
-
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +45,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        lolo()
     }
 
 }
