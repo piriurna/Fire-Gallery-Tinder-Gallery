@@ -20,7 +20,7 @@ import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.navigation.GalleryDestinations
+import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.gallery.composables.GalleryCard
 import com.artemissoftware.firegallery.screens.gallery.mappers.toUI
 import com.artemissoftware.firegallery.ui.UIEvent
@@ -74,8 +74,8 @@ private fun BuildGalleryScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(vertical = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
             items(state.galleries) { gallery->

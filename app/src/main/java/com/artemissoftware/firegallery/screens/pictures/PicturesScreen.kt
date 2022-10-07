@@ -20,7 +20,7 @@ import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.navigation.GalleryDestinations
+import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
 import com.artemissoftware.firegallery.ui.UIEvent
 import kotlinx.coroutines.flow.collectLatest

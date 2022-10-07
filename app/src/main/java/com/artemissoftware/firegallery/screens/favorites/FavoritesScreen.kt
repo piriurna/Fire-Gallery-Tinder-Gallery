@@ -50,6 +50,7 @@ fun FavoritesScreen(
                             confirmationText = ll,
                             confirmation = {
                                 //TODO: ir para a galeria tab
+                                //TODO: só aparece uma vez, por ser eventflow.resolver
                                 //navController.popBackStack()
                             }
                         )

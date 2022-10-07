@@ -1,4 +1,4 @@
-package com.artemissoftware.firegallery.navigation
+package com.artemissoftware.firegallery.navigation.graphs
 
 import androidx.compose.runtime.*
 import androidx.navigation.*
@@ -86,7 +86,7 @@ fun RootNavigationGraph(
     NavHost(
         navController = navController,
         route = Graph.ROOT,
-        startDestination = startDestination.value//RootDestinations.Splash.route
+        startDestination = startDestination.value
     ) {
 
         composable(route = RootDestinations.Splash.route) {

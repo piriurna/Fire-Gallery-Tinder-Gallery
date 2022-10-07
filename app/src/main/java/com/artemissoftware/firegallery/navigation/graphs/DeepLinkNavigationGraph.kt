@@ -9,7 +9,6 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.NavigationArguments
-import com.artemissoftware.firegallery.navigation.RootDestinations
 import com.artemissoftware.firegallery.navigation.models.Graph.DEEP_LINK
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 

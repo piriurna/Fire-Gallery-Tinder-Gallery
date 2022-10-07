@@ -6,9 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetFavoritePicturesUseCase
+import com.artemissoftware.domain.usecases.GetFavoritePicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
+import com.artemissoftware.domain.usecases.GetPicturesUseCase
 import com.artemissoftware.domain.usecases.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
+import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -66,16 +69,15 @@ class FavoritesViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-//                is Resource.Error -> {
-//
-//                    _state.value = state.value.copy(
-//                        pictures = result.data ?: emptyList(),
-//                        isLoading = false
-//                    )
-//                    _eventFlow.emit(UIEvent.ShowSnackbar(
-//                        result.message ?: "Unknown error"
-//                    ))
-//                }
+                is Resource.Error -> {
+
+                    _state.value = state.value.copy(
+                        pictures = result.data ?: emptyList(),
+                        isLoading = false
+                    )
+
+                    result.message?.let { showDialog(it) }
+                }
                 is Resource.Loading -> {
                     _state.value = _state.value.copy(
                         //pictures = result.data ?: emptyList(),
@@ -86,6 +88,23 @@ class FavoritesViewModel @Inject constructor(
 
         }.launchIn(viewModelScope)
 
+    }
+
+
+    private suspend fun showDialog(message: String){
+
+        when(message){
+
+            NO_FAVORITE_PICTURES_AVAILABLE ->{
+
+                _eventFlow.emit(
+                    UIEvent.ShowInfoDialog(
+                        title = "Favorites",
+                        message = NO_FAVORITE_PICTURES_AVAILABLE
+                    )
+                )
+            }
+        }
     }
 
 }

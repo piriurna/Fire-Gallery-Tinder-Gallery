@@ -1,4 +1,4 @@
-package com.artemissoftware.firegallery.navigation
+package com.artemissoftware.firegallery.navigation.graphs
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.MutableState
@@ -9,6 +9,7 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.DetailsScreen
+import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.navigation.NavigationArguments.ARTEMIS_SOFTWARE_URI
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.navigation.navtypes.GalleryUINavType

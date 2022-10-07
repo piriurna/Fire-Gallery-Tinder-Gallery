@@ -2,6 +2,7 @@ package com.artemissoftware.common.composables.scaffold
 
 import android.annotation.SuppressLint
 import androidx.annotation.RawRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -95,7 +96,10 @@ fun FGScaffold(
             .fillMaxSize()
 //            .background(color.getBackgroundColor())
     ) {
-        var scaffoldModifier = modifier.fillMaxSize()
+        var scaffoldModifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(horizontal = 4.dp)
 
 
 
@@ -128,17 +132,6 @@ fun FGScaffold(
                 optionComposable = topBarOptionComposable
             )
         }
-
-
-//        com.artemissoftware.common.composables.topbar.AppBar(
-//            backgroundColor = Color.Green,
-//            modifier = Modifier
-//        ) {
-//
-//            TopBar(
-//                currentState = mutableStateOf(FGCollapsedState.EXPANDED),
-//                onNavigationClick = { })
-//        }
 
         FGLoading(isLoading = isLoading, lottieId = lottieId)
 

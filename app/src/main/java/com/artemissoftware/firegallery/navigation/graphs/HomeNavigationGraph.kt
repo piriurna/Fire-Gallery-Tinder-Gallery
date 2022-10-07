@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.firegallery.navigation.graphs.galleryNavigationGraph
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.favorites.FavoritesScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
