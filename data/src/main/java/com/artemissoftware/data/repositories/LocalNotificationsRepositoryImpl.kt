@@ -5,6 +5,7 @@ import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
@@ -21,12 +22,7 @@ class LocalNotificationsRepositoryImpl @Inject constructor(
 ) : LocalNotificationsRepository {
 
 
-    override /*suspend*/ fun generateNotification(localNotification: LocalNotification) {
-        val flag =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                PendingIntent.FLAG_IMMUTABLE
-            else
-                0
+    override suspend fun generateNotification(localNotification: LocalNotification) {
 
 
         with(notificationBuilder){
@@ -38,20 +34,31 @@ class LocalNotificationsRepositoryImpl @Inject constructor(
                 setContentText(it)
             }
             localNotification.link?.let { link->
-
-                val clickIntent = Intent(Intent.ACTION_VIEW, link.toUri(), context, localNotification.cls)
-
-                val clickPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
-                    addNextIntentWithParentStack(clickIntent)
-                    getPendingIntent(1, flag)
-                }
-                setContentIntent(clickPendingIntent)
+                setContentIntent(getClickPendingIntent(link =  link, localNotification = localNotification))
             }
         }
 
         notificationManager.notify(++notificationId, notificationBuilder.build())
     }
 
+
+    private fun getClickPendingIntent(link: String, localNotification: LocalNotification): PendingIntent{
+        val clickIntent = Intent(Intent.ACTION_VIEW, link.toUri(), context, localNotification.cls)
+
+        val clickPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
+            addNextIntentWithParentStack(clickIntent)
+            getPendingIntent(1, getFlag())
+        }
+
+        return clickPendingIntent
+    }
+
+    private fun getFlag(): Int{
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            PendingIntent.FLAG_IMMUTABLE
+        else
+            0
+    }
 
     companion object {
         var notificationId = 0

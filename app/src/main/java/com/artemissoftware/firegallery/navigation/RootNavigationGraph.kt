@@ -9,6 +9,7 @@ import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.HomeScreen
 import com.artemissoftware.firegallery.screens.SplashScreen
+import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 
 
 const val MY_ARG = "message"
@@ -108,25 +109,10 @@ fun RootNavigationGraph(
             HomeScreen(scaffoldState = scaffoldState)
         }
 
-        //galleryNavigationGraph(navController = navController, scaffoldState = scaffoldState, dplink = true)
+
+
         loloNavigationGraph(navController = navController, scaffoldState = scaffoldState, startDestination)
-        //loloNavigationGraph(navController = navController, scaffoldState = scaffoldState)
-//        navigation(
-//            startDestination = RootDestinations.Details.route,
-//            route = "nested_graph_route"
-//        ) {
-//
-//        animatedComposable(
-//            route = RootDestinations.Details.route,
-//            arguments = listOf(navArgument(MY_ARG) { type = NavType.StringType }),
-//            deepLinks = listOf(navDeepLink { uriPattern = "$MY_URI/$MY_ARG={$MY_ARG}" })
-//        ) {
-//            val arguments = it.arguments
-//            arguments?.getString(MY_ARG)?.let { message ->
-//                DetailsScreen(message = message)
-//            }
-//        }
-//        }
+
     }
 
 }

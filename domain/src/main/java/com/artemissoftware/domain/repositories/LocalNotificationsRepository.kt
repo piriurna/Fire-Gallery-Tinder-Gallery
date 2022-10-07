@@ -4,5 +4,5 @@ import com.artemissoftware.domain.models.LocalNotification
 
 interface LocalNotificationsRepository {
 
-    /*suspend*/ fun generateNotification(localNotification: LocalNotification)
+    suspend fun generateNotification(localNotification: LocalNotification)
 }

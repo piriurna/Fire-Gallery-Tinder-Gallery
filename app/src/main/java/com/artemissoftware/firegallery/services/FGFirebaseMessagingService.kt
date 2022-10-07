@@ -1,16 +1,10 @@
 package com.artemissoftware.firegallery.services
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.artemissoftware.domain.models.LocalNotification
 import com.artemissoftware.domain.usecases.UpdateFirebaseTokenUseCase
 import com.artemissoftware.domain.usecases.notifications.GenerateLocalNotificationUseCase
 import com.artemissoftware.firegallery.MainActivity
-import com.artemissoftware.firegallery.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +26,6 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
     private val job = SupervisorJob()
 
     override fun onNewToken(token: String) {
-        Log.d("PushNotificationService", "Refreshed token: $token")
         saveToken(token = token)
         super.onNewToken(token)
     }
@@ -46,18 +39,20 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
 
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        val localNotification = getLocalNotification(remoteMessage.data)
+        sendNotification(localNotification)
+    }
 
-        val localNotification = LocalNotification(
-            title = remoteMessage.notification?.title,
-            text = remoteMessage.notification?.body
-        )
 
-        if (remoteMessage.data.isNotEmpty()) {
-            localNotification.link = remoteMessage.data["link"]
-            localNotification.cls = MainActivity::class.java
+    private fun getLocalNotification(data: MutableMap<String, String>): LocalNotification{
+
+        if (data.isNotEmpty()) {
+            with(data){
+                return LocalNotification(title = get(TITLE), text = get(BODY), link = get(LINK), cls = MainActivity::class.java)
+            }
         }
 
-        sendNotification(localNotification)
+        return LocalNotification()
     }
 
     private fun sendNotification(localNotification: LocalNotification) {
@@ -71,5 +66,11 @@ class FGFirebaseMessagingService : FirebaseMessagingService() {
     override fun onDestroy() {
         job.cancel()
         super.onDestroy()
+    }
+
+    companion object{
+        private const val LINK = "link"
+        private const val TITLE = "title"
+        private const val BODY = "body"
     }
 }
