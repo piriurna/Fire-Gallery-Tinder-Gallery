@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.firegallery.navigation.graphs.deeplinkNavigationGraph
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.HomeScreen
 import com.artemissoftware.firegallery.screens.SplashScreen
@@ -88,8 +89,6 @@ fun RootNavigationGraph(
         startDestination = startDestination.value//RootDestinations.Splash.route
     ) {
 
-        //--authenticationNavGraph(navController = navController)
-        //galleryNavigationGraph(navController = navController, scaffoldState = scaffoldState)
         composable(route = RootDestinations.Splash.route) {
             SplashScreen(
                 scaffoldState = scaffoldState,
@@ -101,17 +100,12 @@ fun RootNavigationGraph(
             )
         }
 
-        composable(
-            route = RootDestinations.Home.route,
-
-
-            ) {
+        composable(route = RootDestinations.Home.route) {
             HomeScreen(scaffoldState = scaffoldState)
         }
 
 
-
-        loloNavigationGraph(navController = navController, scaffoldState = scaffoldState, startDestination)
+        deeplinkNavigationGraph(navController = navController, scaffoldState = scaffoldState, startDestination)
 
     }
 

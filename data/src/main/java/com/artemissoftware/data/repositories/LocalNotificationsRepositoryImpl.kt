@@ -24,7 +24,6 @@ class LocalNotificationsRepositoryImpl @Inject constructor(
 
     override suspend fun generateNotification(localNotification: LocalNotification) {
 
-
         with(notificationBuilder){
 
             localNotification.title?.let {
