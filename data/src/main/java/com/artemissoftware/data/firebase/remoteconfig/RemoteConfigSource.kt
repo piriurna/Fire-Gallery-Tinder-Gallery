@@ -1,5 +1,7 @@
 package com.artemissoftware.data.firebase.remoteconfig
 
+import com.artemissoftware.data.firebase.remoteconfig.models.SeasonFrc
+import com.artemissoftware.data.mappers.toSeasonConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import javax.inject.Inject
@@ -8,18 +10,27 @@ import kotlin.coroutines.suspendCoroutine
 
 class RemoteConfigSource @Inject constructor (private val firebaseRemoteConfig: FirebaseRemoteConfig) {
 
+    lateinit var seasonConfig: SeasonFrc
+
+
     suspend fun fetchValues(): Boolean = suspendCoroutine { continuation ->
         setupFirebaseRemoteConfig()
 
         firebaseRemoteConfig.fetchAndActivate().addOnCompleteListener { fetchTask ->
             if (fetchTask.isSuccessful) {
-
+                loadConfigurations()
                 continuation.resume(true)
             } else {
                 continuation.resume(false)
             }
         }
     }
+
+
+    private fun loadConfigurations() {
+        seasonConfig = firebaseRemoteConfig.toSeasonConfig()
+    }
+
 
     fun getString(key: String): String = firebaseRemoteConfig.getString(key)
 

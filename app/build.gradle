@@ -88,6 +88,6 @@ dependencies {
 
     implementation rootProject.libraries.accompanistNavigationAnimation
 
-    implementation 'com.google.code.gson:gson:2.9.1'
+    implementation rootProject.libraries.gson
     implementation "com.google.accompanist:accompanist-permissions:0.26.4-beta"
 }

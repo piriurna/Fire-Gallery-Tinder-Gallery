@@ -48,6 +48,7 @@ dependencies {
     api rootProject.libraries.firebaseFirestore
     api rootProject.libraries.firebaseConfig
 
+    implementation rootProject.libraries.gson
     implementation rootProject.libraries.datastore
 //    implementation rootProject.libraries.datastoreCore
 //    implementation rootProject.libraries.kotlinxSerializationJson
