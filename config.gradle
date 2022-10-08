@@ -74,6 +74,7 @@ ext.libraries = [
 
         firebaseFirestore         : "com.google.firebase:firebase-firestore-ktx",
         firebaseMessaging         : "com.google.firebase:firebase-messaging-ktx",
+        firebaseConfig            : "com.google.firebase:firebase-config-ktx",
 
         hiltAndroid               : "com.google.dagger:hilt-android:$versions.hilt",
         hiltAndroidCompiler       : "com.google.dagger:hilt-android-compiler:$versions.hilt",
