@@ -6,8 +6,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -151,11 +152,34 @@ fun FilterChipSection(
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable
 private fun FilterChipSectionPreview() {
 
-    FilterChipSection(filters = Chip.mockChips)
+    //FilterChipSection(filters = Chip.mockChips)
+
+
+
+    Chip(
+        onClick = { /* Do something! */ },
+        border = BorderStroke(
+            ChipDefaults.OutlinedBorderSize,
+            Color.Red
+        ),
+        colors = ChipDefaults.chipColors(
+            backgroundColor = Color.White,
+            contentColor = Color.Red
+        ),
+        leadingIcon = {
+            Icon(
+                Icons.Filled.Settings,
+                contentDescription = "Localized description"
+            )
+        }
+    ) {
+        Text("Change settings")
+    }
 }
 
 
@@ -206,3 +230,8 @@ private fun Modifier.diagonalGradientBorder(
     shape = shape
 )
 
+
+
+
+
+fun Color.fromHex(color: String) = Color(android.graphics.Color.parseColor("#$color"))
