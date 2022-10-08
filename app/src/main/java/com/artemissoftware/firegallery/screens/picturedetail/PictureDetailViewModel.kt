@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPictureDetailUseCase
-import com.artemissoftware.domain.usecases.UpdateFavoriteUseCase
+import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -2,10 +2,11 @@ package com.artemissoftware.data.firebase.remoteconfig
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class RemoteConfigSource(private val firebaseRemoteConfig: FirebaseRemoteConfig) {
+class RemoteConfigSource @Inject constructor (private val firebaseRemoteConfig: FirebaseRemoteConfig) {
 
     suspend fun fetchValues(): Boolean = suspendCoroutine { continuation ->
         setupFirebaseRemoteConfig()
@@ -20,6 +21,7 @@ class RemoteConfigSource(private val firebaseRemoteConfig: FirebaseRemoteConfig)
         }
     }
 
+    fun getString(key: String): String = firebaseRemoteConfig.getString(key)
 
     private fun setupFirebaseRemoteConfig() {
         firebaseRemoteConfig.setConfigSettingsAsync(

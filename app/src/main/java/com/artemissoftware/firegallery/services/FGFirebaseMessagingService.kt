@@ -1,8 +1,7 @@
 package com.artemissoftware.firegallery.services
 
-import android.util.Log
 import com.artemissoftware.domain.models.LocalNotification
-import com.artemissoftware.domain.usecases.UpdateFirebaseTokenUseCase
+import com.artemissoftware.domain.usecases.notifications.UpdateFirebaseTokenUseCase
 import com.artemissoftware.domain.usecases.notifications.GenerateLocalNotificationUseCase
 import com.artemissoftware.firegallery.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService

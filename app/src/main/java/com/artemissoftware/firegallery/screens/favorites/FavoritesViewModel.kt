@@ -5,10 +5,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.usecases.GetFavoritePicturesUseCase
-import com.artemissoftware.domain.usecases.GetFavoritePicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
-import com.artemissoftware.domain.usecases.GetPicturesUseCase
-import com.artemissoftware.domain.usecases.UpdateFavoriteUseCase
+import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase
+import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
+import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent

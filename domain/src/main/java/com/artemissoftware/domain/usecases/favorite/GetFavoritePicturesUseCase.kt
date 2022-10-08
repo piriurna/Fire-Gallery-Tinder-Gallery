@@ -1,4 +1,4 @@
-package com.artemissoftware.domain.usecases
+package com.artemissoftware.domain.usecases.favorite
 
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.Picture

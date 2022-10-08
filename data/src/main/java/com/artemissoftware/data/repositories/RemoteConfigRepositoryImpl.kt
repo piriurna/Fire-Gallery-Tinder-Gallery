@@ -9,4 +9,10 @@ class RemoteConfigRepositoryImpl(
 
     override suspend fun fetchValues(): Boolean = remoteConfigSource.fetchValues()
 
+    override fun getSeasonConfigs(): String {
+
+        return remoteConfigSource.getString("seasonconfig")
+
+    }
+
 }
