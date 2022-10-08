@@ -42,6 +42,7 @@ class SplashViewModel @Inject constructor(
 
         setupAppUseCase.invoke().onEach { result ->
 
+            //TODO: identificar situação de erro e sucesso
             val dd = 0
             val kk = dd + 1
 

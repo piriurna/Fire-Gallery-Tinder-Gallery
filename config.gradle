@@ -14,10 +14,9 @@ ext.versions = [
 
 
 
-        compose                     : '1.1.1', //'1.2.0-alpha07'
+        compose                     : '1.2.0', //'1.2.0-alpha07'
         coil                        : '2.1.0',
-        hilt                        : '2.39.1',
-        hiltLifecycleViewmodel      : '1.0.0-alpha03',
+        hilt                        : '2.44',
         hiltNavigationCompose       : '1.0.0-alpha03',
 
 
@@ -80,7 +79,6 @@ ext.libraries = [
 
         hiltAndroid               : "com.google.dagger:hilt-android:$versions.hilt",
         hiltAndroidCompiler       : "com.google.dagger:hilt-android-compiler:$versions.hilt",
-        hiltLifecycleViewmodel    : "androidx.hilt:hilt-lifecycle-viewmodel:$versions.hiltLifecycleViewmodel",
         hiltNavigationCompose     : "androidx.hilt:hilt-navigation-compose:$versions.hiltNavigationCompose",
 
 
@@ -152,6 +150,9 @@ ext.tests = [
 //        mockito       : "org.mockito.kotlin:mockito-kotlin:$versions.mockito",
 //        coroutines    : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines",
 //        espresso      : "androidx.test.espresso:espresso-core:$versions.espresso",
+
+        uiTestJunit4    : "androidx.compose.ui:ui-test-junit4:$versions.compose",
+        uiTestManifest  : "androidx.compose.ui:ui-test-manifest:$versions.compose"
 ]
 
 ext.classpath = [

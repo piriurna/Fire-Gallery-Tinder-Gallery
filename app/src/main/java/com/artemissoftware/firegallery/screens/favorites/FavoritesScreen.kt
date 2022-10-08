@@ -58,6 +58,7 @@ fun FavoritesScreen(
 
                     scaffoldState.showBottomBar(dialogType)
                 }
+                else ->{}
             }
         }
     }

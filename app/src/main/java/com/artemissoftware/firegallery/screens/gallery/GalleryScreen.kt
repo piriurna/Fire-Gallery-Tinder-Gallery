@@ -55,7 +55,9 @@ fun GalleryScreen(
                     scaffoldState.showBottomBar(dialogType)
 
                 }
+                else ->{}
             }
+
         }
     }
 

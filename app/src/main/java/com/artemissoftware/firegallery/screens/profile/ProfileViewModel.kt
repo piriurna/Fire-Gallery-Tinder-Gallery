@@ -60,6 +60,7 @@ class ProfileViewModel @Inject constructor(
                         isLoading = true
                     )
                 }
+                else ->{}
             }
 
         }.launchIn(viewModelScope)
@@ -81,6 +82,7 @@ class ProfileViewModel @Inject constructor(
                         profile = profile
                     )
                 }
+                else ->{}
             }
 
         }.launchIn(viewModelScope)

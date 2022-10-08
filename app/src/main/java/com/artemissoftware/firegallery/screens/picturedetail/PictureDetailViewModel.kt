@@ -40,8 +40,7 @@ class PictureDetailViewModel @Inject constructor(
             is PictureDetailEvents.GetPicture -> {
                 getPicture(event.id)
             }
-        }
-        when(event){
+
             is PictureDetailEvents.FavoritePicture -> {
                 saveFavorite(pictureId = event.id, isFavorite = event.isFavorite)
             }
@@ -81,6 +80,7 @@ class PictureDetailViewModel @Inject constructor(
                         isLoading = true
                     )
                 }
+                else ->{}
             }
 
 
