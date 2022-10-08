@@ -6,8 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
+import com.artemissoftware.firegallery.screens.profile.ProfileViewModel
+import com.artemissoftware.firegallery.screens.splash.SplashViewModel
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
 
 @Composable
@@ -15,6 +18,8 @@ fun SplashScreen(
     scaffoldState: FGScaffoldState,
     onAnimationFinish: () -> Unit = {}
 ) {
+
+    val viewModel: SplashViewModel = hiltViewModel()
 
 
     FGScaffold(

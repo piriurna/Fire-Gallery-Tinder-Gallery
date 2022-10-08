@@ -26,13 +26,9 @@ class RemoteConfigSource @Inject constructor (private val firebaseRemoteConfig: 
         }
     }
 
-
     private fun loadConfigurations() {
         seasonConfig = firebaseRemoteConfig.toSeasonConfig()
     }
-
-
-    fun getString(key: String): String = firebaseRemoteConfig.getString(key)
 
     private fun setupFirebaseRemoteConfig() {
         firebaseRemoteConfig.setConfigSettingsAsync(

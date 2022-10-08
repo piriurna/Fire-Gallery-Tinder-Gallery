@@ -1,6 +1,7 @@
 package com.artemissoftware.data.repositories
 
 import com.artemissoftware.data.firebase.remoteconfig.RemoteConfigSource
+import com.artemissoftware.data.mappers.toSeasonConfig
 import com.artemissoftware.domain.repositories.RemoteConfigRepository
 
 class RemoteConfigRepositoryImpl(
@@ -9,10 +10,6 @@ class RemoteConfigRepositoryImpl(
 
     override suspend fun fetchValues(): Boolean = remoteConfigSource.fetchValues()
 
-    override fun getSeasonConfigs(): String {
-
-        return remoteConfigSource.getString("seasonconfig")
-
-    }
+    override fun getSeasonConfigs() = remoteConfigSource.seasonConfig.toSeasonConfig()
 
 }
