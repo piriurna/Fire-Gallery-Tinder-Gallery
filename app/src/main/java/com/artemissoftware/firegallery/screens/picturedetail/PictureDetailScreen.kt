@@ -75,7 +75,7 @@ private fun BuildPictureDetailScreen(
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 16.dp),
                 picture = state.picture,
-                tags = Chip.mockChips
+                tags = Chip.mockChips //TODO: mudar para tags que vem do firebase
             )
 
         },
