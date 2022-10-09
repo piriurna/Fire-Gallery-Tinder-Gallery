@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
@@ -21,7 +20,6 @@ import com.artemissoftware.common.composables.animations.models.PulsatingType
 import com.artemissoftware.common.composables.scaffold.FGBottomSheetScaffold
 import com.artemissoftware.common.models.Chip
 import com.artemissoftware.domain.models.Picture
-import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 import com.artemissoftware.firegallery.screens.picturedetail.composables.PictureInformation
 
@@ -77,7 +75,7 @@ private fun BuildPictureDetailScreen(
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 16.dp),
                 picture = state.picture,
-                filters = Chip.mockChips
+                tags = Chip.mockChips
             )
 
         },

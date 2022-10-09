@@ -1,140 +1,98 @@
 package com.artemissoftware.common.composables.chip
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Chip
+import androidx.compose.material.ChipDefaults
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import com.artemissoftware.common.extensions.withElevation
+import com.artemissoftware.common.composables.text.FGText
+import com.artemissoftware.common.extensions.hextoColor
 import com.artemissoftware.common.models.Chip
-import com.artemissoftware.common.theme.FGStyle
+import com.artemissoftware.common.theme.FGStyle.TextAlbertSans12
+import com.artemissoftware.common.theme.Purple200
+import com.artemissoftware.common.theme.Purple500
+import com.artemissoftware.common.theme.Red
+import com.artemissoftware.common.theme.RedOrange
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 
-
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
-
-
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ChipSurface(
-    modifier: Modifier = Modifier,
-    shape: Shape = CircleShape,
-    color: Color = Purple500,
-    contentColor: Color = Purple200,
-    border: BorderStroke? = null,
-    elevation: Dp = 0.dp
+fun FGChip(
+    chip: Chip,
+    modifier: Modifier = Modifier
+) {
+    FGChip(
+        text = chip.text,
+        startBorderColor = chip.getStartBorderColor(),
+        endBorderColor = chip.getEndBorderColor(),
+        iconColor = chip.getIconColor(),
+        modifier = modifier
+    )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun FGChip(
+    text: String,
+    startBorderColor: Color = Red,
+    endBorderColor: Color = RedOrange,
+    iconColor: Color = Purple200,
+    modifier: Modifier = Modifier
 ) {
 
-    val internalBorder = Modifier.fadeInDiagonalGradientBorder(
-        showBorder = true,
-        colors = listOf(
-            Purple500, Purple200
-        ),
-        shape = shape
-    )
-
-    Box(
+    Chip(
         modifier = modifier
-            .shadow(elevation = elevation, shape = shape, clip = false)
-            .zIndex(elevation.value)
-            .then(if (border != null) Modifier.border(border, shape = shape) else internalBorder)
-            .background(
-                color = getBackgroundColorForElevation(color = color, elevation = elevation),
-                shape = shape
+            .border(
+                width = 2.dp,
+                brush = Brush.linearGradient(colors = listOf(startBorderColor, endBorderColor)),
+                shape = RoundedCornerShape(50)
             )
-            .clip(shape = shape)
+            .height(36.dp),
+        onClick = { /* Do something! */ },
+        colors = ChipDefaults.chipColors(
+            backgroundColor = Color.White,
+            contentColor = iconColor
+        ),
+        leadingIcon = {
+            Icon(
+                Icons.Filled.CheckCircle,
+                contentDescription = "Localized description"
+            )
+        }
     ) {
-        CompositionLocalProvider(LocalContentColor provides contentColor,
-            content = {
-                Box(
-                    modifier = Modifier
-                        .height(40.dp)
-                ) {
-
-                    Text(
-                        text = "filter.name",
-                        style = FGStyle.TextMeOne,
-                        maxLines = 1,
-                        modifier = Modifier.align(Alignment.Center)
-                            .padding(horizontal = 20.dp)
-//                            .padding(top = 12.dp)
-//                            .fillMaxHeight()
-                    )
-                }
-            }
+        FGText(
+            text = text,
+            style = TextAlbertSans12,
+            modifier = Modifier.padding(horizontal = 4.dp)
         )
     }
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable
-private fun ChipSurfacePreview() {
-    ChipSurface(
-        shape = CircleShape
-    )
+private fun FGChipPreview() {
+    FGChip(text = "My chip")
 }
 
 
-
-
-
 @Composable
-fun FilterChip(
-    filter: Chip,
-    modifier: Modifier = Modifier,
-    shape: Shape = CircleShape
-) {
-    val (selected, setSelected) = filter.enabled
-    val backgroundColor by animateColorAsState(
-        if (selected) Purple500 else Color.White
-    )
-
-    val textColor by animateColorAsState(
-        if (selected) Color.White else Color.Black
-    )
-
-    ChipSurface(
-        modifier = modifier.height(40.dp),
-        color = backgroundColor,
-        contentColor = textColor,
-        shape = shape,
-        elevation = 2.dp,
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun FilterChipPreview() {
-
-    FilterChip(filter = Chip.mockChips[0])
-}
-
-
-
-
-
-@Composable
-fun FilterChipSection(
-    filters: List<Chip>
+fun FGChipSection(
+    chips: List<Chip>
 ) {
 
     FlowRow(
@@ -142,9 +100,9 @@ fun FilterChipSection(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        filters.forEach { filter ->
-            FilterChip(
-                filter = filter,
+        chips.forEach { chip ->
+            FGChip(
+                chip = chip,
                 modifier = Modifier.padding(end = 4.dp, bottom = 0.dp)
             )
         }
@@ -155,83 +113,11 @@ fun FilterChipSection(
 @OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable
-private fun FilterChipSectionPreview() {
-
-    //FilterChipSection(filters = Chip.mockChips)
-
-
-
-    Chip(
-        onClick = { /* Do something! */ },
-        border = BorderStroke(
-            ChipDefaults.OutlinedBorderSize,
-            Color.Red
-        ),
-        colors = ChipDefaults.chipColors(
-            backgroundColor = Color.White,
-            contentColor = Color.Red
-        ),
-        leadingIcon = {
-            Icon(
-                Icons.Filled.Settings,
-                contentDescription = "Localized description"
-            )
-        }
-    ) {
-        Text("Change settings")
-    }
+private fun FGChipSectionPreview() {
+    FGChipSection(chips = Chip.mockChips)
 }
 
 
 
 
 
-
-
-
-
-
-
-
-
-@Composable
-private fun getBackgroundColorForElevation(color: Color, elevation: Dp) : Color {
-    return if (elevation > 0.dp) {
-        color.withElevation(elevation = elevation)
-    } else {
-        color
-    }
-}
-
-
-private fun Modifier.fadeInDiagonalGradientBorder(
-    showBorder: Boolean,
-    colors: List<Color>,
-    borderSize: Dp = 2.dp,
-    shape: Shape
-) = composed {
-    val animatedColors = List(colors.size) { i ->
-        animateColorAsState(if (showBorder) colors[i] else colors[i].copy(alpha = 0f)).value
-    }
-    diagonalGradientBorder(
-        colors = animatedColors,
-        borderSize = borderSize,
-        shape = shape
-    )
-}
-
-private fun Modifier.diagonalGradientBorder(
-    colors: List<Color>,
-    borderSize: Dp = 2.dp,
-    shape: Shape
-) = border(
-    width = borderSize,
-    brush = Brush.linearGradient(colors),
-    shape = shape
-)
-
-
-
-
-
-fun Color.fromHex(color: String) = Color(android.graphics.Color.parseColor("#$color"))

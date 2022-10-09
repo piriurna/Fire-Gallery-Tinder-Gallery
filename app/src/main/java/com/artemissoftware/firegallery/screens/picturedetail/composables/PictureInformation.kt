@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.artemissoftware.common.composables.chip.FilterChipSection
+import com.artemissoftware.common.composables.chip.FGChipSection
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.models.Chip
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold16
@@ -19,7 +19,7 @@ import com.artemissoftware.firegallery.R
 fun PictureInformation(
     modifier: Modifier = Modifier,
     picture: Picture? = null,
-    filters: List<Chip>
+    tags: List<Chip>
 ) {
 
     Column(
@@ -31,7 +31,7 @@ fun PictureInformation(
             PictureDetail(title = stringResource(R.string.Title), description = "it.title")
             PictureDetail(title = stringResource(R.string.Author), description = "it.author")
             PictureDetail(title = stringResource(R.string.code), description = it.id)
-            FilterChipSection(filters = filters)
+            FGChipSection(chips = tags)
         }
     }
 
