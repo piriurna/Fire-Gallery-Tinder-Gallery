@@ -98,14 +98,12 @@ private fun Content(picture: Picture?) {
 
         Box{
 
-
             Image(
                 painter = painter,
                 contentDescription = "",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
             )
-
         }
     }
 

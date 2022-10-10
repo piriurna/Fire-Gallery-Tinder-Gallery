@@ -4,9 +4,9 @@ import com.artemissoftware.common.extensions.hextoColor
 
 data class Chip(
     val text: String,
-    private val startBorderColor: String,
-    private val endBorderColor: String,
-    private val iconColor: String
+    private val startBorderColor: String = "#f8d708",
+    private val endBorderColor: String = "#f8d708",
+    private val iconColor: String = "#f8d708"
 ) {
 
     fun getStartBorderColor() = startBorderColor.hextoColor()

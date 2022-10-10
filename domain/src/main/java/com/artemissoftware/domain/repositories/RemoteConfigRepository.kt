@@ -1,6 +1,6 @@
 package com.artemissoftware.domain.repositories
 
-import com.artemissoftware.domain.models.SeasonConfig
+import com.artemissoftware.domain.models.configurations.SeasonConfig
 
 interface RemoteConfigRepository {
 
