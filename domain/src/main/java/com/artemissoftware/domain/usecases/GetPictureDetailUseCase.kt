@@ -20,7 +20,7 @@ class GetPictureDetailUseCase @Inject constructor(
     operator fun invoke(pictureId: String): Flow<Resource<Picture>> = flow {
 
         emit(Resource.Loading())
-        delay(1000)
+        delay(500)
 
         val profile = dataStoreRepository.getProfile().first()
         val picture = galleryRepository.getPictureDetail(pictureId = pictureId)

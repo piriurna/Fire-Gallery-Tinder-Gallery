@@ -19,6 +19,9 @@ fun PictureFso.toPicture(): Picture {
 
     return Picture(
         id = id,
+        author = author,
         imageUrl = imageUrl,
+        tags = tags,
+        title = title
     )
 }

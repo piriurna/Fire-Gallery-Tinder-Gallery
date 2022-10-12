@@ -14,12 +14,13 @@ import com.artemissoftware.common.models.Chip
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold16
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.screens.picturedetail.mappers.toUI
+import com.artemissoftware.firegallery.screens.picturedetail.models.PictureUI
 
 @Composable
 fun PictureInformation(
     modifier: Modifier = Modifier,
-    picture: Picture? = null,
-    tags: List<Chip>
+    picture: PictureUI? = null
 ) {
 
     Column(
@@ -28,10 +29,10 @@ fun PictureInformation(
     ) {
 
         picture?.let {
-            PictureDetail(title = stringResource(R.string.Title), description = "it.title")
-            PictureDetail(title = stringResource(R.string.Author), description = "it.author")
+            PictureDetail(title = stringResource(R.string.Title), description = it.title)
+            PictureDetail(title = stringResource(R.string.Author), description = it.author)
             PictureDetail(title = stringResource(R.string.code), description = it.id)
-            FGChipSection(chips = tags)
+            FGChipSection(chips = it.tags)
         }
     }
 
@@ -68,5 +69,5 @@ private fun PictureDetailPreview() {
 @Composable
 private fun PictureInformationPreview() {
 
-    PictureInformation(modifier= Modifier,Picture.picturesMockList[0], Chip.mockChips)
+    PictureInformation(modifier= Modifier,Picture.picturesMockList[0].toUI())
 }

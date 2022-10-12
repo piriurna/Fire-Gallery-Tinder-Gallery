@@ -11,7 +11,8 @@ fun Picture.toUI(): PictureUI{
 
     return PictureUI(
         id = id,
-        imageUrl = imageUrl,
+        title = title,
+        author = author,
         isFavorite = isFavorite,
         tags = tags
     )

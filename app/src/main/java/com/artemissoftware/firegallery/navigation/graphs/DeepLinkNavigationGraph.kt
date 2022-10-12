@@ -29,7 +29,7 @@ fun NavGraphBuilder.deeplinkNavigationGraph(
         ) {
 
             startDestination.value = RootDestinations.Home.route
-            PictureDetailScreen()
+            PictureDetailScreen(navController = navController, scaffoldState = scaffoldState)
         }
 
     }

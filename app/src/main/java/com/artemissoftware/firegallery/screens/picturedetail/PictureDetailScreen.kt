@@ -6,37 +6,53 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.animations.models.PulsatingType
 import com.artemissoftware.common.composables.scaffold.FGBottomSheetScaffold
-import com.artemissoftware.common.models.Chip
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 import com.artemissoftware.firegallery.screens.picturedetail.composables.PictureInformation
+import com.artemissoftware.firegallery.screens.picturedetail.mappers.toUI
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PictureDetailScreen(
+    navController: NavHostController,
+    scaffoldState: FGScaffoldState,
     viewModel: PictureDetailViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value
     val isFavorite = viewModel.isFavorite
 
-    BuildPictureDetailScreen(state = state, events = viewModel::onTriggerEvent, isFavorite = isFavorite)
+    BuildPictureDetailScreen(
+        state = state,
+        events = viewModel::onTriggerEvent,
+        isFavorite = isFavorite,
+        navController = navController
+    )
 }
 
 
 @Composable
 private fun BuildPictureDetailScreen(
+    navController: NavHostController,
     state: PictureDetailState,
     events: ((PictureDetailEvents) -> Unit)? = null,
     isFavorite: State<Boolean>,
@@ -46,10 +62,8 @@ private fun BuildPictureDetailScreen(
     FGBottomSheetScaffold(
         isLoading = state.isLoading,
         showTopBar = state.picture != null,
-        title = "null",
-        subtitle = "null",
         onNavigationClick = {
-
+            navController.popBackStack()
         },
         topBarOptionComposable = {
 
@@ -74,8 +88,7 @@ private fun BuildPictureDetailScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 16.dp),
-                picture = state.picture,
-                tags = Chip.mockChips //TODO: mudar para tags que vem do firebase
+                picture = state.picture?.toUI()
             )
 
         },
@@ -88,23 +101,21 @@ private fun BuildPictureDetailScreen(
 @Composable
 private fun Content(picture: Picture?) {
 
-    picture?.let { it->
-        val painter = rememberAsyncImagePainter(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(it.imageUrl)
-                .size(Size.ORIGINAL)
-                .build()
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(picture?.imageUrl)
+            .size(Size.ORIGINAL)
+            .build()
+    )
+
+    Box(modifier = Modifier.fillMaxSize()){
+
+        Image(
+            painter = painter,
+            contentDescription = "",
+            modifier = Modifier.align(Alignment.Center).fillMaxSize(),
+            contentScale = ContentScale.Crop,
         )
-
-        Box{
-
-            Image(
-                painter = painter,
-                contentDescription = "",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-            )
-        }
     }
 
 }
@@ -118,6 +129,7 @@ private fun Content(picture: Picture?) {
 @Composable
 private fun BuildPictureDetailScreenPreview() {
 
+    val nav = rememberNavController()
     val state = PictureDetailState(picture = Picture.picturesMockList[0], isLoading = false)
-    BuildPictureDetailScreen(state = state, isFavorite = mutableStateOf(true))
+    BuildPictureDetailScreen(nav, state = state, isFavorite = mutableStateOf(true))
 }

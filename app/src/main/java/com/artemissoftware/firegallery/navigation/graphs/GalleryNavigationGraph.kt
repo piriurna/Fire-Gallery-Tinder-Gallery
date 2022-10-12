@@ -71,8 +71,11 @@ fun NavGraphBuilder.galleryNavigationGraph(
             PicturesScreen(navController = navController, scaffoldState = scaffoldState)
         }
 
-        composable(route = GalleryDestinations.PictureDetail.fullRoute, arguments = GalleryDestinations.Pictures.arguments) {
-            PictureDetailScreen()
+        composable(
+            route = GalleryDestinations.PictureDetail.fullRoute,
+            arguments = GalleryDestinations.Pictures.arguments
+        ) {
+            PictureDetailScreen(navController = navController, scaffoldState = scaffoldState)
         }
     }
 }

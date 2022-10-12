@@ -71,7 +71,8 @@ private fun BuildGalleryScreen(
 ) {
 
     FGScaffold(
-        isLoading = state.isLoading
+        isLoading = state.isLoading,
+        modifier = Modifier.padding(horizontal = 4.dp)
     ) {
         LazyColumn(
             modifier = Modifier

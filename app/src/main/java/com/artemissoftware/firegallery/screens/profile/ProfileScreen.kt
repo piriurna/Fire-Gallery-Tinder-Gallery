@@ -53,7 +53,8 @@ private fun BuildProfileScreen(
     val context = LocalContext.current
 
     FGScaffold(
-        isLoading = state.isLoading
+        isLoading = state.isLoading,
+        modifier = Modifier.padding(4.dp)
     ) {
 
         Column(

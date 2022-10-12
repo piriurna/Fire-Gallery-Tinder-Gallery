@@ -4,7 +4,8 @@ import com.artemissoftware.common.models.Chip
 
 data class PictureUI(
     val id: String,
-    val imageUrl: String,
+    val title: String,
+    val author: String,
     val isFavorite: Boolean = false,
     val tags: List<Chip> = emptyList()
 )

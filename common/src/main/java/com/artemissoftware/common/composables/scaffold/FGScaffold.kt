@@ -99,7 +99,7 @@ fun FGScaffold(
         var scaffoldModifier = modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 4.dp)
+
 
 
 
