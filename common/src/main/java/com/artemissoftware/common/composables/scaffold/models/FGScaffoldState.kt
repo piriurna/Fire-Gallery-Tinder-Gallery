@@ -1,6 +1,7 @@
 package com.artemissoftware.common.composables.scaffold.models
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.navigation.NavHostController
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
 import kotlinx.coroutines.CoroutineScope
@@ -36,8 +37,6 @@ class FGScaffoldState(
 //    val openConsumptions: Boolean get() = _openConsumptions.value
 //    val isShowingBottomBar: Boolean get() = _isShowingBottomBar.value
 //    val currentPositionBottomBar: Int get() = _currentPositionBottomBar.value
-
-
 
 
 
@@ -153,6 +152,10 @@ class FGScaffoldState(
     private val _modalVisible = mutableStateOf<DialogType?>(null)
     val modalVisible: DialogType? get() = _modalVisible.value
 
+
+    private val _currentPositionBottomBar = mutableStateOf(0)
+    val currentPositionBottomBar: Int get() = _currentPositionBottomBar.value
+
     fun showBottomBar(dialogType: DialogType) {
         _isShowingBottomBar.value = true
         _modalVisible.value = dialogType
@@ -164,5 +167,20 @@ class FGScaffoldState(
     }
 
 
+    fun changeCurrentPositionBottomBar(
+        position: Int,
+        navController: NavHostController?
+    ) {
+        _currentPositionBottomBar.value = position
+
+        when (position) {
+            MainActivity.MENU_HOME -> navController?.changeGraph(MainDestinations.Home.route)
+            MainActivity.MENU_ROUTE_PLANNER -> navController?.changeGraph(MainDestinations.RoutePlanner.route)
+            MainActivity.MENU_FAVORITES -> navController?.changeGraph(MainDestinations.Favorites.route)
+            MainActivity.MENU_HISTORY -> navController?.changeGraph(MainDestinations.History.route)
+            MainActivity.MENU_PROFILE -> navController?.changeGraph(MainDestinations.Profile.route)
+        }
+
+    }
 
 }

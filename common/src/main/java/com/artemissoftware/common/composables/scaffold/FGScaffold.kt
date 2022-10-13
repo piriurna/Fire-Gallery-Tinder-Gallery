@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -30,11 +29,9 @@ import com.artemissoftware.common.R
 import com.artemissoftware.common.composables.dialog.FGDialog
 import com.artemissoftware.common.composables.loading.FGLoading
 import com.artemissoftware.common.composables.navigation.FGBottomNavigationBar
+import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.common.composables.topbar.FGCollapsedState
 import com.artemissoftware.common.composables.topbar.FGTopBar
-import com.artemissoftware.common.composables.topbar.TopBar
-import com.artemissoftware.common.models.NavigationItem
 import kotlin.math.roundToInt
 
 @SuppressLint("UnrememberedMutableState")
@@ -63,7 +60,7 @@ fun FGScaffold(
     onNavigationClick: (() -> Unit)? = null,
     topBarOptionComposable: (@Composable BoxScope.() -> Unit)? = null,
     navController: NavHostController? = null,
-    bottomBarItems: List<NavigationItem> = emptyList(),
+    bottomBarItems: List<BottomBarItem> = emptyList(),
     content: @Composable (PaddingValues) -> Unit,
 ) {
 
@@ -144,9 +141,15 @@ fun FGScaffold(
 @Preview(showBackground = true)
 @Composable
 private fun FGScaffoldPreview() {
+
+    val list = listOf(
+        BottomBarItem("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create"),
+        BottomBarItem("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+    )
+
     FGScaffold(
         navController = rememberNavController(),
-        bottomBarItems = listOf(MockNavigationBar.Create, MockNavigationBar.Profile),
+        bottomBarItems = list,
         content = {
 
             Column(modifier = Modifier.fillMaxSize()) {
@@ -155,14 +158,4 @@ private fun FGScaffoldPreview() {
 
         }
     )
-}
-
-private sealed class MockNavigationBar(
-    title: String,
-    activeIcon: ImageVector,
-    inactiveIcon: ImageVector,
-    route: String,
-) : NavigationItem(title, activeIcon, inactiveIcon, route) {
-    object Create: MockNavigationBar("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create")
-    object Profile: MockNavigationBar("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
 }

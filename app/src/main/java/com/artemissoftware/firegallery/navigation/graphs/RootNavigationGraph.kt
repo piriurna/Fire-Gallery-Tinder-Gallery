@@ -6,11 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
-import com.artemissoftware.firegallery.navigation.graphs.deeplinkNavigationGraph
 import com.artemissoftware.firegallery.navigation.models.Graph
-import com.artemissoftware.firegallery.screens.HomeScreen
+import com.artemissoftware.firegallery.screens.home.HomeScreen
 import com.artemissoftware.firegallery.screens.SplashScreen
-import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 
 
 //@OptIn(ExperimentalAnimationApi::class)
@@ -108,7 +106,7 @@ fun RootNavigationGraph(
 }
 
 
-sealed class RootDestinations(val route: String) : BaseDestinations(route = route){
+sealed class RootDestinations(route: String) : BaseDestinations(route = route){
     object Home : RootDestinations(route = "HOME")
     object Splash : RootDestinations(route = "SPLASH")
 

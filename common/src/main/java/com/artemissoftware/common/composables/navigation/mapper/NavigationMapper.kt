@@ -2,15 +2,15 @@ package com.artemissoftware.common.composables.navigation.mapper
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
-import com.artemissoftware.common.composables.navigation.models.BottomBarItem_
+import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 
 fun BaseDestinations.toBottomBarItem(
     title: String,
     activeIcon: ImageVector,
     inactiveIcon: ImageVector
-): BottomBarItem_{
+): BottomBarItem{
 
-    return BottomBarItem_(
+    return BottomBarItem(
         route = this.route,
         title = title,
         activeIcon = activeIcon,

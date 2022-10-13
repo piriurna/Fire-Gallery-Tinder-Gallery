@@ -37,7 +37,7 @@ fun NavGraphBuilder.deeplinkNavigationGraph(
 
 
 sealed class DeepLinkDestinations(
-    val route: String,
+    route: String,
     customArguments: List<CustomArguments> = emptyList(),
     baseDeepLink: String = NavigationArguments.ARTEMIS_SOFTWARE_URI
 ) : BaseDestinations(route = route, customArguments = customArguments, baseDeepLink = baseDeepLink){

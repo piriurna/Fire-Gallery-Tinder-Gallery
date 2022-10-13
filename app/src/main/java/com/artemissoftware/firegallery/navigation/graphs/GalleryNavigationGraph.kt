@@ -81,11 +81,11 @@ fun NavGraphBuilder.galleryNavigationGraph(
 }
 
 sealed class GalleryDestinations(
-    val route: String,
+    route: String,
     customArguments: List<CustomArguments> = emptyList()
 ) : BaseDestinations(route = route, customArguments = customArguments){
 
-    object Pictures : GalleryDestinations(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType()  )))
+    object Pictures : GalleryDestinations(route = "PICTURES", listOf(CustomArguments(key = NavigationArguments.GALLERY_ID, type = GalleryUINavType())))
     object PictureDetail : GalleryDestinations(route = "PICTURE_DETAIL", listOf(CustomArguments(NavigationArguments.PICTURE_ID)))
 }
 

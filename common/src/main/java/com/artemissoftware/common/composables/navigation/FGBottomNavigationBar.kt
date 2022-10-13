@@ -15,22 +15,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.artemissoftware.common.models.NavigationItem
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import kotlin.math.roundToInt
+import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 
 @Composable
 fun FGBottomNavigationBar (
-    items: List<NavigationItem>,
+    items: List<BottomBarItem>,
     navController: NavHostController? = null,
     modifier: Modifier = Modifier,
 ) {
@@ -61,7 +57,7 @@ fun FGBottomNavigationBar (
 @Composable
 private fun FGNavigationBar (
     modifier: Modifier = Modifier,
-    items: List<NavigationItem>,
+    items: List<BottomBarItem>,
     navController: NavHostController,
     selectedScreen: MutableState<Int>
 ) {
@@ -114,7 +110,7 @@ private fun FGNavigationBar (
 
 private fun showBottomBar(
     currentDestination: NavDestination?,
-    items: List<NavigationItem>) = items.any { it.route == currentDestination?.route }
+    items: List<BottomBarItem>) = items.any { it.route == currentDestination?.route }
 
 
 @Preview(showBackground = false)
@@ -123,8 +119,13 @@ private fun FGNavigationBarPreview() {
 
     var selectedScreen = remember { mutableStateOf(0) }
 
+    val list = listOf(
+        BottomBarItem("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create"),
+        BottomBarItem("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+    )
+
     FGNavigationBar(
-        items = listOf(MockNavigationBar.Create, MockNavigationBar.Profile),
+        items = list,
         navController = rememberNavController(),
         selectedScreen = selectedScreen
     )
@@ -134,18 +135,13 @@ private fun FGNavigationBarPreview() {
 @Composable
 private fun FGBottomNavigationBarPreview() {
 
+    val list = listOf(
+        BottomBarItem("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create"),
+        BottomBarItem("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+    )
+
     FGBottomNavigationBar(
-        items = listOf(MockNavigationBar.Create, MockNavigationBar.Profile),
+        items = list,
         rememberNavController()
     )
-}
-
-private sealed class MockNavigationBar(
-    title: String,
-    activeIcon: ImageVector,
-    inactiveIcon: ImageVector,
-    route: String,
-) : NavigationItem(title, activeIcon, inactiveIcon, route) {
-    object Create: MockNavigationBar("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create")
-    object Profile: MockNavigationBar("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
 }

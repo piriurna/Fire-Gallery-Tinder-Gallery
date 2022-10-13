@@ -11,7 +11,6 @@ import com.artemissoftware.firegallery.navigation.graphs.galleryNavigationGraph
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.favorites.FavoritesScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
-import com.artemissoftware.firegallery.screens.home.models.BottomBarItem
 import com.artemissoftware.firegallery.screens.profile.ProfileScreen
 
 @Composable
@@ -22,18 +21,18 @@ fun HomeNavigationGraph(
     NavHost(
         navController = navController,
         route = Graph.HOME,
-        startDestination = BottomBarItem.Gallery.route
+        startDestination = HomeDestinations.Gallery.route
     ) {
 
-        composable(route = BottomBarItem.Gallery.route) {
+        composable(route = HomeDestinations.Gallery.route) {
             GalleryScreen(navController, scaffoldState = scaffoldState)
         }
 
-        composable(route = BottomBarItem.Favorites.route) {
+        composable(route = HomeDestinations.Favorites.route) {
             FavoritesScreen(navController = navController, scaffoldState = scaffoldState)
         }
 
-        composable(route = BottomBarItem.Profile.route) {
+        composable(route = HomeDestinations.Profile.route) {
             ProfileScreen(scaffoldState)
         }
 
@@ -44,9 +43,11 @@ fun HomeNavigationGraph(
 
 
 sealed class HomeDestinations(
-    val route: String,
+    route: String,
     customArguments: List<CustomArguments> = emptyList()
 ) : BaseDestinations(route = route, customArguments = customArguments){
 
+    object Gallery : HomeDestinations(route = "GALLERY")
     object Favorites : HomeDestinations(route = "FAVORITES")
+    object Profile : HomeDestinations(route = "PROFILE")
 }
