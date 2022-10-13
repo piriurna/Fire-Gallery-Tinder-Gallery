@@ -56,11 +56,15 @@ class GalleryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPictureDetail(pictureId: String): Picture {
+    override suspend fun getPictureDetail(pictureId: String): Picture? {
 
-        return cloudStoreSource.getDocumentItems(FireStoreCollection.PICTURES, FireStoreDocumentField.ID, pictureId as Object).map { document ->
+        return cloudStoreSource.getDocumentItems(
+            collectionName = FireStoreCollection.PICTURES,
+            documentField = FireStoreDocumentField.ID,
+            id = pictureId as Object
+        ).map { document ->
             document.toObject<PictureFso>()!!.toPicture()
-        }.first()
+        }.firstOrNull()
     }
 
 

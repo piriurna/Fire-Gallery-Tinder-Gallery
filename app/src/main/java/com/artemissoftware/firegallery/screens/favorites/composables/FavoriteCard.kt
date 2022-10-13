@@ -50,9 +50,7 @@ private fun FavoriteContent(
     painter: AsyncImagePainter,
     onClick: (String) -> Unit,
 ) {
-    val isFavorite = remember {
-        mutableStateOf(false)
-    }
+
     Box {
 
         Image(

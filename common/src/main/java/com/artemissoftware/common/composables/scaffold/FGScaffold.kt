@@ -119,7 +119,6 @@ fun FGScaffold(
                 )
 
             },
-//            snackbarHost = { state -> MySnackHost(state) },
             content = content
         )
 

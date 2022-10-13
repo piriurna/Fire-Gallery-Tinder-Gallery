@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,12 +25,17 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.artemissoftware.common.composables.animations.models.PulsatingType
+import com.artemissoftware.common.composables.dialog.models.DialogOptions
+import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.scaffold.FGBottomSheetScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Picture
+import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.picturedetail.composables.FavoriteButton
 import com.artemissoftware.firegallery.screens.picturedetail.composables.PictureInformation
 import com.artemissoftware.firegallery.screens.picturedetail.mappers.toUI
+import com.artemissoftware.firegallery.ui.UIEvent
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -40,6 +47,34 @@ fun PictureDetailScreen(
 
     val state = viewModel.state.value
     val isFavorite = viewModel.isFavorite
+
+    //TODO: Resolver isto
+    val ll = stringResource(R.string.accept)
+
+    LaunchedEffect(key1 = true) {
+
+        viewModel.eventFlow.collectLatest { event ->
+            when(event) {
+                is UIEvent.ShowInfoDialog -> {
+
+                    val dialogType = DialogType.Info(
+                        title = event.title,
+                        description = event.message,
+                        dialogOptions = DialogOptions(
+                            confirmationText = ll,
+                            confirmation = { navController.popBackStack() }
+                        )
+                    )
+
+                    scaffoldState.showBottomBar(dialogType)
+
+                }
+                else ->{}
+            }
+
+        }
+    }
+
 
     BuildPictureDetailScreen(
         state = state,

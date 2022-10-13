@@ -7,9 +7,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPictureDetailUseCase
+import com.artemissoftware.domain.usecases.GetPicturesUseCase
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
+import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -74,7 +76,14 @@ class PictureDetailViewModel @Inject constructor(
                     }
 
                 }
+                is Resource.Error -> {
 
+                    _state.value = state.value.copy(
+                        isLoading = false
+                    )
+
+                    result.message?.let { showDialog(it) }
+                }
                 is Resource.Loading -> {
                     _state.value = _state.value.copy(
                         isLoading = true
@@ -86,4 +95,21 @@ class PictureDetailViewModel @Inject constructor(
 
         }.launchIn(viewModelScope)
     }
+
+    private suspend fun showDialog(message: String){
+
+        when(message){
+
+            GetPictureDetailUseCase.PICTURE_UNAVAILABLE ->{
+
+                _eventFlow.emit(
+                    UIEvent.ShowInfoDialog(
+                        title = "Picture",
+                        message = GetPictureDetailUseCase.PICTURE_UNAVAILABLE
+                    )
+                )
+            }
+        }
+    }
+
 }

@@ -13,10 +13,6 @@ import com.artemissoftware.firegallery.screens.SplashScreen
 import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailScreen
 
 
-const val MY_ARG = "message"
-const val MY_LOLO = "lolo"
-
-
 //@OptIn(ExperimentalAnimationApi::class)
 //@Composable
 //fun RootNavigationGraph(

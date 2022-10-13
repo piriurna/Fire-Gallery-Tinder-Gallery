@@ -8,7 +8,7 @@ import androidx.navigation.navDeepLink
 import com.google.gson.Gson
 
 abstract class BaseDestinations(
-    private val route: String,
+    val route: String,
     private val baseDeepLink: String? = null,
     private val customArguments: List<CustomArguments> = emptyList()
 ) {

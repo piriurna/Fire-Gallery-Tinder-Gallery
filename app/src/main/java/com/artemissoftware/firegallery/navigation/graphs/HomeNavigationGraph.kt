@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.graphs.galleryNavigationGraph
 import com.artemissoftware.firegallery.navigation.models.Graph
@@ -38,4 +40,13 @@ fun HomeNavigationGraph(
         galleryNavigationGraph(navController = navController, scaffoldState = scaffoldState)
 
     }
+}
+
+
+sealed class HomeDestinations(
+    val route: String,
+    customArguments: List<CustomArguments> = emptyList()
+) : BaseDestinations(route = route, customArguments = customArguments){
+
+    object Favorites : HomeDestinations(route = "FAVORITES")
 }

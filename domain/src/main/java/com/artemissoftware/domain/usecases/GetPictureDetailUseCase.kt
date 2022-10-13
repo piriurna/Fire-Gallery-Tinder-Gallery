@@ -22,11 +22,26 @@ class GetPictureDetailUseCase @Inject constructor(
         emit(Resource.Loading())
         delay(500)
 
-        val profile = dataStoreRepository.getProfile().first()
-        val picture = galleryRepository.getPictureDetail(pictureId = pictureId)
-        picture.isFavorite = profile.favorites.contains(picture.id)
-        picture.chipColorConfig = remoteConfigRepository.getSeasonConfigs().chipColor
-        emit(Resource.Success(data = picture))
+        if(pictureId.isEmpty()){
+            emit(Resource.Error(message = PICTURE_UNAVAILABLE))
+        }
+        else {
+
+            val profile = dataStoreRepository.getProfile().first()
+            val picture = galleryRepository.getPictureDetail(pictureId = pictureId)
+
+            picture?.let {
+                it.isFavorite = profile.favorites.contains(it.id)
+                it.chipColorConfig = remoteConfigRepository.getSeasonConfigs().chipColor
+                emit(Resource.Success(data = it))
+            } ?: kotlin.run {
+                emit(Resource.Error(message = PICTURE_UNAVAILABLE))
+            }
+
+        }
     }
 
+    companion object{
+        const val PICTURE_UNAVAILABLE = "Picture unavailable"
+    }
 }

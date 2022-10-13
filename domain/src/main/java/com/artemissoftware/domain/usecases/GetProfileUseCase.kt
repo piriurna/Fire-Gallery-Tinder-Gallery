@@ -21,7 +21,7 @@ class GetProfileUseCase @Inject constructor(
 
         val profile = dataStoreRepository.getProfile().first()
 
-        val lolo = remoteConfigRepository.getSeasonConfigs()
+        val lolo = remoteConfigRepository.getSeasonConfigs() //TODO: isto ainda serve para alguma coisa
         val kk = lolo.toString() + ""
         emit(Resource.Success(data = profile))
     }
