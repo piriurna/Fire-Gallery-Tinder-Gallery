@@ -45,20 +45,38 @@ class GalleryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFavoritePictures(pictureIds: List<String>): List<Picture> {
+    override suspend fun getFavoritePictures(pictureIds: List<String>): FirebaseResponse<List<Picture>> {
 
-        return cloudStoreSource.getDocumentItems(
-            FireStoreCollection.PICTURES,
-            FireStoreDocumentField.ID,
-            pictureIds
-        ).map { document ->
-            document.toObject<PictureFso>()!!.toPicture()
+        return try {
+
+            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso>{
+                cloudStoreSource.getDocumentItems(
+                    collectionName = FireStoreCollection.PICTURES,
+                    documentField = FireStoreDocumentField.ID,
+                    id = pictureIds
+                )
+            }
+
+            return FirebaseResponse(data = response.map { document ->
+                document.toObject<PictureFso>()!!.toPicture()
+            })
+
         }
+        catch (ee: IllegalArgumentException){
+            FirebaseResponse(error = ee.toFirebaseError())
+        }
+        catch (ex: FireGalleryException) {
+            FirebaseResponse(error = ex.toFirebaseError())
+        }
+
     }
 
     override suspend fun getPictureDetail(pictureId: String): Picture? {
 
-        return cloudStoreSource.getDocumentItems(
+
+
+
+            return cloudStoreSource.getDocumentItems(
             collectionName = FireStoreCollection.PICTURES,
             documentField = FireStoreDocumentField.ID,
             id = pictureId as Object

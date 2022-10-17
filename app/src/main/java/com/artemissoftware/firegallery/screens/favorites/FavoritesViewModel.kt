@@ -12,14 +12,16 @@ import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     private val getFavoritePicturesUseCase: GetFavoritePicturesUseCase,
-    private val updateFavoriteUseCase: UpdateFavoriteUseCase
+    private val updateFavoriteUseCase: UpdateFavoriteUseCase,
 ): FGBaseEventViewModel<FavoriteEvents>() {
 
     private val _state: MutableState<PictureState> = mutableStateOf(PictureState())
@@ -41,52 +43,45 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
+
     private fun remove(pictureId: String) {
-        updateFavoriteUseCase.invoke(pictureId = pictureId, isFavorite = false).onEach { result ->
-
-            val favorites = _state.value.pictures.toMutableList()
-            favorites.removeIf { it.id == pictureId }
-
-            _state.value = _state.value.copy(
-                pictures = favorites,
-                isLoading = false
-            )
-
-        }.launchIn(viewModelScope)
+        updateFavoriteUseCase.invoke(pictureId = pictureId, isFavorite = false)
+            .onEach {}
+            .launchIn(viewModelScope)
     }
 
 
     private fun getFavorites(){
 
-        getFavoritePicturesUseCase.invoke().onEach { result ->
+        viewModelScope.launch {
 
-            when(result) {
-                is Resource.Success -> {
+            _state.value = _state.value.copy(
+                isLoading = true
+            )
 
-                    _state.value = _state.value.copy(
-                        pictures = result.data ?: emptyList(),
-                        isLoading = false
-                    )
-                }
-                is Resource.Error -> {
+            getFavoritePicturesUseCase.invoke().collectLatest { result ->
 
-                    _state.value = state.value.copy(
-                        pictures = result.data ?: emptyList(),
-                        isLoading = false
-                    )
+                when(result) {
+                    is Resource.Success -> {
 
-                    result.message?.let { showDialog(it) }
-                }
-                is Resource.Loading -> {
-                    _state.value = _state.value.copy(
-                        //pictures = result.data ?: emptyList(),
-                        isLoading = true
-                    )
+                        _state.value = _state.value.copy(
+                            pictures = result.data ?: emptyList(),
+                            isLoading = false
+                        )
+                    }
+                    is Resource.Error -> {
+
+                        _state.value = state.value.copy(
+                            pictures = result.data ?: emptyList(),
+                            isLoading = false
+                        )
+
+                        result.message?.let { showDialog(it) }
+                    }
+                    else->{}
                 }
             }
-
-        }.launchIn(viewModelScope)
-
+        }
     }
 
 

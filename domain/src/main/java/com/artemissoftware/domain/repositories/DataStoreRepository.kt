@@ -11,4 +11,5 @@ interface DataStoreRepository {
     suspend fun updateFirebaseToken(firebaseToken : String)
 
     suspend fun getProfile(): Flow<Profile>
+    fun getProfile_(): Flow<Profile>
 }

@@ -8,3 +8,8 @@ fun FireGalleryException.toFirebaseError() = FirebaseError(
     code =  "${this.code} ${this.message}",
     message = this.description ?: ""
 )
+
+fun IllegalArgumentException.toFirebaseError() = FirebaseError(
+    code =  "${this.message}",
+    message = this.cause?.message ?: ""
+)
