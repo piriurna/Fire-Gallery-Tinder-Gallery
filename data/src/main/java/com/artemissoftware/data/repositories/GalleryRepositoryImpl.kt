@@ -72,11 +72,7 @@ class GalleryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPictureDetail(pictureId: String): Picture? {
-
-
-
-
-            return cloudStoreSource.getDocumentItems(
+        return cloudStoreSource.getDocumentItems(
             collectionName = FireStoreCollection.PICTURES,
             documentField = FireStoreDocumentField.ID,
             id = pictureId as Object

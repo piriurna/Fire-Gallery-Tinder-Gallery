@@ -11,7 +11,7 @@ class GetFavoritePicturesUseCase @Inject constructor(
     private val dataStoreRepository: DataStoreRepository
 ) {
 
-    operator fun invoke() = dataStoreRepository.getProfile_().map { preferences ->
+    operator fun invoke() = dataStoreRepository.getProfile().map { preferences ->
 
         val result = galleryRepository.getFavoritePictures(preferences.favorites)
 

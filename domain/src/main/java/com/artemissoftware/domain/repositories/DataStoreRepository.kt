@@ -10,6 +10,5 @@ interface DataStoreRepository {
     suspend fun updateFavorite(pictureId : String, isFavorite: Boolean)
     suspend fun updateFirebaseToken(firebaseToken : String)
 
-    suspend fun getProfile(): Flow<Profile>
-    fun getProfile_(): Flow<Profile>
+    fun getProfile(): Flow<Profile>
 }

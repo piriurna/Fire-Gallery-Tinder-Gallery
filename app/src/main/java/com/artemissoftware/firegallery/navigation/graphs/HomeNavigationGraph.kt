@@ -33,7 +33,7 @@ fun HomeNavigationGraph(
         }
 
         composable(route = HomeDestinations.Profile.route) {
-            ProfileScreen(scaffoldState)
+            ProfileScreen(navController = navController, scaffoldState)
         }
 
         galleryNavigationGraph(navController = navController, scaffoldState = scaffoldState)

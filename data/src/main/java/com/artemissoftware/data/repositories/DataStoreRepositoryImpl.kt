@@ -43,11 +43,7 @@ class DataStoreRepositoryImpl(private val context: Context) : DataStoreRepositor
     }
 
 
-    override suspend fun getProfile(): Flow<Profile> {
-        return context.profileStore.data
-    }
-
-    override fun getProfile_(): Flow<Profile> {
+    override fun getProfile(): Flow<Profile> {
         return context.profileStore.data
     }
 }

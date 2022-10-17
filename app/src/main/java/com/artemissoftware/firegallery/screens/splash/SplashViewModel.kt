@@ -1,16 +1,7 @@
 package com.artemissoftware.firegallery.screens.splash
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.models.profile.Profile
-import com.artemissoftware.domain.usecases.GetProfileUseCase
-import com.artemissoftware.domain.usecases.UpdateProfileUseCase
 import com.artemissoftware.domain.usecases.setup.SetupAppUseCase
-import com.artemissoftware.firegallery.screens.profile.ProfileEvents
-import com.artemissoftware.firegallery.screens.profile.ProfileState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

@@ -1,8 +1,5 @@
 package com.artemissoftware.firegallery.screens.favorites
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase
@@ -12,9 +9,7 @@ import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,8 +19,8 @@ class FavoritesViewModel @Inject constructor(
     private val updateFavoriteUseCase: UpdateFavoriteUseCase,
 ): FGBaseEventViewModel<FavoriteEvents>() {
 
-    private val _state: MutableState<PictureState> = mutableStateOf(PictureState())
-    val state: State<PictureState> = _state
+    private val _state = MutableStateFlow(PictureState())
+    val state: StateFlow<PictureState> = _state
 
     init {
         onTriggerEvent(FavoriteEvents.GetFavorites)

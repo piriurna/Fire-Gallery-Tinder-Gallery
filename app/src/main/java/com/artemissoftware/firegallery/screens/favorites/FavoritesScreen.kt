@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +34,7 @@ fun FavoritesScreen(
 ){
 
     val viewModel: FavoritesViewModel = hiltViewModel()
-    val state = viewModel.state.value
+    val state = viewModel.state.collectAsState().value
 
     //TODO: Resolver isto
     val ll = stringResource(R.string.accept)

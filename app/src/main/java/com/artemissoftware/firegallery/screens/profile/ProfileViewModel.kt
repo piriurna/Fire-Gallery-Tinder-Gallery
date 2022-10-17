@@ -1,21 +1,16 @@
 package com.artemissoftware.firegallery.screens.profile
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.profile.Profile
-import com.artemissoftware.domain.usecases.GetGalleriesUseCase
-import com.artemissoftware.domain.usecases.GetProfileUseCase
-import com.artemissoftware.domain.usecases.UpdateProfileUseCase
-import com.artemissoftware.firegallery.screens.gallery.GalleryEvents
-import com.artemissoftware.firegallery.screens.pictures.PictureState
-import com.artemissoftware.firegallery.screens.profile.ProfileEvents.*
+import com.artemissoftware.domain.usecases.profile.GetProfileUseCase
+import com.artemissoftware.domain.usecases.profile.UpdateProfileUseCase
+import com.artemissoftware.firegallery.screens.profile.ProfileEvents.GetProfile
+import com.artemissoftware.firegallery.screens.profile.ProfileEvents.UpdateProfile
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,8 +19,10 @@ class ProfileViewModel @Inject constructor(
     private val updateProfileUseCase: UpdateProfileUseCase
 ): FGBaseEventViewModel<ProfileEvents>() {
 
-    private val _state: MutableState<ProfileState> = mutableStateOf(ProfileState())
-    val state: State<ProfileState> = _state
+
+    private val _state = MutableStateFlow(ProfileState())
+    val state: StateFlow<ProfileState> = _state
+
 
     init {
         getGetProfile()
@@ -45,27 +42,20 @@ class ProfileViewModel @Inject constructor(
 
     private fun getGetProfile(){
 
-        getProfileUseCase.invoke().onEach { result ->
+        viewModelScope.launch {
 
-            when(result) {
-                is Resource.Success -> {
+            _state.value = _state.value.copy(
+                isLoading = true
+            )
 
-                    _state.value = _state.value.copy(
-                        profile = result.data ?: Profile(),
-                        isLoading = false
-                    )
-                }
-                is Resource.Loading -> {
-                    _state.value = _state.value.copy(
-                        isLoading = true
-                    )
-                }
-                else ->{}
+            getProfileUseCase.invoke().collectLatest { result ->
+
+                _state.value = _state.value.copy(
+                    profile = result,
+                    isLoading = false
+                )
             }
-
-        }.launchIn(viewModelScope)
-
-
+        }
     }
 
 

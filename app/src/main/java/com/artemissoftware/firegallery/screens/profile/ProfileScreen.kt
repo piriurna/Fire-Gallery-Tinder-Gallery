@@ -14,12 +14,15 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
@@ -27,16 +30,21 @@ import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold28
 import com.artemissoftware.common.theme.InfoBlue
 import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
 
 
 @Composable
-fun ProfileScreen(scaffoldState: FGScaffoldState) {
+fun ProfileScreen(
+    navController: NavHostController,
+    scaffoldState: FGScaffoldState
+) {
 
     val viewModel: ProfileViewModel = hiltViewModel()
-    val state = viewModel.state.value
+    val state = viewModel.state.collectAsState().value
 
     BuildProfileScreen(
+        navController = navController,
         scaffoldState = scaffoldState,
         state = state,
         events = viewModel::onTriggerEvent
@@ -45,6 +53,7 @@ fun ProfileScreen(scaffoldState: FGScaffoldState) {
 
 @Composable
 private fun BuildProfileScreen(
+    navController: NavHostController,
     scaffoldState: FGScaffoldState? = null,
     state: ProfileState,
     events: ((ProfileEvents) -> Unit)? = null,
@@ -114,7 +123,7 @@ private fun BuildProfileScreen(
                         description = stringResource(R.string.number_favorite_pictures),
                         onClick = {
 
-                            //TODO: Navigate to favorites tab
+                            scaffoldState?.changeCurrentPositionBottomBar(destination = HomeDestinations.Favorites, navController)
                         }
 
                     )
@@ -131,5 +140,5 @@ private fun BuildProfileScreen(
 @Composable
 private fun BuildProfileScreenPreview() {
 
-    BuildProfileScreen(state = ProfileState(profile = Profile.mockProfile))
+    BuildProfileScreen(state = ProfileState(profile = Profile.mockProfile), navController = rememberNavController())
 }
