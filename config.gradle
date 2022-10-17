@@ -69,6 +69,7 @@ ext.libraries = [
         compose                   : "androidx.compose.ui:ui:$versions.compose",
         composeMaterial           : "androidx.compose.material:material:$versions.compose",
         composeUiTooling          : "androidx.compose.ui:ui-tooling:$versions.compose",
+        composeMaterialIconsExtended : "androidx.compose.material:material-icons-extended:$versions.compose",
 
         coilCompose               : "io.coil-kt:coil-compose:$versions.coil",
 

@@ -41,6 +41,7 @@ dependencies {
     implementation rootProject.libraries.compose
     implementation rootProject.libraries.composeMaterial
     implementation rootProject.libraries.composeUiTooling
+    api rootProject.libraries.composeMaterialIconsExtended
 
 //    implementation "androidx.compose.ui:ui:1.1.1"
 //    implementation "androidx.compose.material:material:1.1.1"
