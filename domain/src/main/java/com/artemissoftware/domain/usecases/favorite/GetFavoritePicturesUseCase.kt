@@ -25,6 +25,7 @@ class GetFavoritePicturesUseCase @Inject constructor(
         }
         else {
             val pictures = galleryRepository.getFavoritePictures(favorites)
+            pictures.forEach { it.isFavorite = true }
 
             if (pictures.isEmpty()) {
                 emit(Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE, data = pictures))

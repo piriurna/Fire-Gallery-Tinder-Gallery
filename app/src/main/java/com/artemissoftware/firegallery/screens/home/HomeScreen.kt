@@ -1,7 +1,11 @@
 package com.artemissoftware.firegallery.screens.home
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +27,7 @@ fun HomeScreen(
 
     FGScaffold(
         fgScaffoldState = scaffoldState,
-        bottomBarItems = getBottomBarItems(),
+        bottomBarItems = getBottomBarItems(scaffoldState = scaffoldState),
         navController = navController
     ) {
         HomeNavigationGraph(navController = navController, scaffoldState = scaffoldState)
@@ -32,25 +36,50 @@ fun HomeScreen(
 }
 
 
-private fun getBottomBarItems() : List<BottomBarItem>{
+private fun getBottomBarItems(scaffoldState: FGScaffoldState) : List<BottomBarItem>{
 
-    return listOf(
-        HomeDestinations.Gallery.toBottomBarItem(
-            title = "Gallery",
-            activeIcon = Icons.Default.Place,
-            inactiveIcon = Icons.Outlined.Place
-        ),
-//        HomeDestinations.Favorites.toBottomBarItem(
-//            title = "Favorites",
-//            activeIcon = Icons.Default.Favorite,
-//            inactiveIcon = Icons.Outlined.Favorite
-//        ),
-//        HomeDestinations.Profile.toBottomBarItem(
-//            title = "Profile",
-//            activeIcon = Icons.Default.Person,
-//            inactiveIcon = Icons.Outlined.Person
-//        )
+    val items = listOf(
+        HomeDestinations.Gallery, HomeDestinations.Favorites, HomeDestinations.Profile
     )
+
+    val bottomBarItems = mutableListOf<BottomBarItem>()
+
+    items.forEach {
+
+        when(it){
+
+            HomeDestinations.Gallery->{
+                bottomBarItems.add(
+                    HomeDestinations.Gallery.toBottomBarItem(
+                        title = "Gallery",
+                        activeIcon = Icons.Default.Place,
+                        inactiveIcon = Icons.Outlined.Place
+                    )
+                )
+            }
+            HomeDestinations.Favorites->{
+                bottomBarItems.add(
+                    HomeDestinations.Favorites.toBottomBarItem(
+                        title = "Favorites",
+                        activeIcon = Icons.Default.Favorite,
+                        inactiveIcon = Icons.Outlined.Favorite
+                    )
+                )
+            }
+            HomeDestinations.Profile->{
+                bottomBarItems.add(
+                    HomeDestinations.Profile.toBottomBarItem(
+                        title = "Profile",
+                        activeIcon = Icons.Default.Person,
+                        inactiveIcon = Icons.Outlined.Person
+                    )
+                )
+            }
+            else -> {}
+        }
+    }
+
+    return bottomBarItems
 }
 
 @Preview(showBackground = true)

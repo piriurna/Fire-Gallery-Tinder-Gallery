@@ -11,7 +11,7 @@ java {
 
 dependencies {
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
+    implementation rootProject.libraries.kotlinxCoroutinesCore
 
     implementation rootProject.libraries.dagger
 }

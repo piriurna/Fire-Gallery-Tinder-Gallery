@@ -1,6 +1,7 @@
 package com.artemissoftware.firegallery.screens.favorites.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,26 +28,32 @@ import com.artemissoftware.firegallery.screens.picturedetail.composables.Favorit
 fun FavoriteCard(
     picture: Picture,
     onFavoriteClick: (String) -> Unit,
+    onClick: (String) -> Unit,
 ) {
 
-    FGCard {
+    FGCard(
+        onClick =  { onClick(picture.id) }
+    ) {
 
         val painter = rememberAsyncImagePainter(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(picture.imageUrl)
                 .size(Size.ORIGINAL)
-                .placeholder(R.drawable.ic_launcher_background)
                 .crossfade(500)
                 .build()
         )
 
-        FavoriteContent(pictureId = picture.id, painter = painter, onClick = onFavoriteClick)
+        FavoriteContent(
+            picture = picture,
+            painter = painter,
+            onClick = onFavoriteClick
+        )
     }
 }
 
 @Composable
 private fun FavoriteContent(
-    pictureId: String,
+    picture: Picture,
     painter: AsyncImagePainter,
     onClick: (String) -> Unit,
 ) {
@@ -66,12 +73,12 @@ private fun FavoriteContent(
                 .align(Alignment.TopEnd)
                 .padding(16.dp),
             onClickToFavorite = {
-                onClick.invoke(pictureId)
+                onClick.invoke(picture.id)
             },
             onClickToRemoverFavorite = {
-                onClick.invoke(pictureId)
+                onClick.invoke(picture.id)
             },
-            isFavorite = true,
+            isFavorite = picture.isFavorite,
         )
 
     }
@@ -84,7 +91,8 @@ private fun FavoriteContent(
 private fun FavoriteCardPreview() {
     FavoriteCard(
         picture = Picture.picturesMockList[0],
-        onFavoriteClick = {}
+        onFavoriteClick = {},
+        onClick = {}
     )
 }
 
@@ -102,5 +110,5 @@ private fun FavoriteContentPreview() {
     )
 
 
-    FavoriteContent(pictureId = "1", painter = painter, {})
+    FavoriteContent(picture = Picture.picturesMockList[0], painter = painter, {})
 }

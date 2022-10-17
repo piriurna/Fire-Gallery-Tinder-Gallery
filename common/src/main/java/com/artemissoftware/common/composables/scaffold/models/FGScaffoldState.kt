@@ -3,7 +3,9 @@ package com.artemissoftware.common.composables.scaffold.models
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavHostController
 import com.artemissoftware.common.composables.dialog.models.DialogType
+import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
+import com.artemissoftware.common.extensions.changeGraph
 import kotlinx.coroutines.CoroutineScope
 
 class FGScaffoldState(
@@ -146,8 +148,7 @@ class FGScaffoldState(
 
     ///---------
 
-    private val _isShowingBottomBar = mutableStateOf(false)
-    val isShowingBottomBar: Boolean get() = _isShowingBottomBar.value
+    private val bottomBarItems = mutableListOf<BaseDestinations>()
 
     private val _modalVisible = mutableStateOf<DialogType?>(null)
     val modalVisible: DialogType? get() = _modalVisible.value
@@ -156,31 +157,37 @@ class FGScaffoldState(
     private val _currentPositionBottomBar = mutableStateOf(0)
     val currentPositionBottomBar: Int get() = _currentPositionBottomBar.value
 
-    fun showBottomBar(dialogType: DialogType) {
-        _isShowingBottomBar.value = true
+    fun showDialog(dialogType: DialogType) {
         _modalVisible.value = dialogType
     }
 
-    fun hideBottomBar() {
-        _isShowingBottomBar.value = false
+    fun closeDialog() {
         _modalVisible.value = null
     }
 
-
-    fun changeCurrentPositionBottomBar(
+    fun changeCurrentPositionBottomBar_(
         position: Int,
+        destination: String,
         navController: NavHostController?
     ) {
         _currentPositionBottomBar.value = position
+        navController?.changeGraph(destination)
 
-        when (position) {
-            MainActivity.MENU_HOME -> navController?.changeGraph(MainDestinations.Home.route)
-            MainActivity.MENU_ROUTE_PLANNER -> navController?.changeGraph(MainDestinations.RoutePlanner.route)
-            MainActivity.MENU_FAVORITES -> navController?.changeGraph(MainDestinations.Favorites.route)
-            MainActivity.MENU_HISTORY -> navController?.changeGraph(MainDestinations.History.route)
-            MainActivity.MENU_PROFILE -> navController?.changeGraph(MainDestinations.Profile.route)
+    }
+
+    fun changeCurrentPositionBottomBar(
+        destination: BaseDestinations,
+        navController: NavHostController?
+    ) {
+        if(bottomBarItems.isNotEmpty()) {
+
+            _currentPositionBottomBar.value = bottomBarItems.indexOfFirst { it == destination }
+            navController?.changeGraph(destination.route)
         }
+    }
 
+    fun setBottomBarDestinations(items: List<BaseDestinations>) {
+        bottomBarItems.addAll(items)
     }
 
 }

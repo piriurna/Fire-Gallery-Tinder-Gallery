@@ -200,7 +200,7 @@ private fun FGDialogOptions(
             TextButton(
                 onClick = {
                     dialogOptions.cancel()
-                    fgScaffoldState.hideBottomBar()
+                    fgScaffoldState.closeDialog()
                 }
             ) {
 
@@ -217,7 +217,7 @@ private fun FGDialogOptions(
             modifier = confirmModifier,
             onClick = {
                 dialogOptions.confirmation()
-                fgScaffoldState.hideBottomBar()
+                fgScaffoldState.closeDialog()
             }
         ) {
             FGText(

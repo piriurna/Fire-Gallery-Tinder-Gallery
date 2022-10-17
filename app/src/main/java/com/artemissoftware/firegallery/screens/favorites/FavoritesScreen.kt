@@ -19,8 +19,9 @@ import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
+import com.artemissoftware.firegallery.navigation.HomeDestinations
+import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.screens.favorites.composables.FavoriteCard
-import com.artemissoftware.firegallery.screens.picturedetail.PictureDetailEvents
 import com.artemissoftware.firegallery.screens.pictures.PictureState
 import com.artemissoftware.firegallery.ui.UIEvent
 import kotlinx.coroutines.flow.collectLatest
@@ -49,14 +50,13 @@ fun FavoritesScreen(
                         dialogOptions = DialogOptions(
                             confirmationText = ll,
                             confirmation = {
-                                //TODO: ir para a galeria tab
                                 //TODO: só aparece uma vez, por ser eventflow.resolver
-                                //navController.popBackStack()
+                                scaffoldState.changeCurrentPositionBottomBar(destination = HomeDestinations.Gallery, navController)
                             }
                         )
                     )
 
-                    scaffoldState.showBottomBar(dialogType)
+                    scaffoldState.showDialog(dialogType)
                 }
                 else ->{}
             }
@@ -91,6 +91,9 @@ private fun BuildFavoritesScreen(
                         picture = picture,
                         onFavoriteClick = { pictureId ->
                             events?.invoke(FavoriteEvents.Remove(pictureId))
+                        },
+                        onClick = { pictureId->
+                            navController.navigate(GalleryDestinations.PictureDetail.withArgs(pictureId))
                         }
                     )
 

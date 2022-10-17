@@ -11,24 +11,28 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 
 @Composable
 fun FGBottomNavigationBar (
     items: List<BottomBarItem>,
     navController: NavHostController? = null,
     modifier: Modifier = Modifier,
+    fgScaffoldState: FGScaffoldState? = null,
 ) {
 
     navController?.let {
@@ -37,7 +41,6 @@ fun FGBottomNavigationBar (
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
 
-            var selectedScreen = remember { mutableStateOf(0) }
 
             if (showBottomBar(currentDestination, items = items)) {
 
@@ -45,7 +48,20 @@ fun FGBottomNavigationBar (
                     modifier = modifier,
                     items = items,
                     navController = navController,
-                    selectedScreen = selectedScreen
+                    selectedScreen = fgScaffoldState?.currentPositionBottomBar ?: 0,
+                    onClick = { item->
+
+                        fgScaffoldState?.changeCurrentPositionBottomBar_(
+                            position = items.indexOf(item),
+                            destination = item.route,
+                            navController = navController
+                        )
+//                        navController.navigate(item.route) {
+//
+//                            popUpTo(navController.graph.findStartDestination().id)
+//                            launchSingleTop = true
+//                        }
+                    }
                 )
 
             }
@@ -59,7 +75,9 @@ private fun FGNavigationBar (
     modifier: Modifier = Modifier,
     items: List<BottomBarItem>,
     navController: NavHostController,
-    selectedScreen: MutableState<Int>
+    selectedScreen: Int,
+    //selectedScreen: MutableState<Int>,
+    onClick: (BottomBarItem) -> Unit
 ) {
 
     Box(
@@ -76,7 +94,7 @@ private fun FGNavigationBar (
         ) {
 
             for (item in items) {
-                val isSelected = item == items[selectedScreen.value]
+                val isSelected = item == items[selectedScreen/*.value*/]
                 val animatedWeight by animateFloatAsState(targetValue = if (isSelected) 1.5f else 1f)
 
                 Box(
@@ -87,16 +105,9 @@ private fun FGNavigationBar (
                     FGBottomNavigationItem(
                         modifier = Modifier.clickable(
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) {
-                            selectedScreen.value = items.indexOf(item)
-
-                            navController.navigate(item.route) {
-
-                                popUpTo(navController.graph.findStartDestination().id)
-                                launchSingleTop = true
-                            }
-                        },
+                            indication = null,
+                            onClick = { onClick.invoke(item) }
+                        ),
                         item = item,
                         isSelected = isSelected
                     )
@@ -127,7 +138,8 @@ private fun FGNavigationBarPreview() {
     FGNavigationBar(
         items = list,
         navController = rememberNavController(),
-        selectedScreen = selectedScreen
+        selectedScreen = /*selectedScreen*/0,
+        onClick = {}
     )
 }
 
@@ -142,6 +154,6 @@ private fun FGBottomNavigationBarPreview() {
 
     FGBottomNavigationBar(
         items = list,
-        rememberNavController()
+        rememberNavController(),
     )
 }

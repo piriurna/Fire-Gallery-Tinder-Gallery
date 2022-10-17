@@ -70,8 +70,6 @@ fun FGScaffold(
     }
     val bottomBarOffsetHeightPx = remember { mutableStateOf(0f) }
 
-
-
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
@@ -98,9 +96,6 @@ fun FGScaffold(
             .background(Color.White)
 
 
-
-
-
         Scaffold(
             modifier = scaffoldModifier,
             bottomBar = {
@@ -112,7 +107,8 @@ fun FGScaffold(
                             IntOffset(x = 0, y = -bottomBarOffsetHeightPx.value.roundToInt())
                         },
                     items = bottomBarItems,
-                    navController = navController
+                    navController = navController,
+                    fgScaffoldState = fgScaffoldState
                 )
 
             },

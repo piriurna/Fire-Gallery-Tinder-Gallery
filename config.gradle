@@ -24,6 +24,7 @@ ext.versions = [
         dagger                      : '2.43.1',
         lottie                      : '5.2.0',
         kotlinxSerializationJson    : '1.3.2',
+        kotlinxCoroutinesCore       : '1.5.1',
         datastore                   : '1.0.0',
         accompanistNavigationAnimation : '0.21.1-beta',
         navigationCompose           : '2.5.1'
@@ -88,6 +89,7 @@ ext.libraries = [
         lottie                    :"com.airbnb.android:lottie-compose:$versions.lottie",
 
         kotlinxSerializationJson        :"org.jetbrains.kotlinx:kotlinx-serialization-json:$versions.kotlinxSerializationJson",
+        kotlinxCoroutinesCore           :"org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.kotlinxCoroutinesCore",
         datastore                       :"androidx.datastore:datastore:$versions.datastore",
         datastoreCore                   :"androidx.datastore:datastore-core:$versions.datastore",
         accompanistNavigationAnimation  :"com.google.accompanist:accompanist-navigation-animation:$versions.accompanistNavigationAnimation",

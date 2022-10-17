@@ -54,7 +54,7 @@ fun PicturesScreen(
                         )
                     )
 
-                    scaffoldState.showBottomBar(dialogType)
+                    scaffoldState.showDialog(dialogType)
                 }
                 else ->{}
             }

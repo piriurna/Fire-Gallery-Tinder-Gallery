@@ -52,7 +52,7 @@ fun GalleryScreen(
                         )
                     )
 
-                    scaffoldState.showBottomBar(dialogType)
+                    scaffoldState.showDialog(dialogType)
 
                 }
                 else ->{}
