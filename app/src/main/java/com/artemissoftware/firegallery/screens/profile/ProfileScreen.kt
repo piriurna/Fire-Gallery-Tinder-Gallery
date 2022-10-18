@@ -4,10 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
@@ -23,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.artemissoftware.common.composables.button.FGButton
+import com.artemissoftware.common.composables.button.FGOutlinedButton
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
@@ -127,6 +126,22 @@ private fun BuildProfileScreen(
                         }
 
                     )
+                }
+
+                item {
+                    Row(modifier = Modifier.padding(top = 16.dp)) {
+                        FGOutlinedButton(
+                            modifier = Modifier.weight(0.5F),
+                            text = "Log In",
+                            onClick = {}
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        FGButton(
+                            modifier = Modifier.weight(0.5F),
+                            text = "Register",
+                            onClick = {}
+                        )
+                    }
                 }
 
             }
