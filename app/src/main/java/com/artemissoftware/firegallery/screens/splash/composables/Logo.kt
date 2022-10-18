@@ -132,8 +132,7 @@ private fun LogoImage(
         painter = painterResource(id = R.drawable.ic_flame),
         contentDescription = "Compose image",
         colorFilter =  ColorFilter.tint(color = logoColor),
-        modifier = modifier
-            .size(140.dp),
+        modifier = modifier,
     )
 }
 

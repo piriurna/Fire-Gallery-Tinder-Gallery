@@ -8,6 +8,7 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.graphs.galleryNavigationGraph
+import com.artemissoftware.firegallery.navigation.graphs.profileNavigationGraph
 import com.artemissoftware.firegallery.navigation.models.Graph
 import com.artemissoftware.firegallery.screens.favorites.FavoritesScreen
 import com.artemissoftware.firegallery.screens.gallery.GalleryScreen
@@ -38,6 +39,7 @@ fun HomeNavigationGraph(
 
         galleryNavigationGraph(navController = navController, scaffoldState = scaffoldState)
 
+        profileNavigationGraph(navController = navController, scaffoldState = scaffoldState)
     }
 }
 

@@ -30,6 +30,8 @@ import com.artemissoftware.common.theme.InfoBlue
 import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.HomeDestinations
+import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
+import com.artemissoftware.firegallery.navigation.graphs.ProfileDestinations
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
 
 
@@ -133,13 +135,17 @@ private fun BuildProfileScreen(
                         FGOutlinedButton(
                             modifier = Modifier.weight(0.5F),
                             text = "Log In",
-                            onClick = {}
+                            onClick = {
+
+                            }
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         FGButton(
                             modifier = Modifier.weight(0.5F),
                             text = "Register",
-                            onClick = {}
+                            onClick = {
+                                navController.navigate(ProfileDestinations.RegisterUser.route)
+                            }
                         )
                     }
                 }
