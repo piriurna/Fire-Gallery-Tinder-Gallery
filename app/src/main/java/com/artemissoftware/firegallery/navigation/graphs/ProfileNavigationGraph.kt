@@ -9,7 +9,8 @@ import com.artemissoftware.common.composables.navigation.models.BaseDestinations
 import com.artemissoftware.common.composables.navigation.models.CustomArguments
 import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.firegallery.navigation.models.Graph
-import com.artemissoftware.firegallery.screens.authentication.RegisterScreen
+import com.artemissoftware.firegallery.screens.login.LogInScreen
+import com.artemissoftware.firegallery.screens.register.RegisterScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.profileNavigationGraph(
@@ -37,7 +38,7 @@ fun NavGraphBuilder.profileNavigationGraph(
             arguments = ProfileDestinations.LogInUser.arguments,
         ){
 
-
+            LogInScreen()
             //PicturesScreen(navController = navController, scaffoldState = scaffoldState)
         }
     }

@@ -134,15 +134,15 @@ private fun BuildProfileScreen(
                     Row(modifier = Modifier.padding(top = 16.dp)) {
                         FGOutlinedButton(
                             modifier = Modifier.weight(0.5F),
-                            text = "Log In",
+                            text = stringResource(R.string.log_in),
                             onClick = {
-
+                                navController.navigate(ProfileDestinations.LogInUser.route)
                             }
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         FGButton(
                             modifier = Modifier.weight(0.5F),
-                            text = "Register",
+                            text = stringResource(R.string.register),
                             onClick = {
                                 navController.navigate(ProfileDestinations.RegisterUser.route)
                             }

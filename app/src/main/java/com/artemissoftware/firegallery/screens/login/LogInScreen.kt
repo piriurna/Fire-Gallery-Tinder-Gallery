@@ -1,17 +1,12 @@
-package com.artemissoftware.firegallery.screens.authentication
+package com.artemissoftware.firegallery.screens.login
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,16 +20,14 @@ import com.artemissoftware.common.theme.FGStyle
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.screens.splash.composables.Logo
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun RegisterScreen() {
+fun LogInScreen() {
 
 
     var email = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
-    val passwordConfirm = remember { mutableStateOf(TextFieldValue()) }
-    
+
     FGScaffold(
         modifier = Modifier
     ) {
@@ -53,11 +46,18 @@ fun RegisterScreen() {
 
                     Logo(modifier = Modifier.size(100.dp).align(Alignment.CenterEnd))
 
-                    FGText(
+                    Column(
                         modifier = Modifier.align(Alignment.CenterStart),
-                        text = stringResource(R.string.create_new_account),
-                        style = FGStyle.TextAlbertSansBold28
-                    )
+                        verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        FGText(
+                            text = stringResource(R.string.welcome_back),
+                            style = FGStyle.TextAlbertSansBold28
+                        )
+                        FGText(
+                            text = stringResource(R.string.log_in_to_account),
+                            style = FGStyle.TextAlbertSans
+                        )
+                    }
                 }
 
 
@@ -81,20 +81,11 @@ fun RegisterScreen() {
                     label = stringResource(R.string.password)
                 )
 
-                FGOutlinedTextField(
-                    fgTextFieldType = FGTextFieldType.PASSWORD,
-                    text = passwordConfirm.value,
-                    onValueChange = { text->
-                        passwordConfirm.value = text
-                    },
-                    label = stringResource(R.string.confirm_password)
-                )
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 FGButton(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.Register),
+                    text = stringResource(R.string.log_in),
                     onClick = {}
                 )
 
@@ -103,9 +94,8 @@ fun RegisterScreen() {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPreview() {
-    RegisterScreen()
+    LogInScreen()
 }
