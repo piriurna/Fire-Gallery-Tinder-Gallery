@@ -123,7 +123,7 @@ private fun LogoPreview() {
 }
 
 @Composable
-private fun LogoImage(
+fun LogoImage(
     modifier: Modifier = Modifier,
     logoColor: Color
 ){
