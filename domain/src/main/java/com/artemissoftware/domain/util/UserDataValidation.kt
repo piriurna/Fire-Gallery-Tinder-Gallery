@@ -1,5 +1,7 @@
 package com.artemissoftware.domain.util
 
+import com.artemissoftware.domain.models.configurations.UserValidationConfig
+
 object UserDataValidation {
 
 
@@ -7,13 +9,13 @@ object UserDataValidation {
         return emailRegex.toRegex().matches(email);
     }
 
-    fun validatePassword(password: String) : Boolean{
+    fun validatePassword(password: String, userValidationConfigs: UserValidationConfig) : Boolean{
 
         if (password.isEmpty() || password.isBlank()) {
             return false
         }
 
-        if (password.trim().length < 3 || password.length > 20) {
+        if (password.trim().length < userValidationConfigs.passwordMinLength || password.length > userValidationConfigs.passwordMaxLength) {
             return false
         }
 
@@ -22,15 +24,17 @@ object UserDataValidation {
     }
 
 
-    fun validatePasswordConfirmation(password: String, passwordConfirm: String) : Boolean{
+    fun validatePasswordConfirmation(
+        password: String,
+        passwordConfirm: String,
+        userValidationConfigs: UserValidationConfig
+    ) : Boolean{
 
-        if (!validatePassword(password)) {
+        if (!validatePassword(password, userValidationConfigs)) {
             return false
         }
 
-        if (password.trim().length < 3 || password.length > 20) {
-            return false
-        }
+
 
         if(password != passwordConfirm){
             return false

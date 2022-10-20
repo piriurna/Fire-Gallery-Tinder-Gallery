@@ -18,14 +18,14 @@ class ValidateRegisterUseCase @Inject constructor(
         var validEmail = false
         var validPassword = false
 
-        if(UserDataValidation.isEmailValid(EMAIL_REGEX, email)){
+        if(UserDataValidation.isEmailValid(remoteConfigRepository.getUserValidationConfigs().emailRegex, email)){
             validEmail = true
         }
         else{
             userValidation.emailError = ValidateLoginUseCase.INVALID_EMAIL
         }
 
-        if(UserDataValidation.validatePasswordConfirmation(password, passwordConfirm)){
+        if(UserDataValidation.validatePasswordConfirmation(password, passwordConfirm, remoteConfigRepository.getUserValidationConfigs())){
             validPassword = true
         }
         else{
