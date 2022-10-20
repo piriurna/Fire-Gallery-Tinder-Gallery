@@ -19,7 +19,7 @@ class ValidateRegisterUseCase @Inject constructor() {
             validEmail = true
         }
         else{
-            registerUserValidation.emailError
+            registerUserValidation.emailError = "Error email"
         }
 
         registerUserValidation.isValid = validEmail

@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.artemissoftware.common.composables.button.FGButton
 import com.artemissoftware.common.composables.scaffold.FGScaffold
 import com.artemissoftware.common.composables.text.FGText
@@ -25,11 +26,33 @@ import com.artemissoftware.firegallery.screens.splash.composables.Logo
 @Composable
 fun RegisterScreen() {
 
+    val viewModel: RegisterViewModel = hiltViewModel()
+    val state = viewModel.state.value
+
+    BuildRegisterScreen(
+//        navController = navController,
+//        scaffoldState = scaffoldState,
+        state = state,
+        events = viewModel::onTriggerEvent
+    )
+
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun BuildRegisterScreen(
+//    navController: NavHostController,
+//    scaffoldState: FGScaffoldState? = null,
+    state: RegisterState,
+    events: ((RegisterEvents) -> Unit)? = null,
+) {
 
     var email = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
     val passwordConfirm = remember { mutableStateOf(TextFieldValue()) }
-    
+
+
+
     FGScaffold(
         modifier = Modifier
     ) {
@@ -75,6 +98,13 @@ fun RegisterScreen() {
                     text = email.value,
                     onValueChange = { text->
                         email.value = text
+                        events?.invoke(
+                            RegisterEvents.ValidateRegister(
+                                email = email.value.text,
+                                password = password.value.text,
+                                passwordConfirm = passwordConfirm.value.text
+                            )
+                        )
                     },
                     label = stringResource(R.string.email)
                 )
@@ -84,6 +114,13 @@ fun RegisterScreen() {
                     text = password.value,
                     onValueChange = { text->
                         password.value = text
+                        events?.invoke(
+                            RegisterEvents.ValidateRegister(
+                                email = email.value.text,
+                                password = password.value.text,
+                                passwordConfirm = passwordConfirm.value.text
+                            )
+                        )
                     },
                     label = stringResource(R.string.password)
                 )
@@ -93,6 +130,13 @@ fun RegisterScreen() {
                     text = passwordConfirm.value,
                     onValueChange = { text->
                         passwordConfirm.value = text
+                        events?.invoke(
+                            RegisterEvents.ValidateRegister(
+                                email = email.value.text,
+                                password = password.value.text,
+                                passwordConfirm = passwordConfirm.value.text
+                            )
+                        )
                     },
                     label = stringResource(R.string.confirm_password)
                 )
@@ -100,6 +144,7 @@ fun RegisterScreen() {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 FGButton(
+                    enabled = state.isValidData,
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.register),
                     onClick = {}
@@ -114,5 +159,8 @@ fun RegisterScreen() {
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPreview() {
-    RegisterScreen()
+
+    val state = RegisterState()
+
+    BuildRegisterScreen(state = state)
 }
