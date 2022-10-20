@@ -103,6 +103,12 @@ private fun BuildLogInScreen(
                     text = email.value,
                     onValueChange = { text->
                         email.value = text
+                        events?.invoke(
+                            LogInEvents.ValidateLogin(
+                                email = email.value.text,
+                                password = password.value.text
+                            )
+                        )
                     },
                     label = stringResource(R.string.email)
                 )
@@ -112,6 +118,12 @@ private fun BuildLogInScreen(
                     text = password.value,
                     onValueChange = { text->
                         password.value = text
+                        events?.invoke(
+                            LogInEvents.ValidateLogin(
+                                email = email.value.text,
+                                password = password.value.text
+                            )
+                        )
                     },
                     label = stringResource(R.string.password)
                 )

@@ -3,12 +3,19 @@ package com.artemissoftware.firegallery.screens.login
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.viewModelScope
+import com.artemissoftware.domain.Resource
+import com.artemissoftware.domain.usecases.profile.ValidateLoginUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class LogInViewModel @Inject constructor() : FGBaseEventViewModel<LogInEvents>() {
+class LogInViewModel @Inject constructor(
+    private val validateLoginUseCase: ValidateLoginUseCase
+) : FGBaseEventViewModel<LogInEvents>() {
 
     private val _state: MutableState<LogInState> = mutableStateOf(LogInState())
     val state: State<LogInState> = _state
@@ -27,7 +34,19 @@ class LogInViewModel @Inject constructor() : FGBaseEventViewModel<LogInEvents>()
     }
 
     private fun validateLogIn(email: String, password: String) {
+        validateLoginUseCase.invoke(email = email, password = password).onEach { result ->
 
+            when(result) {
+                is Resource.Success -> {
+
+                    _state.value = _state.value.copy(
+                        isValidData = result.data?.isValid ?: false
+                    )
+                }
+                else ->{}
+            }
+
+        }.launchIn(viewModelScope)
     }
 
     private fun logInUser(email: String, password: String) {

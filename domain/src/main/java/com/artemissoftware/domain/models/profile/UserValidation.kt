@@ -1,6 +1,6 @@
 package com.artemissoftware.domain.models.profile
 
-data class RegisterUserValidation(
+data class UserValidation(
     var isValid: Boolean = false,
     var emailError: String = "",
     var passwordError: String = "",
