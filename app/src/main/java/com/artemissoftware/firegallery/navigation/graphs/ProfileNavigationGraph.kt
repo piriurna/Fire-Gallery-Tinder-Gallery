@@ -29,8 +29,7 @@ fun NavGraphBuilder.profileNavigationGraph(
             arguments = ProfileDestinations.RegisterUser.arguments,
         ){
 
-            RegisterScreen()
-            //PicturesScreen(navController = navController, scaffoldState = scaffoldState)
+            RegisterScreen(navController = navController, scaffoldState = scaffoldState)
         }
 
         composable(
