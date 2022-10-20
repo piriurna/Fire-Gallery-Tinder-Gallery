@@ -16,7 +16,7 @@ fun FirebaseRemoteConfig.toSeasonConfig() : SeasonFrc{
 }
 
 fun FirebaseRemoteConfig.toUserValidationConfig() : UserValidationFrc{
-    return Gson().fromJson(this.getString(RemoteConfigContants.USER_VALIDATION), object: TypeToken<UserValidationFrc>(){}.type)
+    return Gson().fromJson(this.getString(RemoteConfigContants.VALIDATION_CONFIG), object: TypeToken<UserValidationFrc>(){}.type)
 }
 
 fun ChipColorFrc.toChipColorConfig(): ChipColorConfig {

@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -95,7 +96,6 @@ private fun BuildRegisterScreen(
     FGScaffold(
         isLoading = state.isLoading,
         showTopBar = true,
-        title = stringResource(R.string.profile),
         onNavigationClick = {
             navController.popBackStack()
         }
@@ -181,7 +181,8 @@ private fun BuildRegisterScreen(
                             )
                         )
                     },
-                    label = stringResource(R.string.confirm_password)
+                    label = stringResource(R.string.confirm_password),
+                    imeAction = ImeAction.Done
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))

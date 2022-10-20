@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,7 +15,9 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -37,9 +40,10 @@ fun FGOutlinedTextField(
     maxChar: Int? = null,
     onValueChange: (TextFieldValue) -> Unit = {},
     borderColor: androidx.compose.ui.graphics.Color = Orange,
+    imeAction: ImeAction = ImeAction.Next
 ) {
 
-
+    val focusManager = LocalFocusManager.current
     val relocation = remember { BringIntoViewRequester() }
     val scope = rememberCoroutineScope()
     val ddd = text.copy(text = text.text.take(maxChar ?: 16))
@@ -68,7 +72,15 @@ fun FGOutlinedTextField(
             focusedLabelColor = borderColor,
             cursorColor = MaterialTheme.colors.primaryVariant
         ),
-        keyboardOptions = KeyboardOptions(keyboardType = fgTextFieldType.getKeyboardType(), imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(keyboardType = fgTextFieldType.getKeyboardType(), imeAction = imeAction),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+            },
+            onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            }
+        ),
         visualTransformation = getVisualTransformation(isPasswordVisible.value),
         singleLine = true,
         trailingIcon = {
