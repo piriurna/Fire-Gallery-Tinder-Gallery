@@ -147,7 +147,14 @@ private fun BuildRegisterScreen(
                     enabled = state.isValidData,
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.register),
-                    onClick = {}
+                    onClick = {
+                        events?.invoke(
+                            RegisterEvents.Register(
+                                email = email.value.text,
+                                password = password.value.text
+                            )
+                        )
+                    }
                 )
 
             }
