@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.button.FGButton
@@ -30,7 +31,15 @@ fun LogInScreen(
     scaffoldState: FGScaffoldState,
 ) {
 
-    //BuildLogInScreen(navController = navController, state = )
+    val viewModel: LogInViewModel = hiltViewModel()
+    val state = viewModel.state.value
+
+
+    BuildLogInScreen(
+        navController = navController,
+        state = state,
+        events = viewModel::onTriggerEvent
+    )
 
 }
 
