@@ -94,7 +94,6 @@ private fun BuildRegisterScreen(
 
     FGScaffold(
         isLoading = state.isLoading,
-        modifier = Modifier,
         showTopBar = true,
         title = stringResource(R.string.profile),
         onNavigationClick = {

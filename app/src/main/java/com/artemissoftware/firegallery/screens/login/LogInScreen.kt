@@ -11,8 +11,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.artemissoftware.common.composables.button.FGButton
 import com.artemissoftware.common.composables.scaffold.FGScaffold
+import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.composables.textfield.FGOutlinedTextField
 import com.artemissoftware.common.composables.textfield.FGTextFieldType
@@ -22,18 +25,39 @@ import com.artemissoftware.firegallery.screens.splash.composables.Logo
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LogInScreen() {
+fun LogInScreen(
+    navController: NavHostController,
+    scaffoldState: FGScaffoldState,
+) {
+
+    //BuildLogInScreen(navController = navController, state = )
+
+}
 
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun BuildLogInScreen(
+    navController: NavHostController,
+    state: LogInState,
+    events: ((LogInEvents) -> Unit)? = null,
+) {
     var email = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
 
     FGScaffold(
-        modifier = Modifier
+        isLoading = state.isLoading,
+        showTopBar = true,
+        title = stringResource(R.string.profile),
+        onNavigationClick = {
+            navController.popBackStack()
+        }
     ) {
 
 
-        Box(modifier = Modifier.fillMaxSize().padding(24.dp)){
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp)){
 
             Column(
                 modifier = Modifier
@@ -44,7 +68,9 @@ fun LogInScreen() {
 
                 Box(modifier = Modifier.fillMaxWidth()) {
 
-                    Logo(modifier = Modifier.size(100.dp).align(Alignment.CenterEnd))
+                    Logo(modifier = Modifier
+                        .size(100.dp)
+                        .align(Alignment.CenterEnd))
 
                     Column(
                         modifier = Modifier.align(Alignment.CenterStart),
@@ -84,9 +110,12 @@ fun LogInScreen() {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 FGButton(
+                    enabled = state.isValidData,
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.log_in),
-                    onClick = {}
+                    onClick = {
+                        events?.invoke(LogInEvents.LogIn(email = email.value.text, password = password.value.text))
+                    }
                 )
 
             }
@@ -96,6 +125,10 @@ fun LogInScreen() {
 
 @Preview(showBackground = true)
 @Composable
-private fun RegisterScreenPreview() {
-    LogInScreen()
+private fun BuildLogInScreenPreview() {
+
+    val state = LogInState()
+
+    BuildLogInScreen(state = state, navController = rememberNavController())
+
 }

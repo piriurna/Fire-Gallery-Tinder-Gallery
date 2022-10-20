@@ -37,8 +37,7 @@ fun NavGraphBuilder.profileNavigationGraph(
             arguments = ProfileDestinations.LogInUser.arguments,
         ){
 
-            LogInScreen()
-            //PicturesScreen(navController = navController, scaffoldState = scaffoldState)
+            LogInScreen(navController = navController, scaffoldState = scaffoldState)
         }
     }
 }
