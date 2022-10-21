@@ -67,6 +67,11 @@ fun LogInScreen(
         }
     }
 
+    LaunchedEffect(key1 = state.loggedIn){
+        if(state.loggedIn) navController.popBackStack()
+    }
+
+
     BuildLogInScreen(
         navController = navController,
         state = state,
