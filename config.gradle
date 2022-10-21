@@ -76,6 +76,7 @@ ext.libraries = [
         firebaseFirestore         : "com.google.firebase:firebase-firestore-ktx",
         firebaseMessaging         : "com.google.firebase:firebase-messaging-ktx",
         firebaseConfig            : "com.google.firebase:firebase-config-ktx",
+        firebaseAuth            : "com.google.firebase:firebase-auth-ktx",
 
         gson                      : "com.google.code.gson:gson:$versions.gson",
 

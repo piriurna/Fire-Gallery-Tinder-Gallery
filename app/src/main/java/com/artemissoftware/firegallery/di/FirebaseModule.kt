@@ -1,5 +1,6 @@
 package com.artemissoftware.firegallery.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -25,4 +26,11 @@ object FirebaseModule {
     fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
         return  Firebase.remoteConfig
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+
 }
