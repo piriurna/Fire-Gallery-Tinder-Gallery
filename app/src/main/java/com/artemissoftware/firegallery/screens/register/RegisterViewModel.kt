@@ -28,19 +28,19 @@ class RegisterViewModel @Inject constructor(
         when(event){
 
             is RegisterEvents.ValidateRegister ->{
-                validateRegister(email = event.email, password = event.password, passwordConfirm = event.passwordConfirm)
+                validateRegister(email = event.email, password = event.password, passwordConfirm = event.passwordConfirm, username = event.username)
             }
 
             is RegisterEvents.Register ->{
-                registerUser(email = event.email, password = event.password)
+                registerUser(email = event.email, password = event.password, username = event.username)
             }
         }
     }
 
 
-    private fun validateRegister(email: String, password: String, passwordConfirm: String){
+    private fun validateRegister(email: String, password: String, passwordConfirm: String, username: String){
 
-        validateRegisterUseCase.invoke(email = email, password = password, passwordConfirm = passwordConfirm).onEach { result ->
+        validateRegisterUseCase.invoke(email = email, password = password, passwordConfirm = passwordConfirm, username = username).onEach { result ->
 
             when(result) {
                 is Resource.Success -> {
@@ -56,7 +56,7 @@ class RegisterViewModel @Inject constructor(
     }
 
 
-    private fun registerUser(email: String, password: String){
+    private fun registerUser(email: String, password: String, username: String){
 
     }
 }

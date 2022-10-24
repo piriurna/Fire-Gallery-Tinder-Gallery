@@ -67,6 +67,10 @@ fun RegisterScreen(
         }
     }
 
+    LaunchedEffect(key1 = state.registered){
+        if(state.registered) navController.popBackStack()
+    }
+
 
     BuildRegisterScreen(
         navController = navController,
@@ -85,12 +89,19 @@ private fun BuildRegisterScreen(
 ) {
 
     val email = remember { mutableStateOf(TextFieldValue()) }
+    val username = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
     val passwordConfirm = remember { mutableStateOf(TextFieldValue()) }
 
-
-    if(state.registered){
-        navController.popBackStack()
+    val validateRegister = {
+        events?.invoke(
+            RegisterEvents.ValidateRegister(
+                email = email.value.text,
+                username = username.value.text,
+                password = password.value.text,
+                passwordConfirm = passwordConfirm.value.text
+            )
+        )
     }
 
     FGScaffold(
@@ -141,29 +152,27 @@ private fun BuildRegisterScreen(
                     text = email.value,
                     onValueChange = { text->
                         email.value = text
-                        events?.invoke(
-                            RegisterEvents.ValidateRegister(
-                                email = email.value.text,
-                                password = password.value.text,
-                                passwordConfirm = passwordConfirm.value.text
-                            )
-                        )
+                        validateRegister.invoke()
                     },
                     label = stringResource(R.string.email)
                 )
+
+                FGOutlinedTextField(
+                    text = username.value,
+                    onValueChange = { text->
+                        username.value = text
+                        validateRegister.invoke()
+                    },
+                    label = stringResource(R.string.user_name)
+                )
+
 
                 FGOutlinedTextField(
                     fgTextFieldType = FGTextFieldType.PASSWORD,
                     text = password.value,
                     onValueChange = { text->
                         password.value = text
-                        events?.invoke(
-                            RegisterEvents.ValidateRegister(
-                                email = email.value.text,
-                                password = password.value.text,
-                                passwordConfirm = passwordConfirm.value.text
-                            )
-                        )
+                        validateRegister.invoke()
                     },
                     label = stringResource(R.string.password)
                 )
@@ -173,13 +182,7 @@ private fun BuildRegisterScreen(
                     text = passwordConfirm.value,
                     onValueChange = { text->
                         passwordConfirm.value = text
-                        events?.invoke(
-                            RegisterEvents.ValidateRegister(
-                                email = email.value.text,
-                                password = password.value.text,
-                                passwordConfirm = passwordConfirm.value.text
-                            )
-                        )
+                        validateRegister.invoke()
                     },
                     label = stringResource(R.string.confirm_password),
                     imeAction = ImeAction.Done
@@ -194,6 +197,7 @@ private fun BuildRegisterScreen(
                     onClick = {
                         events?.invoke(
                             RegisterEvents.Register(
+                                username = username.value.text,
                                 email = email.value.text,
                                 password = password.value.text
                             )

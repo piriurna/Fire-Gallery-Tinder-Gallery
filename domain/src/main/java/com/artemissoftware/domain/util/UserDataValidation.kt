@@ -9,18 +9,30 @@ object UserDataValidation {
         return emailRegex.toRegex().matches(email);
     }
 
+    fun validateUsername(username: String, userValidationConfigs: UserValidationConfig) : Boolean{
+
+        if (username.isEmpty() || username.isBlank()) {
+            return false
+        }
+
+        if (username.trim().length < userValidationConfigs.passwordMinLength || username.length > userValidationConfigs.passwordMaxLength) {
+            return false
+        }
+
+        return true
+    }
+
     fun validatePassword(password: String, userValidationConfigs: UserValidationConfig) : Boolean{
 
         if (password.isEmpty() || password.isBlank()) {
             return false
         }
 
-        if (password.trim().length < userValidationConfigs.passwordMinLength || password.length > userValidationConfigs.passwordMaxLength) {
+        if (password.trim().length < userValidationConfigs.usernameMinLength || password.length > userValidationConfigs.usernameMaxLength) {
             return false
         }
 
         return true
-
     }
 
 
@@ -33,8 +45,6 @@ object UserDataValidation {
         if (!validatePassword(password, userValidationConfigs)) {
             return false
         }
-
-
 
         if(password != passwordConfirm){
             return false
