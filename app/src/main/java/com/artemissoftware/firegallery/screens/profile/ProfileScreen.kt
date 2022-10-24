@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -44,6 +45,10 @@ fun ProfileScreen(
     val viewModel: ProfileViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState().value
 
+    LaunchedEffect(key1 = true){
+        viewModel.onTriggerEvent(ProfileEvents.GetProfile)
+    }
+    
     BuildProfileScreen(
         navController = navController,
         scaffoldState = scaffoldState,
@@ -131,25 +136,39 @@ private fun BuildProfileScreen(
                 }
 
                 item {
+
                     Row(modifier = Modifier.padding(top = 16.dp)) {
-                        FGOutlinedButton(
-                            modifier = Modifier.weight(0.5F),
-                            text = stringResource(R.string.log_in),
-                            onClick = {
-                                navController.navigate(ProfileDestinations.LogInUser.route)
-                            }
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        FGButton(
-                            modifier = Modifier.weight(0.5F),
-                            text = stringResource(R.string.register),
-                            onClick = {
-                                navController.navigate(ProfileDestinations.RegisterUser.route)
-                            }
-                        )
+
+                        state.user?.let {
+
+                            FGButton(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = stringResource(R.string.log_out),
+                                onClick = {
+                                    events?.invoke(ProfileEvents.LogOut)
+                                }
+                            )
+                        } ?: kotlin.run {
+
+
+                            FGOutlinedButton(
+                                modifier = Modifier.weight(0.5F),
+                                text = stringResource(R.string.log_in),
+                                onClick = {
+                                    navController.navigate(ProfileDestinations.LogInUser.route)
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            FGButton(
+                                modifier = Modifier.weight(0.5F),
+                                text = stringResource(R.string.register),
+                                onClick = {
+                                    navController.navigate(ProfileDestinations.RegisterUser.route)
+                                }
+                            )
+                        }
                     }
                 }
-
             }
         }
 

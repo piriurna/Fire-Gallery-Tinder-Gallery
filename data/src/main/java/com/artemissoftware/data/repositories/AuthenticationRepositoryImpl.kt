@@ -5,7 +5,9 @@ import com.artemissoftware.data.firebase.HandleFirebase
 import com.artemissoftware.data.firebase.cloudstore.source.AuthenticationSource
 import com.artemissoftware.data.firebase.entities.PictureFso
 import com.artemissoftware.data.mappers.toFirebaseError
+import com.artemissoftware.data.mappers.toUser
 import com.artemissoftware.domain.FirebaseResponse
+import com.artemissoftware.domain.models.profile.User
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.google.firebase.auth.FirebaseUser
 
@@ -26,6 +28,14 @@ class AuthenticationRepositoryImpl(
         } catch (ex: FireGalleryException) {
             FirebaseResponse(error = ex.toFirebaseError())
         }
+    }
+
+    override fun getUser(): User? {
+        return authenticationSource.getUser()?.toUser()
+    }
+
+    override fun logOut() {
+        authenticationSource.logOut()
     }
 
 

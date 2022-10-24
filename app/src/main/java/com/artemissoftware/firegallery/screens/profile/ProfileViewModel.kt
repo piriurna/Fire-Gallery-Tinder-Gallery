@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.domain.usecases.profile.GetProfileUseCase
+import com.artemissoftware.domain.usecases.profile.LogOutUseCase
 import com.artemissoftware.domain.usecases.profile.UpdateProfileUseCase
 import com.artemissoftware.firegallery.screens.profile.ProfileEvents.GetProfile
 import com.artemissoftware.firegallery.screens.profile.ProfileEvents.UpdateProfile
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getProfileUseCase: GetProfileUseCase,
-    private val updateProfileUseCase: UpdateProfileUseCase
+    private val updateProfileUseCase: UpdateProfileUseCase,
+    private val logOutUseCase: LogOutUseCase
 ): FGBaseEventViewModel<ProfileEvents>() {
 
 
@@ -25,7 +27,7 @@ class ProfileViewModel @Inject constructor(
 
 
     init {
-        getGetProfile()
+        //getGetProfile()
     }
 
     override fun onTriggerEvent(event: ProfileEvents) {
@@ -36,6 +38,9 @@ class ProfileViewModel @Inject constructor(
             }
             is UpdateProfile->{
                 updateProfile(notificationsEnabled = event.notificationsEnabled)
+            }
+            is ProfileEvents.LogOut->{
+                logOut()
             }
         }
     }
@@ -52,12 +57,12 @@ class ProfileViewModel @Inject constructor(
 
                 _state.value = _state.value.copy(
                     profile = result,
+                    user = result.user,
                     isLoading = false
                 )
             }
         }
     }
-
 
     private fun updateProfile(notificationsEnabled: Boolean){
 
@@ -76,8 +81,33 @@ class ProfileViewModel @Inject constructor(
             }
 
         }.launchIn(viewModelScope)
+    }
 
+    private fun logOut(){
 
+        logOutUseCase.invoke().onEach { result ->
+
+            when(result) {
+                is Resource.Success -> {
+
+                    val profile = _state.value.profile
+                    profile.user = null
+                    _state.value = _state.value.copy(
+                        profile = profile,
+                        user = null,
+                        isLoading = false
+                    )
+                }
+                is Resource.Loading -> {
+
+                    _state.value = _state.value.copy(
+                        isLoading = true
+                    )
+                }
+                else ->{}
+            }
+
+        }.launchIn(viewModelScope)
     }
 }
 
