@@ -46,7 +46,7 @@ fun FGOutlinedTextField(
     val focusManager = LocalFocusManager.current
     val relocation = remember { BringIntoViewRequester() }
     val scope = rememberCoroutineScope()
-    val ddd = text.copy(text = text.text.take(maxChar ?: 16))
+    val textFormated = text.copy(text = text.text.take(maxChar ?: fgTextFieldType.getMaxChar()))
 
     var isPasswordVisible = remember { mutableStateOf(fgTextFieldType != FGTextFieldType.PASSWORD) }
 
@@ -56,7 +56,7 @@ fun FGOutlinedTextField(
             .onFocusEvent {
                 if (it.isFocused) scope.launch { delay(300); relocation.bringIntoView() }
             },
-        value = ddd,
+        value = textFormated,
         textStyle = FGStyle.TextAlbertSans,
         onValueChange = { text->
             onValueChange.invoke(text)

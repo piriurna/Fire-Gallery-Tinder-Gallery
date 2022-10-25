@@ -1,4 +1,4 @@
-package com.artemissoftware.data.firebase.cloudstore.source
+package com.artemissoftware.data.firebase.source
 
 import com.artemissoftware.data.firebase.FireStoreCollection
 import com.artemissoftware.data.firebase.FireStoreDocumentField

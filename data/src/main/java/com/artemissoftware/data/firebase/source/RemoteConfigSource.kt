@@ -1,4 +1,4 @@
-package com.artemissoftware.data.firebase.remoteconfig
+package com.artemissoftware.data.firebase.source
 
 import com.artemissoftware.data.firebase.remoteconfig.models.SeasonFrc
 import com.artemissoftware.data.firebase.remoteconfig.models.UserValidationFrc

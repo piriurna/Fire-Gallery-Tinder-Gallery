@@ -2,7 +2,7 @@ package com.artemissoftware.data.repositories
 
 import com.artemissoftware.data.errors.FireGalleryException
 import com.artemissoftware.data.firebase.HandleFirebase
-import com.artemissoftware.data.firebase.cloudstore.source.AuthenticationSource
+import com.artemissoftware.data.firebase.source.AuthenticationSource
 import com.artemissoftware.data.firebase.entities.PictureFso
 import com.artemissoftware.data.mappers.toFirebaseError
 import com.artemissoftware.data.mappers.toUser

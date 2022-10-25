@@ -5,13 +5,10 @@ import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
-import com.artemissoftware.data.firebase.cloudstore.source.CloudStoreSource
 import com.artemissoftware.domain.models.LocalNotification
-import com.artemissoftware.domain.repositories.GalleryRepository
 import com.artemissoftware.domain.repositories.LocalNotificationsRepository
 import javax.inject.Inject
 

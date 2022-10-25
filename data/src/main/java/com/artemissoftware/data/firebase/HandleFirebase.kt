@@ -3,6 +3,7 @@ package com.artemissoftware.data.firebase
 import com.artemissoftware.data.errors.FireGalleryException
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestoreException
 
 object HandleFirebase {
@@ -38,6 +39,13 @@ object HandleFirebase {
                 }
                 is FirebaseAuthInvalidUserException -> {
 
+                    throw FireGalleryException(
+                        message = ex.errorCode,
+                        description = ex.message
+                    )
+                }
+
+                is FirebaseAuthUserCollisionException ->{
                     throw FireGalleryException(
                         message = ex.errorCode,
                         description = ex.message

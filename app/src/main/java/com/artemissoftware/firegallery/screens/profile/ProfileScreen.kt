@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Password
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -92,31 +93,11 @@ private fun BuildProfileScreen(
                 item {
 
                     ProfileOption(
-                        icon = Icons.Filled.Notifications,
-                        iconColor = InfoBlue,
-                        isChecked = state.profile.notifications,
-                        description = stringResource(R.string.allow_receive_push_notifications),
-                        onCheck = {
-
-                            events?.invoke(ProfileEvents.UpdateProfile(notificationsEnabled = it))
-                        }
-                    )
-
-                }
-
-                item {
-                    ProfileOption(
                         icon = Icons.Filled.AccountBox,
                         iconColor = InfoBlue,
-                        title = stringResource(R.string.firebase_token),
-                        description = state.profile.firebaseToken,
-                        onClick = {
-
-                            val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                            val clip = ClipData.newPlainText("token", state.profile.firebaseToken)
-                            clipboard.setPrimaryClip(clip)
-                            Toast.makeText(context, R.string.token_copied, Toast.LENGTH_SHORT).show()
-                        }
+                        title = "state.profile.firebaseToken",
+                        description = stringResource(R.string.user_name),
+                        onClick = {}
 
                     )
                 }
@@ -134,6 +115,40 @@ private fun BuildProfileScreen(
 
                     )
                 }
+
+                item {
+
+                    ProfileOption(
+                        icon = Icons.Filled.Notifications,
+                        iconColor = InfoBlue,
+                        isChecked = state.profile.notifications,
+                        description = stringResource(R.string.allow_receive_push_notifications),
+                        onCheck = {
+
+                            events?.invoke(ProfileEvents.UpdateProfile(notificationsEnabled = it))
+                        }
+                    )
+
+                }
+
+                item {
+                    ProfileOption(
+                        icon = Icons.Filled.Password,
+                        iconColor = InfoBlue,
+                        title = stringResource(R.string.firebase_token),
+                        description = state.profile.firebaseToken,
+                        onClick = {
+
+                            val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip = ClipData.newPlainText("token", state.profile.firebaseToken)
+                            clipboard.setPrimaryClip(clip)
+                            Toast.makeText(context, R.string.token_copied, Toast.LENGTH_SHORT).show()
+                        }
+
+                    )
+                }
+
+
 
                 item {
 

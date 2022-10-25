@@ -4,7 +4,7 @@ import com.artemissoftware.data.errors.FireGalleryException
 import com.artemissoftware.data.firebase.FireStoreCollection
 import com.artemissoftware.data.firebase.FireStoreDocumentField
 import com.artemissoftware.data.firebase.HandleFirebase
-import com.artemissoftware.data.firebase.cloudstore.source.CloudStoreSource
+import com.artemissoftware.data.firebase.source.CloudStoreSource
 import com.artemissoftware.data.firebase.entities.GalleryFso
 import com.artemissoftware.data.firebase.entities.PictureFso
 import com.artemissoftware.data.mappers.toFirebaseError

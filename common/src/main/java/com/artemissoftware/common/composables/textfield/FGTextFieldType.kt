@@ -25,6 +25,11 @@ enum class FGTextFieldType {
         else -> KeyboardType.Text
     }
 
+    fun getMaxChar(): Int = when (this) {
+        EMAIL -> 28
+        else -> 32
+    }
+
     @Composable
     fun isShowClearButton(): Boolean = when (this) {
         PASSWORD -> false

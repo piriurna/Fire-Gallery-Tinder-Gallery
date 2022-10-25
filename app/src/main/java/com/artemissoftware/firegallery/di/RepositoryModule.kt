@@ -3,9 +3,9 @@ package com.artemissoftware.firegallery.di
 import android.app.Application
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.artemissoftware.data.firebase.cloudstore.source.AuthenticationSource
-import com.artemissoftware.data.firebase.cloudstore.source.CloudStoreSource
-import com.artemissoftware.data.firebase.remoteconfig.RemoteConfigSource
+import com.artemissoftware.data.firebase.source.AuthenticationSource
+import com.artemissoftware.data.firebase.source.CloudStoreSource
+import com.artemissoftware.data.firebase.source.RemoteConfigSource
 import com.artemissoftware.data.repositories.*
 import com.artemissoftware.domain.repositories.*
 import dagger.Module

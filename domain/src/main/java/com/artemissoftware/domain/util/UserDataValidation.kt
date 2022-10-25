@@ -15,7 +15,7 @@ object UserDataValidation {
             return false
         }
 
-        if (username.trim().length < userValidationConfigs.passwordMinLength || username.length > userValidationConfigs.passwordMaxLength) {
+        if (username.trim().length < userValidationConfigs.usernameMinLength || username.length > userValidationConfigs.usernameMaxLength) {
             return false
         }
 
@@ -28,7 +28,7 @@ object UserDataValidation {
             return false
         }
 
-        if (password.trim().length < userValidationConfigs.usernameMinLength || password.length > userValidationConfigs.usernameMaxLength) {
+        if (password.trim().length < userValidationConfigs.passwordMinLength || password.length > userValidationConfigs.passwordMaxLength) {
             return false
         }
 

@@ -159,6 +159,7 @@ private fun BuildRegisterScreen(
 
                 FGOutlinedTextField(
                     text = username.value,
+                    maxChar = state.validationRules?.usernameMaxLength,
                     onValueChange = { text->
                         username.value = text
                         validateRegister.invoke()
@@ -170,6 +171,7 @@ private fun BuildRegisterScreen(
                 FGOutlinedTextField(
                     fgTextFieldType = FGTextFieldType.PASSWORD,
                     text = password.value,
+                    maxChar = state.validationRules?.passwordMaxLength,
                     onValueChange = { text->
                         password.value = text
                         validateRegister.invoke()
@@ -180,6 +182,7 @@ private fun BuildRegisterScreen(
                 FGOutlinedTextField(
                     fgTextFieldType = FGTextFieldType.PASSWORD,
                     text = passwordConfirm.value,
+                    maxChar = state.validationRules?.passwordMaxLength,
                     onValueChange = { text->
                         passwordConfirm.value = text
                         validateRegister.invoke()
