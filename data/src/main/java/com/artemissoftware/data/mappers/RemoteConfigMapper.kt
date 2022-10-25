@@ -28,5 +28,12 @@ fun SeasonFrc.toSeasonConfig(): SeasonConfig {
 }
 
 fun UserValidationFrc.toUserValidationConfig(): UserValidationConfig {
-    return UserValidationConfig(this.emailRegex, this.passwordMaxLength, this.passwordMinLength)
+    return UserValidationConfig(
+        emailRegex = this.emailRegex,
+        passwordMaxLength = this.passwordMaxLength,
+        passwordMinLength = this.passwordMinLength,
+        usernameRegex = this.usernameRegex,
+        usernameMaxLength = this.usernameMaxLength,
+        usernameMinLength = this.usernameMinLength
+    )
 }
