@@ -2,7 +2,7 @@ package com.artemissoftware.domain.usecases
 
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.Picture
-import com.artemissoftware.domain.repositories.DataStoreRepository
+import com.artemissoftware.domain.repositories.AppSettingsDataStoreRepository
 import com.artemissoftware.domain.repositories.GalleryRepository
 import com.artemissoftware.domain.repositories.RemoteConfigRepository
 import kotlinx.coroutines.delay
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class GetPictureDetailUseCase @Inject constructor(
     private val galleryRepository: GalleryRepository,
-    private val dataStoreRepository: DataStoreRepository,
+    private val dataStoreRepository: AppSettingsDataStoreRepository,
     private val remoteConfigRepository: RemoteConfigRepository
 ) {
 
@@ -27,7 +27,7 @@ class GetPictureDetailUseCase @Inject constructor(
         }
         else {
 
-            val profile = dataStoreRepository.getProfile().first()
+            val profile = dataStoreRepository.getAppSettings().first()
             val picture = galleryRepository.getPictureDetail(pictureId = pictureId)
 
             picture?.let {

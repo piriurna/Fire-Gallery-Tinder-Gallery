@@ -1,23 +1,23 @@
 package com.artemissoftware.data.repositories
 
 import android.content.Context
-import com.artemissoftware.data.local.util.profileStore
-import com.artemissoftware.domain.models.profile.Profile
-import com.artemissoftware.domain.repositories.DataStoreRepository
+import com.artemissoftware.data.local.util.appSettingsStore
+import com.artemissoftware.domain.models.profile.AppConfig
+import com.artemissoftware.domain.repositories.AppSettingsDataStoreRepository
 import kotlinx.coroutines.flow.Flow
 
-class DataStoreRepositoryImpl(private val context: Context) : DataStoreRepository {
+class AppSettingsDataStoreRepositoryImpl(private val context: Context) : AppSettingsDataStoreRepository {
 
-    override suspend fun saveProfile(profile: Profile) {
-        context.profileStore.updateData {
+    override suspend fun saveAppSettings(appConfig: AppConfig) {
+        context.appSettingsStore.updateData {
             it.copy(
-                notifications = profile.notifications,
+                notifications = appConfig.notifications,
             )
         }
     }
 
     override suspend fun updateFavorite(pictureId : String, isFavorite: Boolean) {
-        context.profileStore.updateData {
+        context.appSettingsStore.updateData {
 
             var favorites = it.favorites.toMutableList()
             if(isFavorite){
@@ -34,7 +34,7 @@ class DataStoreRepositoryImpl(private val context: Context) : DataStoreRepositor
     }
 
     override suspend fun updateFirebaseToken(firebaseToken: String) {
-        context.profileStore.updateData {
+        context.appSettingsStore.updateData {
 
             it.copy(
                 firebaseToken = firebaseToken,
@@ -43,7 +43,7 @@ class DataStoreRepositoryImpl(private val context: Context) : DataStoreRepositor
     }
 
 
-    override fun getProfile(): Flow<Profile> {
-        return context.profileStore.data
+    override fun getAppSettings(): Flow<AppConfig> {
+        return context.appSettingsStore.data
     }
 }

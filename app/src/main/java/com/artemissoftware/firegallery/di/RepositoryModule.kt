@@ -26,8 +26,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideDataStoreRepository(app: Application): DataStoreRepository {
-        return DataStoreRepositoryImpl(app)
+    fun provideDataStoreRepository(app: Application): AppSettingsDataStoreRepository {
+        return AppSettingsDataStoreRepositoryImpl(app)
     }
 
     @Provides

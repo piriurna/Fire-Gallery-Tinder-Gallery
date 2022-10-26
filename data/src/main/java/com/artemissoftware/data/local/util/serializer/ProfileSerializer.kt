@@ -1,29 +1,28 @@
 package com.artemissoftware.data.local.util.serializer
 
 import androidx.datastore.core.Serializer
-import com.artemissoftware.data.local.models.ProfileSettings
-import com.artemissoftware.data.mappers.toProfile
-import com.artemissoftware.data.mappers.toProfileSettings
-import com.artemissoftware.domain.models.profile.Profile
+import com.artemissoftware.data.local.models.FavoriteImages
+import com.artemissoftware.data.mappers.toFavoriteImages
+import com.artemissoftware.data.mappers.toUserFavoriteImages
+import com.artemissoftware.domain.models.UserFavoriteImages
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
-
 @Suppress("BlockingMethodInNonBlockingContext")
-object ProfileSerializer : Serializer<Profile> {
+object ProfileSerializer : Serializer<UserFavoriteImages> {
 
-    override val defaultValue: Profile
-        get() = ProfileSettings().toProfile()
+    override val defaultValue: UserFavoriteImages
+        get() = FavoriteImages().toUserFavoriteImages()
 
 
-    override suspend fun readFrom(input: InputStream): Profile {
+    override suspend fun readFrom(input: InputStream): UserFavoriteImages {
         return try {
             Json.decodeFromString(
-                deserializer = ProfileSettings.serializer(),
+                deserializer = FavoriteImages.serializer(),
                 string = input.readBytes().decodeToString()
-            ).toProfile()
+            ).toUserFavoriteImages()
         } catch (e: SerializationException) {
             e.printStackTrace()
             defaultValue
@@ -31,11 +30,11 @@ object ProfileSerializer : Serializer<Profile> {
     }
 
 
-    override suspend fun writeTo(t: Profile, output: OutputStream) {
+    override suspend fun writeTo(t: UserFavoriteImages, output: OutputStream) {
         output.write(
             Json.encodeToString(
-                serializer = ProfileSettings.serializer(),
-                value = t.toProfileSettings()
+                serializer = FavoriteImages.serializer(),
+                value = t.toFavoriteImages()
             ).encodeToByteArray()
         )
     }

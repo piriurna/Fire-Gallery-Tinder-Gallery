@@ -1,6 +1,6 @@
 package com.artemissoftware.domain.models.profile
 
-data class Profile(
+data class AppConfig(
     val notifications: Boolean = false,
     val firebaseToken: String? = null,
     val favorites: List<String> = emptyList(),
@@ -9,7 +9,7 @@ data class Profile(
 
     companion object{
 
-        val mockProfile : Profile = Profile(notifications = false, firebaseToken = "lkdfjhvgklzjdhnjf")
+        val mockAppConfig : AppConfig = AppConfig(notifications = false, firebaseToken = "lkdfjhvgklzjdhnjf")
 
     }
 

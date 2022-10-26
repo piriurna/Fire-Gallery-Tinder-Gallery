@@ -2,7 +2,7 @@ package com.artemissoftware.firegallery.screens.profile
 
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.models.profile.Profile
+import com.artemissoftware.domain.models.profile.AppConfig
 import com.artemissoftware.domain.usecases.profile.GetProfileUseCase
 import com.artemissoftware.domain.usecases.profile.LogOutUseCase
 import com.artemissoftware.domain.usecases.profile.UpdateProfileUseCase
@@ -56,7 +56,7 @@ class ProfileViewModel @Inject constructor(
             getProfileUseCase.invoke().collectLatest { result ->
 
                 _state.value = _state.value.copy(
-                    profile = result,
+                    appConfig = result,
                     user = result.user,
                     isLoading = false
                 )
@@ -66,15 +66,15 @@ class ProfileViewModel @Inject constructor(
 
     private fun updateProfile(notificationsEnabled: Boolean){
 
-        val profile = Profile(notifications = notificationsEnabled)
+        val appConfig = AppConfig(notifications = notificationsEnabled)
 
-        updateProfileUseCase.invoke(profile).onEach { result ->
+        updateProfileUseCase.invoke(appConfig).onEach { result ->
 
             when(result) {
                 is Resource.Success -> {
 
                     _state.value = _state.value.copy(
-                        profile = profile
+                        appConfig = appConfig
                     )
                 }
                 else ->{}
@@ -90,10 +90,10 @@ class ProfileViewModel @Inject constructor(
             when(result) {
                 is Resource.Success -> {
 
-                    val profile = _state.value.profile
+                    val profile = _state.value.appConfig
                     profile.user = null
                     _state.value = _state.value.copy(
-                        profile = profile,
+                        appConfig = profile,
                         user = null,
                         isLoading = false
                     )

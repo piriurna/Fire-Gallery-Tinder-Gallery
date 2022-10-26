@@ -1,12 +1,12 @@
 package com.artemissoftware.domain.usecases.favorite
 
 import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.repositories.DataStoreRepository
+import com.artemissoftware.domain.repositories.AppSettingsDataStoreRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class UpdateFavoriteUseCase @Inject constructor(private val dataStoreRepository: DataStoreRepository) {
+class UpdateFavoriteUseCase @Inject constructor(private val dataStoreRepository: AppSettingsDataStoreRepository) {
 
     operator fun invoke(pictureId : String, isFavorite: Boolean): Flow<Resource<Any>> = flow {
 

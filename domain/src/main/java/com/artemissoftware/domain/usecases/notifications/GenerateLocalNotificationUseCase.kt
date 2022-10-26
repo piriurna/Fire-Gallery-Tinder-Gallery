@@ -2,7 +2,6 @@ package com.artemissoftware.domain.usecases.notifications
 
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.LocalNotification
-import com.artemissoftware.domain.repositories.DataStoreRepository
 import com.artemissoftware.domain.repositories.LocalNotificationsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

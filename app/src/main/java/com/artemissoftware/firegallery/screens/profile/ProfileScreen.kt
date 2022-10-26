@@ -29,10 +29,9 @@ import com.artemissoftware.common.composables.scaffold.models.FGScaffoldState
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold28
 import com.artemissoftware.common.theme.InfoBlue
-import com.artemissoftware.domain.models.profile.Profile
+import com.artemissoftware.domain.models.profile.AppConfig
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.HomeDestinations
-import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
 import com.artemissoftware.firegallery.navigation.graphs.ProfileDestinations
 import com.artemissoftware.firegallery.screens.profile.composables.ProfileOption
 
@@ -106,7 +105,7 @@ private fun BuildProfileScreen(
                     ProfileOption(
                         icon = Icons.Filled.Favorite,
                         iconColor = InfoBlue,
-                        title = state.profile.favorites.size.toString(),
+                        title = state.appConfig.favorites.size.toString(),
                         description = stringResource(R.string.number_favorite_pictures),
                         onClick = {
 
@@ -121,7 +120,7 @@ private fun BuildProfileScreen(
                     ProfileOption(
                         icon = Icons.Filled.Notifications,
                         iconColor = InfoBlue,
-                        isChecked = state.profile.notifications,
+                        isChecked = state.appConfig.notifications,
                         description = stringResource(R.string.allow_receive_push_notifications),
                         onCheck = {
 
@@ -136,11 +135,11 @@ private fun BuildProfileScreen(
                         icon = Icons.Filled.Password,
                         iconColor = InfoBlue,
                         title = stringResource(R.string.firebase_token),
-                        description = state.profile.firebaseToken,
+                        description = state.appConfig.firebaseToken,
                         onClick = {
 
                             val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                            val clip = ClipData.newPlainText("token", state.profile.firebaseToken)
+                            val clip = ClipData.newPlainText("token", state.appConfig.firebaseToken)
                             clipboard.setPrimaryClip(clip)
                             Toast.makeText(context, R.string.token_copied, Toast.LENGTH_SHORT).show()
                         }
@@ -195,5 +194,5 @@ private fun BuildProfileScreen(
 @Composable
 private fun BuildProfileScreenPreview() {
 
-    BuildProfileScreen(state = ProfileState(profile = Profile.mockProfile), navController = rememberNavController())
+    BuildProfileScreen(state = ProfileState(appConfig = AppConfig.mockAppConfig), navController = rememberNavController())
 }

@@ -5,12 +5,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.domain.usecases.profile.GetValidationRulesUseCase
 import com.artemissoftware.domain.usecases.profile.RegisterUserUseCase
 import com.artemissoftware.domain.usecases.profile.ValidateRegisterUseCase
-import com.artemissoftware.firegallery.screens.pictures.PictureState
-import com.artemissoftware.firegallery.screens.profile.ProfileEvents
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel

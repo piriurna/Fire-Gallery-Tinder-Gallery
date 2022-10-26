@@ -1,14 +1,14 @@
 package com.artemissoftware.domain.repositories
 
-import com.artemissoftware.domain.models.profile.Profile
+import com.artemissoftware.domain.models.profile.AppConfig
 import kotlinx.coroutines.flow.Flow
 
-interface DataStoreRepository {
+interface AppSettingsDataStoreRepository {
 
-    suspend fun saveProfile(profile: Profile)
+    suspend fun saveAppSettings(appConfig: AppConfig)
 
     suspend fun updateFavorite(pictureId : String, isFavorite: Boolean)
     suspend fun updateFirebaseToken(firebaseToken : String)
 
-    fun getProfile(): Flow<Profile>
+    fun getAppSettings(): Flow<AppConfig>
 }
