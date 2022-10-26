@@ -3,6 +3,7 @@ package com.artemissoftware.domain.repositories
 import com.artemissoftware.domain.FirebaseResponse
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.models.profile.User
+import kotlinx.coroutines.flow.Flow
 
 interface AuthenticationRepository {
 
@@ -10,6 +11,8 @@ interface AuthenticationRepository {
     suspend fun registerUser(email: String, password: String, username: String): FirebaseResponse<Boolean>
 
     fun getUser(): User?
+
+    fun getUserInfo(): Flow<User?>
 
     fun logOut()
 }

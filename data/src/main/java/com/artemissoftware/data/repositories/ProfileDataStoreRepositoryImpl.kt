@@ -1,8 +1,11 @@
 package com.artemissoftware.data.repositories
 
 import android.content.Context
+import com.artemissoftware.data.local.util.appSettingsStore
 import com.artemissoftware.data.local.util.profileStore
+import com.artemissoftware.domain.models.UserFavoriteImages
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
+import kotlinx.coroutines.flow.Flow
 
 class ProfileDataStoreRepositoryImpl(private val context: Context) : ProfileDataStoreRepository {
 
@@ -37,5 +40,9 @@ class ProfileDataStoreRepositoryImpl(private val context: Context) : ProfileData
                 data = favorites as HashMap<String, List<String>>,
             )
         }
+    }
+
+    override fun getProfile(): Flow<UserFavoriteImages> {
+        return context.profileStore.data
     }
 }

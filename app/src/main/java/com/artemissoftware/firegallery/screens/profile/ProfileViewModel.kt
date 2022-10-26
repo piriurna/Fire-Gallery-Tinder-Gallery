@@ -27,7 +27,7 @@ class ProfileViewModel @Inject constructor(
 
 
     init {
-        //getGetProfile()
+        getGetProfile()
     }
 
     override fun onTriggerEvent(event: ProfileEvents) {
@@ -89,14 +89,14 @@ class ProfileViewModel @Inject constructor(
 
             when(result) {
                 is Resource.Success -> {
-
-                    val profile = _state.value.appConfig
-                    profile.user = null
-                    _state.value = _state.value.copy(
-                        appConfig = profile,
-                        user = null,
-                        isLoading = false
-                    )
+//TODO:remover isto
+//                    val profile = _state.value.appConfig
+//                    profile.user = null
+//                    _state.value = _state.value.copy(
+//                        appConfig = profile,
+//                        user = null,
+//                        isLoading = false
+//                    )
                 }
                 is Resource.Loading -> {
 

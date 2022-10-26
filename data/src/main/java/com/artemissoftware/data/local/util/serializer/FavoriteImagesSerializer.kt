@@ -11,7 +11,7 @@ import java.io.InputStream
 import java.io.OutputStream
 
 @Suppress("BlockingMethodInNonBlockingContext")
-object ProfileSerializer : Serializer<UserFavoriteImages> {
+object FavoriteImagesSerializer : Serializer<UserFavoriteImages> {
 
     override val defaultValue: UserFavoriteImages
         get() = FavoriteImages().toUserFavoriteImages()

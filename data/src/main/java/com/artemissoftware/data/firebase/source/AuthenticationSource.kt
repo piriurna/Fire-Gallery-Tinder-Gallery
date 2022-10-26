@@ -4,6 +4,11 @@ import com.artemissoftware.data.errors.FireGalleryException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -62,6 +67,18 @@ class AuthenticationSource @Inject constructor(private val firebaseAuth: Firebas
     fun getUser() : FirebaseUser? {
         return firebaseAuth.currentUser
     }
+
+    @ExperimentalCoroutinesApi
+    fun getUserInfo(): Flow<FirebaseUser?> =
+        callbackFlow {
+            val authStateListener = FirebaseAuth.AuthStateListener {
+                trySendBlocking(it.currentUser)
+            }
+            firebaseAuth.addAuthStateListener(authStateListener)
+            awaitClose {
+                firebaseAuth.removeAuthStateListener(authStateListener)
+            }
+        }
 
     fun logOut() {
         return firebaseAuth.signOut()

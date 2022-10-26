@@ -45,10 +45,6 @@ fun ProfileScreen(
     val viewModel: ProfileViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState().value
 
-    LaunchedEffect(key1 = true){
-        viewModel.onTriggerEvent(ProfileEvents.GetProfile)
-    }
-    
     BuildProfileScreen(
         navController = navController,
         scaffoldState = scaffoldState,
@@ -88,31 +84,37 @@ private fun BuildProfileScreen(
                     .padding(horizontal = 0.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                state.user?.name?.let{ //TODO:mudar isto
+                    item {
 
-                item {
 
-                    ProfileOption(
-                        icon = Icons.Filled.AccountBox,
-                        iconColor = InfoBlue,
-                        title = "state.profile.firebaseToken",
-                        description = stringResource(R.string.user_name),
-                        onClick = {}
+                            ProfileOption(
+                                icon = Icons.Filled.AccountBox,
+                                iconColor = InfoBlue,
+                                title = it,
+                                description = stringResource(R.string.user_name),
+                                onClick = {}
 
-                    )
-                }
-
-                item {
-                    ProfileOption(
-                        icon = Icons.Filled.Favorite,
-                        iconColor = InfoBlue,
-                        title = state.appConfig.favorites.size.toString(),
-                        description = stringResource(R.string.number_favorite_pictures),
-                        onClick = {
-
-                            scaffoldState?.changeCurrentPositionBottomBar(destination = HomeDestinations.Favorites, navController)
+                            )
                         }
+                }
+                state.user?.let { //TODO:mudar isto
+                    item {
 
-                    )
+                            ProfileOption(
+                                icon = Icons.Filled.Favorite,
+                                iconColor = InfoBlue,
+                                title = it.favorites.size.toString(),
+                                description = stringResource(R.string.number_favorite_pictures),
+                                onClick = {
+
+                                    scaffoldState?.changeCurrentPositionBottomBar(
+                                        destination = HomeDestinations.Favorites,
+                                        navController
+                                    )
+                                }
+                            )
+                        }
                 }
 
                 item {

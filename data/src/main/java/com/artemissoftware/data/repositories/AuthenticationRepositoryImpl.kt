@@ -10,6 +10,8 @@ import com.artemissoftware.domain.FirebaseResponse
 import com.artemissoftware.domain.models.profile.User
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class AuthenticationRepositoryImpl(
     private val authenticationSource: AuthenticationSource
@@ -47,6 +49,10 @@ class AuthenticationRepositoryImpl(
 
     override fun getUser(): User? {
         return authenticationSource.getUser()?.toUser()
+    }
+
+    override fun getUserInfo(): Flow<User?> {
+        return authenticationSource.getUserInfo().map { it?.toUser() }
     }
 
     override fun logOut() {
