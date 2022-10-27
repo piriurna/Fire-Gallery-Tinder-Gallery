@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Fire Gallery</string>
+    <string name="accept">Aceito</string>
+    <string name="fg_fcm_notification_channel_id" translatable="false">fg_fcm_channel</string>
+    <string name="fg_fcm_notification_channel_name" translatable="false">FG channel</string>
+
+    <string name="default_notification_title">All the galleries</string>
+    <string name="default_notification_text">Share the beauty</string>
+    <string name="code">Code</string>
+    <string name="Author">author</string>
+    <string name="Title">title</string>
+    <string name="profile">Profile</string>
+    <string name="number_favorite_pictures">Number of favorite pictures</string>
+    <string name="firebase_token">Firebase Token</string>
+    <string name="allow_receive_push_notifications">Allow app to receive push notifications</string>
+    <string name="token_copied">Token copied</string>
+    <string name="create_new_account">Create a new account</string>
+    <string name="create_new_account_to_use_features">Create an account so you can use our features</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="email">Email</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="log_in">Log In</string>
+    <string name="log_out">Log Out</string>
+    <string name="log_in_to_account">Log in to your account</string>
+</resources>
