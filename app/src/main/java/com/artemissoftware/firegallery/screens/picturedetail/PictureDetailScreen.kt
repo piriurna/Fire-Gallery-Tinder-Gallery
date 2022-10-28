@@ -105,7 +105,7 @@ private fun BuildPictureDetailScreen(
             state.picture?.let { picture->
 
                 FavoriteButton(
-                    isFavorite = isFavorite.value,
+                    isFavorite = state.isFavorite,
                     pulsatingType = PulsatingType.LIMITED,
                     onClickToFavorite = {
                         events?.invoke(PictureDetailEvents.FavoritePicture(picture.id, true))

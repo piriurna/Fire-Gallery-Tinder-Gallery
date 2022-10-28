@@ -8,19 +8,23 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPictureDetailUseCase
 import com.artemissoftware.domain.usecases.GetPicturesUseCase
+import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PictureDetailViewModel @Inject constructor(
     private val getPictureDetailUseCase: GetPictureDetailUseCase,
     private val updateFavoriteUseCase: UpdateFavoriteUseCase,
+    private val getUserUseCase: GetUserUseCase,
     savedStateHandle: SavedStateHandle
 ): FGBaseEventViewModel<PictureDetailEvents>(){
 
@@ -30,10 +34,12 @@ class PictureDetailViewModel @Inject constructor(
     private val _isFavorite = mutableStateOf(false)
     val isFavorite: State<Boolean> = _isFavorite
 
+    private val pictureId: String
 
     init {
-        val pictureId = savedStateHandle.get<String>(NavigationArguments.PICTURE_ID).orEmpty()
+        pictureId = savedStateHandle.get<String>(NavigationArguments.PICTURE_ID).orEmpty()
         onTriggerEvent(PictureDetailEvents.GetPicture(pictureId))
+        onTriggerEvent(PictureDetailEvents.GetUser)
     }
 
     override fun onTriggerEvent(event: PictureDetailEvents) {
@@ -43,11 +49,28 @@ class PictureDetailViewModel @Inject constructor(
                 getPicture(event.id)
             }
 
+            is PictureDetailEvents.GetUser -> {
+                getUser()
+            }
             is PictureDetailEvents.FavoritePicture -> {
                 saveFavorite(pictureId = event.id, isFavorite = event.isFavorite)
             }
         }
     }
+
+    private fun getUser(){
+
+        viewModelScope.launch {
+
+            getUserUseCase.invoke().collectLatest { result ->
+
+                _state.value = _state.value.copy(
+                    isFavorite = result?.favorites?.contains(pictureId) ?: false,
+                )
+            }
+        }
+    }
+
 
     private fun saveFavorite(pictureId: String, isFavorite: Boolean) {
 
@@ -91,8 +114,6 @@ class PictureDetailViewModel @Inject constructor(
                 }
                 else ->{}
             }
-
-
         }.launchIn(viewModelScope)
     }
 

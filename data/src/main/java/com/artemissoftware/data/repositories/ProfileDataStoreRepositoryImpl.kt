@@ -1,7 +1,6 @@
 package com.artemissoftware.data.repositories
 
 import android.content.Context
-import com.artemissoftware.data.local.util.appSettingsStore
 import com.artemissoftware.data.local.util.profileStore
 import com.artemissoftware.domain.models.UserFavoriteImages
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
@@ -12,9 +11,9 @@ class ProfileDataStoreRepositoryImpl(private val context: Context) : ProfileData
     override suspend fun updateFavorite(pictureId: String, email: String, isFavorite: Boolean) {
         context.profileStore.updateData {
 
-            var favorites = it.data.toMutableMap()
+            var favoritesList = it.data.toMutableMap()
 
-            favorites[email]?.let { favorites->
+            favoritesList[email]?.let { favorites->
 
                 val list = favorites.toMutableList()
 
@@ -24,7 +23,7 @@ class ProfileDataStoreRepositoryImpl(private val context: Context) : ProfileData
                 else {
                     list.remove(pictureId)
                 }
-                it.data[email] = list
+                favoritesList[email] = list
 
             } ?: kotlin.run {
 
@@ -32,17 +31,17 @@ class ProfileDataStoreRepositoryImpl(private val context: Context) : ProfileData
 
                 if(isFavorite) {
                     list.add(pictureId)
-                    favorites[email] = list
+                    favoritesList[email] = list
                 }
             }
 
             it.copy(
-                data = favorites as HashMap<String, List<String>>,
+                data = favoritesList as HashMap<String, List<String>>,
             )
         }
     }
 
-    override fun getProfile(): Flow<UserFavoriteImages> {
+    override fun getUserProfile(): Flow<UserFavoriteImages> {
         return context.profileStore.data
     }
 }

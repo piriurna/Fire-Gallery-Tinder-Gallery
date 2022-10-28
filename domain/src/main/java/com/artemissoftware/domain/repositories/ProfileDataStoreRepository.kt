@@ -8,5 +8,5 @@ interface ProfileDataStoreRepository {
 
     suspend fun updateFavorite(pictureId : String, email: String, isFavorite: Boolean)
 
-    fun getProfile(): Flow<UserFavoriteImages>
+    fun getUserProfile(): Flow<UserFavoriteImages>
 }

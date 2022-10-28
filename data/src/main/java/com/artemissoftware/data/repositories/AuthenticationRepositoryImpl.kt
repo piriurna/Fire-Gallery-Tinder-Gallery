@@ -46,12 +46,7 @@ class AuthenticationRepositoryImpl(
         }
     }
 
-
-    override fun getUser(): User? {
-        return authenticationSource.getUser()?.toUser()
-    }
-
-    override fun getUserInfo(): Flow<User?> {
+    override fun getUser(): Flow<User?> {
         return authenticationSource.getUserInfo().map { it?.toUser() }
     }
 

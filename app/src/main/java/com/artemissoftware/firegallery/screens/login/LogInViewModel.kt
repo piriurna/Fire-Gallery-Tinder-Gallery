@@ -5,8 +5,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.usecases.profile.LogInUseCase
-import com.artemissoftware.domain.usecases.profile.ValidateLoginUseCase
+import com.artemissoftware.domain.usecases.authentication.LogInUseCase
+import com.artemissoftware.domain.usecases.authentication.ValidateLoginUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
