@@ -10,11 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
+import com.artemissoftware.common.composables.FGCard
 import com.artemissoftware.domain.models.Picture
+import com.artemissoftware.firegallery.screens.favorites.composables.FavoriteCard
 
 @Composable
 fun PictureCard(
@@ -22,13 +25,8 @@ fun PictureCard(
     onClick: (String) -> Unit,
 ) {
 
-    Card(
-        modifier = Modifier
-            .padding(4.dp)
-            .clickable { onClick(picture.id) },
-        elevation = 12.dp,
-        shape = RoundedCornerShape(12.dp)
-
+    FGCard(
+        onClick =  { onClick(picture.id) }
     ) {
 
         val painter = rememberAsyncImagePainter(
@@ -46,4 +44,13 @@ fun PictureCard(
             contentScale = ContentScale.Crop,
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PictureCardPreview() {
+    PictureCard(
+        picture = Picture.picturesMockList[0],
+        onClick = {}
+    )
 }

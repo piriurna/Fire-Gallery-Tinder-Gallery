@@ -1,5 +1,6 @@
 package com.artemissoftware.firegallery.screens.favorites
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -85,16 +86,22 @@ private fun BuildFavoritesScreen(
             ) {
                 state.pictures.forEach { picture ->
 
-                    FavoriteCard(
-                        picture = picture,
-                        onFavoriteClick = { pictureId ->
-                            events?.invoke(FavoriteEvents.Remove(pictureId))
-                        },
-                        onClick = { pictureId->
-                            navController.navigate(GalleryDestinations.PictureDetail.withArgs(pictureId))
-                        }
-                    )
-
+                    AnimatedVisibility(visible = state.isFavorite(pictureId = picture.id)) {
+                        FavoriteCard(
+                            isFavorite = state.isFavorite(pictureId = picture.id),
+                            picture = picture,
+                            onFavoriteClick = { pictureId ->
+                                events?.invoke(FavoriteEvents.Remove(pictureId))
+                            },
+                            onClick = { pictureId ->
+                                navController.navigate(
+                                    GalleryDestinations.PictureDetail.withArgs(
+                                        pictureId
+                                    )
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

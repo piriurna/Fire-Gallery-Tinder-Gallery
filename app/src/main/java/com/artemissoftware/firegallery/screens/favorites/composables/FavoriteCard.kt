@@ -1,13 +1,11 @@
 package com.artemissoftware.firegallery.screens.favorites.composables
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -26,6 +24,7 @@ import com.artemissoftware.firegallery.screens.picturedetail.composables.Favorit
 
 @Composable
 fun FavoriteCard(
+    isFavorite: Boolean,
     picture: Picture,
     onFavoriteClick: (String) -> Unit,
     onClick: (String) -> Unit,
@@ -44,6 +43,7 @@ fun FavoriteCard(
         )
 
         FavoriteContent(
+            isFavorite = isFavorite,
             picture = picture,
             painter = painter,
             onClick = onFavoriteClick
@@ -53,6 +53,7 @@ fun FavoriteCard(
 
 @Composable
 private fun FavoriteContent(
+    isFavorite: Boolean,
     picture: Picture,
     painter: AsyncImagePainter,
     onClick: (String) -> Unit,
@@ -78,7 +79,7 @@ private fun FavoriteContent(
             onClickToRemoverFavorite = {
                 onClick.invoke(picture.id)
             },
-            isFavorite = picture.isFavorite,
+            isFavorite = isFavorite,
         )
 
     }
@@ -90,6 +91,7 @@ private fun FavoriteContent(
 @Composable
 private fun FavoriteCardPreview() {
     FavoriteCard(
+        isFavorite = true,
         picture = Picture.picturesMockList[0],
         onFavoriteClick = {},
         onClick = {}
@@ -110,5 +112,5 @@ private fun FavoriteContentPreview() {
     )
 
 
-    FavoriteContent(picture = Picture.picturesMockList[0], painter = painter, {})
+    FavoriteContent(picture = Picture.picturesMockList[0], painter = painter, isFavorite = true, onClick = {})
 }
