@@ -5,6 +5,7 @@ import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.artemissoftware.domain.repositories.GalleryRepository
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetFavoritePicturesUseCase @Inject constructor(
@@ -14,7 +15,7 @@ class GetFavoritePicturesUseCase @Inject constructor(
 ) {
 
     operator fun invoke() = profileDataStoreRepository.getUserProfile().combine( authenticationRepository.getUser()) { userLocalData, user ->
-        
+
         val favorites = userLocalData.data[user?.email]
 
         favorites?.let{
@@ -22,8 +23,6 @@ class GetFavoritePicturesUseCase @Inject constructor(
             val result = galleryRepository.getFavoritePictures(it)
 
             result.data?.let { pictures->
-
-                pictures.forEach { it.isFavorite = true }
 
                 if (pictures.isEmpty()) {
                     Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE, data = pictures)
@@ -38,87 +37,7 @@ class GetFavoritePicturesUseCase @Inject constructor(
         } ?: kotlin.run {
             Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
         }
-
-//        user?.let { authenticatedUser ->
-//
-//            userLocalData.data[authenticatedUser.email]?.let {
-//
-//                val result = galleryRepository.getFavoritePictures(it)
-//
-//                result.data?.let { pictures->
-//
-//                    pictures.forEach { it.isFavorite = true }
-//
-//                    if (pictures.isEmpty()) {
-//                        Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE, data = pictures)
-//                    } else {
-//                        Resource.Success(data = pictures)
-//                    }
-//
-//                } ?: kotlin.run {
-//                    Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
-//                }
-//            }
-//        }
-
-
     }
-
-
-
-
-
-
-
-//        profileDataStoreRepository.getUserProfile().combine(authenticationRepository.getUser()) { userLocalData, user ->
-//
-//        user?.let { authenticatedUser ->
-//
-//            preferences.data[authenticatedUser.email]?.let {
-//                val result = galleryRepository.getFavoritePictures(it)
-//
-//                result.data?.let { pictures->
-//
-//                    pictures.forEach { it.isFavorite = true }
-//
-//                    if (pictures.isEmpty()) {
-//                        Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE, data = pictures)
-//                    } else {
-//                        Resource.Success(data = pictures)
-//                    }
-//
-//                } ?: kotlin.run {
-//                    Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
-//                }
-//            } ?: kotlin.run {
-//                Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
-//            }
-//        } ?: kotlin.run {
-//            Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
-//        }
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//        profileDataStoreRepository.getUserProfile().map { preferences ->
-//
-//        val user = authenticationRepository.getUser()
-//
-//
-//    }
 
     companion object{
         const val NO_FAVORITE_PICTURES_AVAILABLE = "No favorite pictures available"

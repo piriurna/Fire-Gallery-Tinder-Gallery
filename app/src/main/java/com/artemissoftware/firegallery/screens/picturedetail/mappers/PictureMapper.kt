@@ -13,7 +13,6 @@ fun Picture.toUI(): PictureUI{
         id = id,
         title = title,
         author = author,
-        isFavorite = isFavorite,
         tags = tags
     )
 }
