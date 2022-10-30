@@ -34,9 +34,6 @@ fun PicturesScreen(
     val viewModel: PicturesViewModel = hiltViewModel()
     val state = viewModel.state.value
 
-    //TODO: Resolver isto
-    val ll = stringResource(R.string.accept)
-
     LaunchedEffect(key1 = true) {
 
         viewModel.eventFlow.collectLatest { event ->
@@ -47,7 +44,7 @@ fun PicturesScreen(
                         title = event.title,
                         description = event.message,
                         dialogOptions = DialogOptions(
-                            confirmationText = ll,
+                            confirmationTextId = R.string.accept,
                             confirmation = {
                                 navController.popBackStack()
                             }

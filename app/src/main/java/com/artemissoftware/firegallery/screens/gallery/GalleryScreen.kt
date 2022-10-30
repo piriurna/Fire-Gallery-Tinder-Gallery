@@ -35,8 +35,6 @@ fun GalleryScreen(
     val viewModel: GalleryViewModel = hiltViewModel()
     val state = viewModel.state.value
 
-    //TODO: Resolver isto
-    val ll = stringResource(R.string.accept)
 
     LaunchedEffect(key1 = true) {
 
@@ -48,7 +46,7 @@ fun GalleryScreen(
                         title = event.title,
                         description = event.message,
                         dialogOptions = DialogOptions(
-                            confirmationText = ll
+                            confirmationTextId = R.string.accept,
                         )
                     )
 

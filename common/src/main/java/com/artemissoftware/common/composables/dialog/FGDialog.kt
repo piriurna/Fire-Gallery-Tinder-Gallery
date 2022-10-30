@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -205,7 +206,7 @@ private fun FGDialogOptions(
             ) {
 
                 FGText(
-                    text = dialogOptions.cancelText ?: "Cancel",
+                    text = stringResource(id = dialogOptions.cancelTextId?: R.string.cancel) ,
                     style = FGStyle.TextAlbertSansBold,
                     color = textColor.copy(alpha = 0.4F),
                     modifier = Modifier.padding(vertical = 5.dp)
@@ -221,7 +222,7 @@ private fun FGDialogOptions(
             }
         ) {
             FGText(
-                text = dialogOptions.confirmationText,
+                text = stringResource(id = dialogOptions.confirmationTextId),
                 style = FGStyle.TextAlbertSansBold,
                 color = textColor,
                 modifier = Modifier.padding(vertical = 5.dp)
@@ -243,8 +244,8 @@ private fun FGDialogMessagePreview(){
         description = "Allow permission to send notifications every day of the year",
         icon = Icons.Filled.Build,
         dialogOptions = DialogOptions(
-            confirmationText = "I confirm",
-            cancelText = "I dont confirm"
+            confirmationTextId = R.string.confirm,
+            cancelTextId = R.string.cancel
         )
     )
 
@@ -263,8 +264,8 @@ private fun FGDialogOptionsPreview(){
         description = "Allow permission to send notifications every day of the year",
         icon = Icons.Filled.Build,
         dialogOptions = DialogOptions(
-            confirmationText = "I confirm",
-            cancelText = "I dont confirm"
+            confirmationTextId = R.string.confirm,
+            cancelTextId = R.string.cancel
         )
     )
 
@@ -273,7 +274,7 @@ private fun FGDialogOptionsPreview(){
         description = "Allow permission to send notifications every day of the year",
         imageId = R.drawable.ic_android,
         dialogOptions = DialogOptions(
-            confirmationText = "I confirm"
+            confirmationTextId = R.string.confirm,
         )
     )
 
@@ -293,8 +294,8 @@ private fun FGDialogPreview(){
         description = "Allow permission to send notifications every day of the year",
         icon = Icons.Filled.Build,
         dialogOptions = DialogOptions(
-            confirmationText = "I confirm",
-            cancelText = "I dont confirm"
+            confirmationTextId = R.string.confirm,
+            cancelTextId = R.string.cancel
         )
     )
 
@@ -303,7 +304,7 @@ private fun FGDialogPreview(){
         description = "Allow permission to send notifications every day of the year",
         imageId = R.drawable.ic_android,
         dialogOptions = DialogOptions(
-            confirmationText = "I confirm"
+            confirmationTextId = R.string.confirm
         )
     )
 

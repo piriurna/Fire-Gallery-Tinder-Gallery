@@ -36,9 +36,6 @@ fun FavoritesScreen(
     val viewModel: FavoritesViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState().value
 
-    //TODO: Resolver isto
-    val ll = stringResource(R.string.accept)
-
     LaunchedEffect(key1 = true) {
 
         viewModel.eventFlow.collectLatest { event ->
@@ -49,7 +46,7 @@ fun FavoritesScreen(
                         title = event.title,
                         description = event.message,
                         dialogOptions = DialogOptions(
-                            confirmationText = ll,
+                            confirmationTextId = R.string.accept,
                             confirmation = {
                                 //TODO: só aparece uma vez, por ser eventflow.resolver
                                 scaffoldState.changeCurrentPositionBottomBar(destination = HomeDestinations.Gallery, navController)

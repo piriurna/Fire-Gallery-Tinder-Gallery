@@ -8,7 +8,7 @@ data class Picture(
     val author: String,
     val imageUrl: String,
     val tags: List<String> = emptyList(),
-    var isFavorite: Boolean = false,
+    var isFavorite: Boolean = false, //TODO: remover isto
     var chipColorConfig: ChipColorConfig? = null
 ){
 

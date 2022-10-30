@@ -14,9 +14,7 @@ import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,11 +26,8 @@ class PictureDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ): FGBaseEventViewModel<PictureDetailEvents>(){
 
-    private val _state: MutableState<PictureDetailState> = mutableStateOf(PictureDetailState())
-    val state: State<PictureDetailState> = _state
-
-    private val _isFavorite = mutableStateOf(false)
-    val isFavorite: State<Boolean> = _isFavorite
+    private val _state: MutableStateFlow<PictureDetailState> = MutableStateFlow(PictureDetailState())
+    val state: StateFlow<PictureDetailState> = _state
 
     private val pictureId: String
 
@@ -74,8 +69,6 @@ class PictureDetailViewModel @Inject constructor(
 
     private fun saveFavorite(pictureId: String, isFavorite: Boolean) {
 
-        _isFavorite.value = isFavorite
-
         updateFavoriteUseCase(pictureId = pictureId, isFavorite = isFavorite)
             .onEach {
 
@@ -94,10 +87,6 @@ class PictureDetailViewModel @Inject constructor(
                         picture = result.data,
                         isLoading = false
                     )
-                    result.data?.let {
-                        _isFavorite.value = it.isFavorite
-                    }
-
                 }
                 is Resource.Error -> {
 
