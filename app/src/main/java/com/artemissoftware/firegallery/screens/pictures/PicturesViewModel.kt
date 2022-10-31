@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetPicturesUseCase
+import com.artemissoftware.domain.usecases.GetPicturesUseCase.Companion.INEXISTENT_GALLERY
 import com.artemissoftware.domain.usecases.GetPicturesUseCase.Companion.NO_PICTURES_AVAILABLE
 import com.artemissoftware.firegallery.navigation.NavigationArguments
 import com.artemissoftware.firegallery.screens.gallery.GalleryState
@@ -16,6 +17,7 @@ import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,8 +26,8 @@ class PicturesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ): FGBaseEventViewModel<PictureEvents>() {
 
-    private val _state: MutableState<PictureState> = mutableStateOf(PictureState())
-    val state: State<PictureState> = _state
+    private val _state: MutableStateFlow<PictureState> = MutableStateFlow(PictureState())
+    val state: StateFlow<PictureState> = _state
 
     private var gallery: GalleryUI?
 
@@ -36,7 +38,7 @@ class PicturesViewModel @Inject constructor(
         gallery?.let {
             onTriggerEvent(PictureEvents.GetPictures(galleryId = it.id))
         } ?: run{
-            //TODO: chamar erro
+            onTriggerEvent(PictureEvents.ShowError(message = INEXISTENT_GALLERY))
         }
 
     }
@@ -47,7 +49,9 @@ class PicturesViewModel @Inject constructor(
             is PictureEvents.GetPictures -> {
                 getPictures(event.galleryId)
             }
-
+            is PictureEvents.ShowError -> {
+                showError(event.message)
+            }
         }
     }
 
@@ -73,11 +77,10 @@ class PicturesViewModel @Inject constructor(
                         showOptions = false
                     )
 
-                    result.message?.let { showDialog(it) }
+                    result.message?.let { showDialog(it, gallery?.let { " for ${it.name} gallery" } ?: "") }
                 }
                 is Resource.Loading -> {
                     _state.value = _state.value.copy(
-                        //pictures = result.data ?: emptyList(),
                         isLoading = true
                     )
                 }
@@ -88,22 +91,32 @@ class PicturesViewModel @Inject constructor(
     }
 
 
-    private suspend fun showDialog(message: String){
+    private suspend fun showDialog(message: String, messageToAppend: String){
 
         when(message){
 
             NO_PICTURES_AVAILABLE ->{
 
-                val galleryMessage = gallery?.let { " for ${it.name} gallery" } ?: ""
-
                 _eventFlow.emit(
                     UIEvent.ShowInfoDialog(
                         title = "Pictures",
-                        message = message + galleryMessage
+                        message = message + messageToAppend
                     )
                 )
             }
         }
     }
+
+    private fun showError(message: String){
+        viewModelScope.launch {
+            _eventFlow.emit(
+                UIEvent.ShowErrorDialog(
+                    title = "Pictures",
+                    message = message
+                )
+            )
+        }
+    }
+
 
 }
