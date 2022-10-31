@@ -39,8 +39,6 @@ import kotlin.math.roundToInt
 fun FGScaffold(
     modifier: Modifier = Modifier/*.statusBarsPadding()*/,
 //    color: EDPAppBarColor = EDPAppBarColor.GREY,
-//    title: String? = null,
-//    subtitle: String? = null,
 //    @DrawableRes navigationIconId: Int? = R.drawable.ic_arrow_left,
 //    navigationText: String? = null,
 //    onNavigationClick: (() -> Unit) = {},
@@ -139,8 +137,8 @@ fun FGScaffold(
 private fun FGScaffoldPreview() {
 
     val list = listOf(
-        BottomBarItem("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create"),
-        BottomBarItem("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+        BottomBarItem(R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, "Create"),
+        BottomBarItem(R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, "Profile")
     )
 
     FGScaffold(

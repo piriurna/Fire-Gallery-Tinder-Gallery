@@ -67,9 +67,9 @@ class ProfileViewModel @Inject constructor(
 
         val appConfig = AppConfig(notifications = notificationsEnabled)
 
-        updateProfileUseCase.invoke(appConfig).onEach { result ->
-
-        }.launchIn(viewModelScope)
+        updateProfileUseCase.invoke(appConfig)
+            .onEach { }
+            .launchIn(viewModelScope)
     }
 
     private fun logOut(){

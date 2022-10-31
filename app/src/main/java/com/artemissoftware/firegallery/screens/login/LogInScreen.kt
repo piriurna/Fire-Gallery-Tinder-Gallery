@@ -2,10 +2,7 @@ package com.artemissoftware.firegallery.screens.login
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -38,7 +35,7 @@ fun LogInScreen(
 ) {
 
     val viewModel: LogInViewModel = hiltViewModel()
-    val state = viewModel.state.value
+    val state = viewModel.state.collectAsState()
 
 
     LaunchedEffect(key1 = true) {
@@ -62,14 +59,14 @@ fun LogInScreen(
         }
     }
 
-    LaunchedEffect(key1 = state.loggedIn){
-        if(state.loggedIn) navController.popBackStack()
+    LaunchedEffect(key1 = state.value.loggedIn){
+        if(state.value.loggedIn) navController.popBackStack()
     }
 
 
     BuildLogInScreen(
         navController = navController,
-        state = state,
+        state = state.value,
         events = viewModel::onTriggerEvent
     )
 

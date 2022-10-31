@@ -25,4 +25,6 @@
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
     <string name="log_in_to_account">Log in to your account</string>
+    <string name="gallery">Gallery</string>
+    <string name="favorite">Favorite</string>
 </resources>

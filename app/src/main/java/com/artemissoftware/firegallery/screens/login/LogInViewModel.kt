@@ -10,6 +10,8 @@ import com.artemissoftware.domain.usecases.authentication.ValidateLoginUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -20,8 +22,8 @@ class LogInViewModel @Inject constructor(
     private val loginUseCase: LogInUseCase
 ) : FGBaseEventViewModel<LogInEvents>() {
 
-    private val _state: MutableState<LogInState> = mutableStateOf(LogInState())
-    val state: State<LogInState> = _state
+    private val _state: MutableStateFlow<LogInState> = MutableStateFlow(LogInState())
+    val state: StateFlow<LogInState> = _state
 
     override fun onTriggerEvent(event: LogInEvents) {
         when(event){

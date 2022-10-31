@@ -34,7 +34,7 @@ import kotlinx.coroutines.MainScope
 @Composable
 fun FGDialog(fgScaffoldState: FGScaffoldState) {
 
-    fgScaffoldState.modalVisible?.let { dialogType->
+    fgScaffoldState.modalVisible.value?.let { dialogType->
 
         Dialog(
             onDismissRequest = {
