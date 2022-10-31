@@ -24,5 +24,5 @@ fun UserFavoriteImages.toFavoriteImages() : FavoriteImages{
 }
 
 fun FirebaseUser.toUser(): User{
-    return User(name = displayName, email = email)
+    return User(name = displayName, email = email ?: "")
 }

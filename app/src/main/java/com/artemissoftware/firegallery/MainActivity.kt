@@ -25,10 +25,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.scaffoldState.setBottomBarDestinations(listOf(
-            HomeDestinations.Gallery, HomeDestinations.Favorites, HomeDestinations.Profile
-        ))
-
         setContent {
             FireGalleryTheme {
                 // A surface container using the 'background' color from the theme

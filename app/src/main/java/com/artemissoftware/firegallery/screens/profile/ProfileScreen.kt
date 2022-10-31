@@ -30,6 +30,7 @@ import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold28
 import com.artemissoftware.common.theme.InfoBlue
 import com.artemissoftware.domain.models.profile.AppConfig
+import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.navigation.graphs.ProfileDestinations
@@ -63,6 +64,9 @@ private fun BuildProfileScreen(
 
     val context = LocalContext.current
 
+    val appConfig = state.profile?.appConfig
+    val user = state.profile?.user
+
     FGScaffold(
         isLoading = state.isLoading,
         modifier = Modifier.padding(4.dp)
@@ -84,9 +88,12 @@ private fun BuildProfileScreen(
                     .padding(horizontal = 0.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                state.user?.name?.let{ //TODO:mudar isto
-                    item {
 
+
+                user?.let {
+
+                    it.name?.let{
+                        item {
 
                             ProfileOption(
                                 icon = Icons.Filled.AccountBox,
@@ -97,65 +104,66 @@ private fun BuildProfileScreen(
 
                             )
                         }
-                }
-                state.user?.let { //TODO:mudar isto
+                    }
                     item {
 
-                            ProfileOption(
-                                icon = Icons.Filled.Favorite,
-                                iconColor = InfoBlue,
-                                title = it.favorites.size.toString(),
-                                description = stringResource(R.string.number_favorite_pictures),
-                                onClick = {
+                        ProfileOption(
+                            icon = Icons.Filled.Favorite,
+                            iconColor = InfoBlue,
+                            title = it.favorites.size.toString(),
+                            description = stringResource(R.string.number_favorite_pictures),
+                            onClick = {
 
-                                    scaffoldState?.changeCurrentPositionBottomBar(
-                                        destination = HomeDestinations.Favorites,
-                                        navController
-                                    )
-                                }
-                            )
-                        }
+                                scaffoldState?.changeCurrentPositionBottomBar(
+                                    destination = HomeDestinations.Favorites,
+                                    navController
+                                )
+                            }
+                        )
+                    }
                 }
 
-                item {
+                appConfig?.let {
 
-                    ProfileOption(
-                        icon = Icons.Filled.Notifications,
-                        iconColor = InfoBlue,
-                        isChecked = state.appConfig.notifications,
-                        description = stringResource(R.string.allow_receive_push_notifications),
-                        onCheck = {
+                    item {
 
-                            events?.invoke(ProfileEvents.UpdateProfile(notificationsEnabled = it))
-                        }
-                    )
+                        ProfileOption(
+                            icon = Icons.Filled.Notifications,
+                            iconColor = InfoBlue,
+                            isChecked = it.notifications,
+                            description = stringResource(R.string.allow_receive_push_notifications),
+                            onCheck = {
 
+                                events?.invoke(ProfileEvents.UpdateProfile(notificationsEnabled = it))
+                            }
+                        )
+
+                    }
+
+                    item {
+                        ProfileOption(
+                            icon = Icons.Filled.Password,
+                            iconColor = InfoBlue,
+                            title = stringResource(R.string.firebase_token),
+                            description = it.firebaseToken,
+                            onClick = {
+
+                                val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                                val clip = ClipData.newPlainText("token", it.firebaseToken)
+                                clipboard.setPrimaryClip(clip)
+                                Toast.makeText(context, R.string.token_copied, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+
+                        )
+                    }
                 }
-
-                item {
-                    ProfileOption(
-                        icon = Icons.Filled.Password,
-                        iconColor = InfoBlue,
-                        title = stringResource(R.string.firebase_token),
-                        description = state.appConfig.firebaseToken,
-                        onClick = {
-
-                            val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                            val clip = ClipData.newPlainText("token", state.appConfig.firebaseToken)
-                            clipboard.setPrimaryClip(clip)
-                            Toast.makeText(context, R.string.token_copied, Toast.LENGTH_SHORT).show()
-                        }
-
-                    )
-                }
-
-
 
                 item {
 
                     Row(modifier = Modifier.padding(top = 16.dp)) {
 
-                        state.user?.let {
+                        user?.let {
 
                             FGButton(
                                 modifier = Modifier.fillMaxWidth(),
@@ -196,5 +204,5 @@ private fun BuildProfileScreen(
 @Composable
 private fun BuildProfileScreenPreview() {
 
-    BuildProfileScreen(state = ProfileState(appConfig = AppConfig.mockAppConfig), navController = rememberNavController())
+    BuildProfileScreen(state = ProfileState(profile = Profile.mockProfile), navController = rememberNavController())
 }

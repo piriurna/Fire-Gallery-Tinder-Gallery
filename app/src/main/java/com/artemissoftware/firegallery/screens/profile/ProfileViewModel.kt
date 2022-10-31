@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.profile.AppConfig
 import com.artemissoftware.domain.usecases.profile.GetProfileUseCase
-import com.artemissoftware.domain.usecases.profile.LogOutUseCase
+import com.artemissoftware.domain.usecases.authentication.LogOutUseCase
 import com.artemissoftware.domain.usecases.profile.UpdateProfileUseCase
 import com.artemissoftware.firegallery.screens.profile.ProfileEvents.GetProfile
 import com.artemissoftware.firegallery.screens.profile.ProfileEvents.UpdateProfile
@@ -56,8 +56,7 @@ class ProfileViewModel @Inject constructor(
             getProfileUseCase.invoke().collectLatest { result ->
 
                 _state.value = _state.value.copy(
-                    appConfig = result,
-                    user = result.user,
+                    profile = result,
                     isLoading = false
                 )
             }
@@ -68,38 +67,16 @@ class ProfileViewModel @Inject constructor(
 
         val appConfig = AppConfig(notifications = notificationsEnabled)
 
-        updateProfileUseCase.invoke(appConfig).onEach { result ->
-
-            when(result) {
-                is Resource.Success -> {
-
-                    _state.value = _state.value.copy(
-                        appConfig = appConfig
-                    )
-                }
-                else ->{}
-            }
-
-        }.launchIn(viewModelScope)
+        updateProfileUseCase.invoke(appConfig)
+            .onEach { }
+            .launchIn(viewModelScope)
     }
 
     private fun logOut(){
 
         logOutUseCase.invoke().onEach { result ->
-
             when(result) {
-                is Resource.Success -> {
-//TODO:remover isto
-//                    val profile = _state.value.appConfig
-//                    profile.user = null
-//                    _state.value = _state.value.copy(
-//                        appConfig = profile,
-//                        user = null,
-//                        isLoading = false
-//                    )
-                }
                 is Resource.Loading -> {
-
                     _state.value = _state.value.copy(
                         isLoading = true
                     )

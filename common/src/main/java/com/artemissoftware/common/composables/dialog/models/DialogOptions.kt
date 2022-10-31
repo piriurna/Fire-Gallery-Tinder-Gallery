@@ -1,17 +1,22 @@
 package com.artemissoftware.common.composables.dialog.models
 
+import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+
 data class DialogOptions(
-    val confirmationText: String,
+    @StringRes val confirmationTextId: Int,
     val confirmation: () -> Unit = {},
-    val cancelText: String? = null,
+    @StringRes val cancelTextId: Int? = null,
     val cancel: () -> Unit = {},
-){
+) {
+
 
     fun getOptionsType(): DialogButtonType{
 
         return when{
 
-            (cancelText != null) ->{
+            (cancelTextId != null) ->{
                 DialogButtonType.DOUBLE_OPTION
             }
             else ->{

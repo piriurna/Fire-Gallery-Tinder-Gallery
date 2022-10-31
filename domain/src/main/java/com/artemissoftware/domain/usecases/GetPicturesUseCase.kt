@@ -27,5 +27,6 @@ class GetPicturesUseCase @Inject constructor(private val galleryRepository: Gall
 
     companion object{
         const val NO_PICTURES_AVAILABLE = "No pictures available"
+        const val INEXISTENT_GALLERY = "Gallery does not exist"
     }
 }

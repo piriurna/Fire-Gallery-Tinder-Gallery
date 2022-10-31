@@ -22,15 +22,14 @@ fun PictureInformation(
     modifier: Modifier = Modifier,
     picture: PictureUI? = null
 ) {
+    picture?.let {
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-
-        picture?.let {
             PictureDetail(title = stringResource(R.string.Title), description = it.title)
-            PictureDetail(title = stringResource(R.string.Author), description = it.author)
+            if(it.author.isNotEmpty()) PictureDetail(title = stringResource(R.string.Author), description = it.author)
             PictureDetail(title = stringResource(R.string.code), description = it.id)
             FGChipSection(chips = it.tags)
         }

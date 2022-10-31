@@ -6,11 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.profile.GetValidationRulesUseCase
-import com.artemissoftware.domain.usecases.profile.RegisterUserUseCase
-import com.artemissoftware.domain.usecases.profile.ValidateRegisterUseCase
+import com.artemissoftware.domain.usecases.authentication.RegisterUserUseCase
+import com.artemissoftware.domain.usecases.authentication.ValidateRegisterUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -22,8 +24,8 @@ class RegisterViewModel @Inject constructor(
     private val getValidationRulesUseCase: GetValidationRulesUseCase
 ): FGBaseEventViewModel<RegisterEvents>() {
 
-    private val _state: MutableState<RegisterState> = mutableStateOf(RegisterState())
-    val state: State<RegisterState> = _state
+    private val _state: MutableStateFlow<RegisterState> = MutableStateFlow(RegisterState())
+    val state: StateFlow<RegisterState> = _state
 
     init {
         onTriggerEvent(RegisterEvents.GetValidationRules)

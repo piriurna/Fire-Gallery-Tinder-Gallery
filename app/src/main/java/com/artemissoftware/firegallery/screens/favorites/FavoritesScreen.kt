@@ -1,13 +1,14 @@
 package com.artemissoftware.firegallery.screens.favorites
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,8 +23,8 @@ import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
 import com.artemissoftware.firegallery.navigation.HomeDestinations
 import com.artemissoftware.firegallery.navigation.graphs.GalleryDestinations
-import com.artemissoftware.firegallery.screens.favorites.composables.FavoriteCard
 import com.artemissoftware.firegallery.screens.pictures.PictureState
+import com.artemissoftware.firegallery.screens.pictures.composables.PictureCard
 import com.artemissoftware.firegallery.ui.UIEvent
 import kotlinx.coroutines.flow.collectLatest
 
@@ -34,10 +35,7 @@ fun FavoritesScreen(
 ){
 
     val viewModel: FavoritesViewModel = hiltViewModel()
-    val state = viewModel.state.collectAsState().value
-
-    //TODO: Resolver isto
-    val ll = stringResource(R.string.accept)
+    val state = viewModel.state.collectAsState()
 
     LaunchedEffect(key1 = true) {
 
@@ -49,7 +47,7 @@ fun FavoritesScreen(
                         title = event.title,
                         description = event.message,
                         dialogOptions = DialogOptions(
-                            confirmationText = ll,
+                            confirmationTextId = R.string.accept,
                             confirmation = {
                                 //TODO: só aparece uma vez, por ser eventflow.resolver
                                 scaffoldState.changeCurrentPositionBottomBar(destination = HomeDestinations.Gallery, navController)
@@ -65,7 +63,7 @@ fun FavoritesScreen(
     }
 
 
-    BuildFavoritesScreen(state = state, navController = navController, events = viewModel::onTriggerEvent)
+    BuildFavoritesScreen(state = state.value, navController = navController, events = viewModel::onTriggerEvent)
 
 }
 
@@ -88,16 +86,22 @@ private fun BuildFavoritesScreen(
             ) {
                 state.pictures.forEach { picture ->
 
-                    FavoriteCard(
-                        picture = picture,
-                        onFavoriteClick = { pictureId ->
-                            events?.invoke(FavoriteEvents.Remove(pictureId))
-                        },
-                        onClick = { pictureId->
-                            navController.navigate(GalleryDestinations.PictureDetail.withArgs(pictureId))
-                        }
-                    )
-
+                    AnimatedVisibility(visible = state.isFavorite(pictureId = picture.id)) {
+                        PictureCard(
+                            isFavorite = state.isFavorite(pictureId = picture.id),
+                            picture = picture,
+                            onFavoriteClick = { pictureId ->
+                                events?.invoke(FavoriteEvents.Remove(pictureId))
+                            },
+                            onClick = { pictureId ->
+                                navController.navigate(
+                                    GalleryDestinations.PictureDetail.withArgs(
+                                        pictureId
+                                    )
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }
