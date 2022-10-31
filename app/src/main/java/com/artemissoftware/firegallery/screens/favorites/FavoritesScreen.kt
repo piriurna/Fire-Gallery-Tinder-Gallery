@@ -35,7 +35,7 @@ fun FavoritesScreen(
 ){
 
     val viewModel: FavoritesViewModel = hiltViewModel()
-    val state = viewModel.state.collectAsState().value
+    val state = viewModel.state.collectAsState()
 
     LaunchedEffect(key1 = true) {
 
@@ -63,7 +63,7 @@ fun FavoritesScreen(
     }
 
 
-    BuildFavoritesScreen(state = state, navController = navController, events = viewModel::onTriggerEvent)
+    BuildFavoritesScreen(state = state.value, navController = navController, events = viewModel::onTriggerEvent)
 
 }
 

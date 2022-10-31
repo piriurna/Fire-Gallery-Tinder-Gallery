@@ -5,6 +5,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 
 object HandleFirebase {
 
@@ -48,6 +49,13 @@ object HandleFirebase {
                 is FirebaseAuthUserCollisionException ->{
                     throw FireGalleryException(
                         message = ex.errorCode,
+                        description = ex.message
+                    )
+                }
+
+                is FirebaseRemoteConfigException ->{
+                    throw FireGalleryException(
+                        message = "",
                         description = ex.message
                     )
                 }
