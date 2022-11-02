@@ -1,6 +1,7 @@
 package com.artemissoftware.common.extensions
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.material.ExperimentalMaterialApi
@@ -11,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
+import com.artemissoftware.common.models.SwipeResult
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -30,25 +33,22 @@ fun rememberSwipeState(maxWidth: Float, maxHeight: Float): Swipe =
  *
  */
 open class Swipe(val maxWidth: Float, val maxHeight: Float) {
-    val offsetX = Animatable(0f)
-    val offsetY = Animatable(0f)
+    val offset = Animatable(Offset(0f,0f), Offset.VectorConverter)
 
     fun reset(scope: CoroutineScope) = scope.launch {
-        launch { offsetX.animateTo(0f, tween(400)) }
-        launch { offsetY.animateTo(0f, tween(400)) }
+        launch { offset.animateTo(Offset(0f,0f), tween(600)) }
     }
 
     fun accepted(scope: CoroutineScope) = scope.launch {
-        offsetX.animateTo(maxWidth * 2, tween(400))
+        offset.animateTo(Offset(maxWidth * 2, offset.value.y), tween(600))
     }
 
     fun rejected(scope: CoroutineScope) = scope.launch {
-        offsetX.animateTo(-(maxWidth * 2), tween(400))
+        offset.animateTo(Offset(-(maxWidth * 2), offset.value.y), tween(600))
     }
 
     fun drag(scope: CoroutineScope, x: Float, y: Float) = scope.launch {
-        launch { offsetX.animateTo(x) }
-        launch { offsetY.animateTo(y) }
+        launch { offset.animateTo(Offset(x,y)) }
     }
 }
 
@@ -61,24 +61,24 @@ fun Modifier.swiper(
     state: Swipe,
     onDragReset: () -> Unit = {},
     onDragAccepted: () -> Unit,
-    onDragRejected: () -> Unit
+    onDragRejected: () -> Unit,
 ): Modifier = composed {
     val scope = rememberCoroutineScope()
     Modifier.pointerInput(Unit) {
         detectDragGestures(
             onDragEnd = {
                 when {
-                    abs(state.offsetX.targetValue) < state.maxWidth / 4 -> {
+                    abs(state.offset.targetValue.x) < state.maxWidth / 3.5f -> {
                         state
                             .reset(scope)
                             .invokeOnCompletion { onDragReset() }
                     }
-                    state.offsetX.targetValue > 0 -> {
+                    SwipeResult.isAcceptGesture(state.offset.targetValue.x) -> {
                         state
                             .accepted(scope)
                             .invokeOnCompletion { onDragAccepted() }
                     }
-                    state.offsetX.targetValue < 0 -> {
+                    SwipeResult.isDismissGesture(state.offset.targetValue.x) -> {
                         state
                             .rejected(scope)
                             .invokeOnCompletion { onDragRejected() }
@@ -86,14 +86,16 @@ fun Modifier.swiper(
                 }
             },
             onDrag = { change, dragAmount ->
-                val original = Offset(state.offsetX.targetValue, state.offsetY.targetValue)
-                val summed = original + dragAmount
-                val newValue = Offset(
-                    x = summed.x.coerceIn(-state.maxWidth, state.maxWidth),
-                    y = summed.y.coerceIn(-state.maxHeight, state.maxHeight)
-                )
-                change.consumePositionChange()
-                state.drag(scope, newValue.x, newValue.y)
+                scope.launch {
+                        val original = state.offset.targetValue
+                        val summed = original + dragAmount
+                        val newValue = Offset(
+                            x = summed.x.coerceIn(-state.maxWidth, state.maxWidth),
+                            y = summed.y.coerceIn(-state.maxHeight, state.maxHeight)
+                        )
+                        if (change.positionChange() != Offset.Zero) change.consume()
+                        state.drag(scope, newValue.x, newValue.y)
+                }
             }
         )
         /**
@@ -102,10 +104,10 @@ fun Modifier.swiper(
          * if I start swiping a card it first rotates along edges left or right according to drag and
          * slowly decrease alpha to look it more like dismissing
          */
-    }.graphicsLayer(
-        translationX = state.offsetX.value,
-        translationY = state.offsetY.value,
-        rotationZ = (state.offsetX.value / 60).coerceIn(-40f, 40f),
-        alpha = ((state.maxWidth - abs(state.offsetX.value)) / state.maxWidth).coerceIn(0f, 1f)
-    )
+    }.graphicsLayer {
+        translationX = state.offset.value.x
+        translationY = state.offset.value.y
+        rotationZ = (state.offset.value.x / 60).coerceIn(-40f, 40f)
+        alpha = ((state.maxWidth - abs(state.offset.value.x)) / state.maxWidth).coerceIn(0f, 1f)
+    }
 }

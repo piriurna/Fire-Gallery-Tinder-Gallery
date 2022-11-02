@@ -1,13 +1,17 @@
 package com.artemissoftware.common.composables.images
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,21 +32,23 @@ fun SwipeCard(
 ) {
 
     FGCard(
-        modifier = modifier.padding(4.dp).clickable(enabled = false, onClick = {}),
+        modifier = modifier
+            .padding(4.dp)
+            .clickable(enabled = false, onClick = {})
+            .swiper(
+                state = swipeState,
+                onDragAccepted = {
+                    onSwiped(SwipeResult.ACCEPT)
+                },
+                onDragRejected = {
+                    onSwiped(SwipeResult.REJECT)
+                },
+            ),
         elevation = 12.dp,
         shape = RoundedCornerShape(12.dp),
     ) {
         Box(
-            modifier = Modifier
-                .swiper(
-                    state = swipeState,
-                    onDragAccepted = {
-                        onSwiped(SwipeResult.ACCEPT)
-                    },
-                    onDragRejected = {
-                        onSwiped(SwipeResult.REJECT)
-                    }
-                ),
+            modifier = Modifier,
             content = content
         )
     }
@@ -53,26 +59,29 @@ fun SwipeCard(
 @ExperimentalMaterialApi
 @Composable
 fun PreviewSwipeCard() {
-    var width by remember {
-        mutableStateOf(0)
-    }
-    var height by remember {
-        mutableStateOf(0)
-    }
-    with(LocalDensity.current) {
-    SwipeCard(modifier = Modifier
-        .fillMaxSize()
-        .onSizeChanged {
-            width = it.width
-            height = it.height
-        }
-        .wrapContentSize(
-            align = Alignment.Center
-        ),
-        onSwiped = { /*TODO*/ },
-        swipeState = rememberSwipeState(maxWidth = width.toFloat(), maxHeight = height.toFloat())
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxSize()
     ) {
+        SwipeCard(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(
+                    align = Alignment.Center
+                ),
+            onSwiped = { /*TODO*/ },
+            swipeState = rememberSwipeState(maxWidth = constraints.maxWidth.toFloat(), maxHeight = constraints.maxHeight.toFloat())
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black),
+            ) {
+                Text(
 
-    }
+                    text = "Teste"
+                )
+            }
+        }
+
     }
 }
