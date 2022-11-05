@@ -71,11 +71,15 @@ fun Modifier.swipableCard(
                             }
                         } else {
                             if (state.offset.targetValue.y < 0) {
-                                state.swipe(Direction.Up)
-                                onSwiped(Direction.Up)
+                                state.reset()
+                                onSwipeCancel()
+//                                state.swipe(Direction.Up)
+//                                onSwiped(Direction.Up)
                             } else {
-                                state.swipe(Direction.Down)
-                                onSwiped(Direction.Down)
+                                state.reset()
+                                onSwipeCancel()
+//                                state.swipe(Direction.Down)
+//                                onSwiped(Direction.Down)
                             }
                         }
                     }

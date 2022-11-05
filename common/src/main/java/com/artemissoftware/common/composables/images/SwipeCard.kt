@@ -1,10 +1,10 @@
 package com.artemissoftware.common.composables.images
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -12,22 +12,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.alexstyl.swipeablecard.*
 import com.artemissoftware.common.composables.FGCard
-import com.artemissoftware.common.extensions.Swipe
-import com.artemissoftware.common.extensions.rememberSwipeState
-import com.artemissoftware.common.extensions.swiper
+import com.artemissoftware.common.extensions.swipeablecard.Direction
+import com.artemissoftware.common.extensions.swipeablecard.SwipeableCardState
+import com.artemissoftware.common.extensions.swipeablecard.rememberSwipeableCardState
 import com.artemissoftware.common.models.SwipeResult
 
+@OptIn(ExperimentalSwipeableCardApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun SwipeCard(
     modifier: Modifier = Modifier,
     onSwiped: (result: SwipeResult) -> Unit,
-    swipeState : Swipe,
+    swipeState : SwipeableCardState,
     content: @Composable (BoxScope.() -> Unit)
 ) {
 
@@ -35,13 +35,27 @@ fun SwipeCard(
         modifier = modifier
             .padding(4.dp)
             .clickable(enabled = false, onClick = {})
-            .swiper(
+            .swipableCard(
                 state = swipeState,
-                onDragAccepted = {
-                    onSwiped(SwipeResult.ACCEPT)
+                blockedDirections = listOf(Direction.Down),
+                onSwiped = {
+                    // swipes are handled by the LaunchedEffect
+                    // so that we track button clicks & swipes
+                    // from the same place
+                    when(it) {
+                        Direction.Right -> {
+                            onSwiped(SwipeResult.ACCEPT)
+                        }
+                        Direction.Left -> {
+                            onSwiped(SwipeResult.REJECT)
+                        }
+                        else -> {
+                            onSwiped(SwipeResult.REJECT)
+                        }
+                    }
                 },
-                onDragRejected = {
-                    onSwiped(SwipeResult.REJECT)
+                onSwipeCancel = {
+                    Log.d("Swipeable-Card", "Cancelled swipe")
                 },
             ),
         elevation = 12.dp,
@@ -69,7 +83,7 @@ fun PreviewSwipeCard() {
                     align = Alignment.Center
                 ),
             onSwiped = { /*TODO*/ },
-            swipeState = rememberSwipeState(maxWidth = constraints.maxWidth.toFloat(), maxHeight = constraints.maxHeight.toFloat())
+            swipeState = rememberSwipeableCardState(),
         ) {
             Box(
                 modifier = Modifier
