@@ -42,6 +42,23 @@ class CloudStoreSource @Inject constructor(private val firebaseFirestore: Fireba
         }
     }
 
+    suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>): List<DocumentSnapshot> {
+
+        return suspendCoroutine { continuation ->
+            firebaseFirestore
+                .collection(FireStoreCollection.PICTURES)
+                .whereNotIn(FireStoreDocumentField.ID, favoriteImages)
+                .limit(numberOfImages.toLong())
+                .get()
+                .addOnSuccessListener {
+                    continuation.resume(it.documents)
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
     suspend fun getDocumentItems(collectionName: String, documentField: String, id: Object): List<DocumentSnapshot> {
 
         return suspendCoroutine { continuation ->

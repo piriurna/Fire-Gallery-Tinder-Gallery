@@ -45,6 +45,12 @@ class GalleryRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>): List<Picture> {
+        return cloudStoreSource.getPicturesForTinder(numberOfImages, favoriteImages).map { document ->
+            document.toObject<PictureFso>()!!.toPicture()
+        }
+    }
+
     override suspend fun getFavoritePictures(pictureIds: List<String>): FirebaseResponse<List<Picture>> {
 
         return try {
