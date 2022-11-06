@@ -1,4 +1,4 @@
-package com.artemissoftware.domain.usecases.profile
+package com.artemissoftware.domain.usecases.authentication
 
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.repositories.AuthenticationRepository

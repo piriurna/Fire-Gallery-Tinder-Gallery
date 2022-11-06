@@ -1,17 +1,12 @@
 package com.artemissoftware.firegallery.screens.gallery
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.usecases.GetGalleriesUseCase
 import com.artemissoftware.firegallery.ui.FGBaseEventViewModel
 import com.artemissoftware.firegallery.ui.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 
@@ -20,8 +15,8 @@ class GalleryViewModel @Inject constructor(
     private val getGalleriesUseCase: GetGalleriesUseCase
 ): FGBaseEventViewModel<GalleryEvents>() {
 
-    private val _state: MutableState<GalleryState> = mutableStateOf(GalleryState())
-    val state: State<GalleryState> = _state
+    private val _state = MutableStateFlow(GalleryState())
+    val state: StateFlow<GalleryState> = _state
 
     init {
         onTriggerEvent(GalleryEvents.GetGalleries)
@@ -33,7 +28,6 @@ class GalleryViewModel @Inject constructor(
             is GalleryEvents.GetGalleries -> {
                 getGetGalleries()
             }
-
         }
     }
 
@@ -64,7 +58,6 @@ class GalleryViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     _state.value = _state.value.copy(
-                        //tickets = result.data ?: emptyList(),
                         isLoading = true
                     )
                 }

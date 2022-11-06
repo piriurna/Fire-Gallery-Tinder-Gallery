@@ -23,10 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.composables.animations.FlipAnimation
 import com.artemissoftware.common.composables.navigation.models.BottomBarItem
+import com.artemissoftware.common.composables.text.FGText
 
 @Composable
 fun FGBottomNavigationItem (
@@ -81,14 +83,14 @@ fun FGBottomNavigationItem (
                     rememberVectorPainter(
                         image = if (isSelected) item.activeIcon else item.inactiveIcon
                     ),
-                    contentDescription = item.title,
+                    contentDescription = stringResource(id = item.title),
                     modifier = Modifier
                 )
             }
 
             AnimatedVisibility(visible = isSelected) {
-                Text(
-                    text = item.title,
+                FGText(
+                    text = stringResource(id = item.title),
                     modifier = Modifier.padding(start = 8.dp, end = 12.dp),
                     maxLines = 1,
                 )
@@ -102,8 +104,8 @@ fun FGBottomNavigationItem (
 private fun FGBottomNavigationItemPreview() {
 
     val list = listOf(
-        BottomBarItem("Home", Icons.Filled.Home, Icons.Outlined.Home, "Home"),
-        BottomBarItem("Settings", Icons.Filled.Settings, Icons.Outlined.Settings, "Settings")
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Home, Icons.Outlined.Home, "Home"),
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Settings, Icons.Outlined.Settings, "Settings")
     )
 
     Column(verticalArrangement = Arrangement.spacedBy(36.dp)) {

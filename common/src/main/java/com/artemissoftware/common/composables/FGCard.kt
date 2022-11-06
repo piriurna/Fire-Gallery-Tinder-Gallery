@@ -1,6 +1,7 @@
 package com.artemissoftware.common.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -12,19 +13,20 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.artemissoftware.common.composables.text.FGText
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FGCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    elevation: Dp = 4.dp,
-    shape: Shape = MaterialTheme.shapes.medium,
+    elevation: Dp = 12.dp,
+    shape: Shape = RoundedCornerShape(12.dp),
     content: @Composable () -> Unit
 ) {
 
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.padding(4.dp).fillMaxWidth(),
         onClick = onClick,
         elevation = elevation,
         shape = shape,
@@ -37,7 +39,7 @@ fun FGCard(
 private fun FGCardPreview() {
 
     FGCard{
-        Text(text = "Example")
+        FGText(text = "Example")
     }
     
 }

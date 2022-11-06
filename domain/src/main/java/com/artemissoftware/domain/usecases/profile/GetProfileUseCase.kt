@@ -1,10 +1,10 @@
 package com.artemissoftware.domain.usecases.profile
 
+import com.artemissoftware.domain.models.profile.Profile
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.artemissoftware.domain.repositories.AppSettingsDataStoreRepository
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetProfileUseCase @Inject constructor(
@@ -15,20 +15,14 @@ class GetProfileUseCase @Inject constructor(
 
     operator fun invoke() = combine(
         appSettingsDataStoreRepository.getAppSettings(),
-        profileDataStoreRepository.getProfile(),
-        authenticationRepository.getUserInfo()
-    ){ appSettings, profile, user ->
+        profileDataStoreRepository.getUserProfile(),
+        authenticationRepository.getUser()
+    ) { appSettings, userData, userInfo ->
 
-        profile.data[user?.name]?.let { appSettings.favorites = it}
-        appSettings.user =  user
-        appSettings
+        userInfo?.let { user ->
+            userData.data[user.email]?.let { user.favorites = it }
+        }
+        Profile(appConfig = appSettings, user = userInfo)
     }
 
-//        appSettingsDataStoreRepository.getAppSettings().combine(profileDataStoreRepository.getProfile()) { appSettings, profile ->
-//
-//        val user = authenticationRepository.getUser()
-//        profile.data[user?.name]?.let { appSettings.favorites = it}
-//        appSettings.user =  user//Todo: não me parece bem
-//        appSettings
-//    }
 }

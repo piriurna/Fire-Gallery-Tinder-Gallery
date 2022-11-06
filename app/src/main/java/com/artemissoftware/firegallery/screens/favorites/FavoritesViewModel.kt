@@ -2,6 +2,7 @@ package com.artemissoftware.firegallery.screens.favorites
 
 import androidx.lifecycle.viewModelScope
 import com.artemissoftware.domain.Resource
+import com.artemissoftware.domain.usecases.GetUserUseCase
 import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase
 import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase.Companion.NO_FAVORITE_PICTURES_AVAILABLE
 import com.artemissoftware.domain.usecases.favorite.UpdateFavoriteUseCase
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     private val getFavoritePicturesUseCase: GetFavoritePicturesUseCase,
+    private val getUserUseCase: GetUserUseCase,
     private val updateFavoriteUseCase: UpdateFavoriteUseCase,
 ): FGBaseEventViewModel<FavoriteEvents>() {
 
@@ -23,17 +25,33 @@ class FavoritesViewModel @Inject constructor(
     val state: StateFlow<PictureState> = _state
 
     init {
+        onTriggerEvent(FavoriteEvents.GetUser)
         onTriggerEvent(FavoriteEvents.GetFavorites)
     }
 
     override fun onTriggerEvent(event: FavoriteEvents) {
         when(event){
 
+            is FavoriteEvents.GetUser -> {
+                getUser()
+            }
             is FavoriteEvents.GetFavorites -> {
                 getFavorites()
             }
             is FavoriteEvents.Remove -> {
                 remove(event.pictureId)
+            }
+        }
+    }
+
+    private fun getUser(){
+
+        viewModelScope.launch {
+
+            getUserUseCase.invoke().collectLatest { result ->
+                _state.value = _state.value.copy(
+                    favorites = result?.favorites?: emptyList()
+                )
             }
         }
     }

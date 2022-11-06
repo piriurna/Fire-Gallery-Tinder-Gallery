@@ -4,4 +4,5 @@ import com.artemissoftware.firegallery.ui.FGBaseEvents
 
 sealed class PictureEvents: FGBaseEvents() {
     data class GetPictures(val galleryId: Int): PictureEvents()
+    data class ShowError(val message: String): PictureEvents()
 }
