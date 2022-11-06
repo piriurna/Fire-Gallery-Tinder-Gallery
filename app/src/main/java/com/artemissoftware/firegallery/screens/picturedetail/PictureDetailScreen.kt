@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -45,11 +42,7 @@ fun PictureDetailScreen(
     viewModel: PictureDetailViewModel = hiltViewModel()
 ) {
 
-    val state = viewModel.state.value
-    val isFavorite = viewModel.isFavorite
-
-    //TODO: Resolver isto
-    val ll = stringResource(R.string.accept)
+    val state = viewModel.state.collectAsState()
 
     LaunchedEffect(key1 = true) {
 
@@ -61,7 +54,7 @@ fun PictureDetailScreen(
                         title = event.title,
                         description = event.message,
                         dialogOptions = DialogOptions(
-                            confirmationText = ll,
+                            confirmationTextId = R.string.accept,
                             confirmation = { navController.popBackStack() }
                         )
                     )
@@ -71,15 +64,13 @@ fun PictureDetailScreen(
                 }
                 else ->{}
             }
-
         }
     }
 
 
     BuildPictureDetailScreen(
-        state = state,
+        state = state.value,
         events = viewModel::onTriggerEvent,
-        isFavorite = isFavorite,
         navController = navController
     )
 }
@@ -89,8 +80,7 @@ fun PictureDetailScreen(
 private fun BuildPictureDetailScreen(
     navController: NavHostController,
     state: PictureDetailState,
-    events: ((PictureDetailEvents) -> Unit)? = null,
-    isFavorite: State<Boolean>,
+    events: ((PictureDetailEvents) -> Unit)? = null
 ) {
 
 
@@ -105,7 +95,7 @@ private fun BuildPictureDetailScreen(
             state.picture?.let { picture->
 
                 FavoriteButton(
-                    isFavorite = isFavorite.value,
+                    isFavorite = state.isFavorite,
                     pulsatingType = PulsatingType.LIMITED,
                     onClickToFavorite = {
                         events?.invoke(PictureDetailEvents.FavoritePicture(picture.id, true))
@@ -148,7 +138,9 @@ private fun Content(picture: Picture?) {
         Image(
             painter = painter,
             contentDescription = "",
-            modifier = Modifier.align(Alignment.Center).fillMaxSize(),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxSize(),
             contentScale = ContentScale.Crop,
         )
     }
@@ -166,5 +158,5 @@ private fun BuildPictureDetailScreenPreview() {
 
     val nav = rememberNavController()
     val state = PictureDetailState(picture = Picture.picturesMockList[0], isLoading = false)
-    BuildPictureDetailScreen(nav, state = state, isFavorite = mutableStateOf(true))
+    BuildPictureDetailScreen(nav, state = state)
 }

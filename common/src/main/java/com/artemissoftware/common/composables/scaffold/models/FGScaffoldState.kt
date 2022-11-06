@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavHostController
 import com.artemissoftware.common.composables.dialog.models.DialogType
 import com.artemissoftware.common.composables.navigation.models.BaseDestinations
+import com.artemissoftware.common.composables.navigation.models.BottomBarItem
 import com.artemissoftware.common.composables.snackbar.state.FGSnackbarHostState
 import com.artemissoftware.common.extensions.changeGraph
 import kotlinx.coroutines.CoroutineScope
@@ -148,21 +149,26 @@ class FGScaffoldState(
 
     ///---------
 
-    private val bottomBarItems = mutableListOf<BaseDestinations>()
+    var bottomBarItems = mutableStateOf<List<BottomBarItem>>(emptyList())
+        private set
 
-    private val _modalVisible = mutableStateOf<DialogType?>(null)
-    val modalVisible: DialogType? get() = _modalVisible.value
+    var currentbottomBarItem = mutableStateOf<BottomBarItem?>(null)
+        private set
+    var currentbottomBarItemLolo = mutableStateOf<String?>(null)
+        private set
 
+    var modalVisible = mutableStateOf<DialogType?>(null)
+        private set
 
     private val _currentPositionBottomBar = mutableStateOf(0)
     val currentPositionBottomBar: Int get() = _currentPositionBottomBar.value
 
     fun showDialog(dialogType: DialogType) {
-        _modalVisible.value = dialogType
+        modalVisible.value = dialogType
     }
 
     fun closeDialog() {
-        _modalVisible.value = null
+        modalVisible.value = null
     }
 
     fun changeCurrentPositionBottomBar_(
@@ -171,6 +177,8 @@ class FGScaffoldState(
         navController: NavHostController?
     ) {
         _currentPositionBottomBar.value = position
+        currentbottomBarItemLolo.value = destination
+        //currentbottomBarItem.value = bottomBarItems.value[position]
         navController?.changeGraph(destination)
 
     }
@@ -179,15 +187,20 @@ class FGScaffoldState(
         destination: BaseDestinations,
         navController: NavHostController?
     ) {
-        if(bottomBarItems.isNotEmpty()) {
+        with(bottomBarItems.value) {
 
-            _currentPositionBottomBar.value = bottomBarItems.indexOfFirst { it == destination }
-            navController?.changeGraph(destination.route)
+            if (isNotEmpty()) {
+                _currentPositionBottomBar.value = indexOfFirst { it.route == destination.route }
+                currentbottomBarItemLolo.value = destination.route
+                //currentbottomBarItem.value = bottomBarItems.value[_currentPositionBottomBar.value]
+                navController?.changeGraph(destination.route)
+            }
         }
     }
 
-    fun setBottomBarDestinations(items: List<BaseDestinations>) {
-        bottomBarItems.addAll(items)
+
+    fun setBottomBarDestinations(items: List<BottomBarItem>) {
+        bottomBarItems.value = items
     }
 
 }

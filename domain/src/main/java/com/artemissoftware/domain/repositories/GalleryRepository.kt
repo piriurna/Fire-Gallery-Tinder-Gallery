@@ -15,5 +15,5 @@ interface GalleryRepository {
 
     suspend fun getFavoritePictures(pictureIds: List<String>): FirebaseResponse<List<Picture>>
 
-    suspend fun getPictureDetail(pictureId: String): Picture?
+    suspend fun getPictureDetail(pictureId: String): FirebaseResponse<Picture>
 }

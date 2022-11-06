@@ -29,7 +29,7 @@ fun HomeScreen(
 
     FGScaffold(
         fgScaffoldState = scaffoldState,
-        bottomBarItems = getBottomBarItems(scaffoldState = scaffoldState),
+        bottomBarItems = scaffoldState.bottomBarItems.value,
         navController = navController
     ) {
         HomeNavigationGraph(navController = navController, scaffoldState = scaffoldState)
@@ -37,61 +37,6 @@ fun HomeScreen(
 
 }
 
-
-private fun getBottomBarItems(scaffoldState: FGScaffoldState) : List<BottomBarItem>{
-
-    val items = listOf(
-        HomeDestinations.Gallery, HomeDestinations.Favorites, HomeDestinations.Profile, HomeDestinations.Tinder
-    )
-
-    val bottomBarItems = mutableListOf<BottomBarItem>()
-
-    items.forEach {
-
-        when(it){
-
-            HomeDestinations.Gallery->{
-                bottomBarItems.add(
-                    HomeDestinations.Gallery.toBottomBarItem(
-                        title = "Gallery",
-                        activeIcon = Icons.Default.Place,
-                        inactiveIcon = Icons.Outlined.Place
-                    )
-                )
-            }
-            HomeDestinations.Favorites->{
-                bottomBarItems.add(
-                    HomeDestinations.Favorites.toBottomBarItem(
-                        title = "Favorites",
-                        activeIcon = Icons.Default.Favorite,
-                        inactiveIcon = Icons.Outlined.Favorite
-                    )
-                )
-            }
-            HomeDestinations.Profile->{
-                bottomBarItems.add(
-                    HomeDestinations.Profile.toBottomBarItem(
-                        title = "Profile",
-                        activeIcon = Icons.Default.Person,
-                        inactiveIcon = Icons.Outlined.Person
-                    )
-                )
-            }
-            HomeDestinations.Tinder->{
-                bottomBarItems.add(
-                    HomeDestinations.Tinder.toBottomBarItem(
-                        title = "Tinder",
-                        activeIcon = Icons.Default.Search,
-                        inactiveIcon = Icons.Outlined.Search
-                    )
-                )
-            }
-            else -> {}
-        }
-    }
-
-    return bottomBarItems
-}
 
 @Preview(showBackground = true)
 @Composable

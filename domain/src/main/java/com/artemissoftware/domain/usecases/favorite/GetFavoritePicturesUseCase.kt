@@ -1,11 +1,12 @@
 package com.artemissoftware.domain.usecases.favorite
 
 import com.artemissoftware.domain.Resource
-import com.artemissoftware.domain.repositories.AppSettingsDataStoreRepository
+import com.artemissoftware.domain.models.Gallery
+import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.artemissoftware.domain.repositories.GalleryRepository
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class GetFavoritePicturesUseCase @Inject constructor(
@@ -14,35 +15,33 @@ class GetFavoritePicturesUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository
 ) {
 
-    operator fun invoke() = profileDataStoreRepository.getProfile().map { preferences ->
+    operator fun invoke() : Flow<Resource<List<Picture>>> = flow {
 
-        val user = authenticationRepository.getUser()
+        val userProfile = profileDataStoreRepository.getUserProfile().first()
+        val user = authenticationRepository.getUser().first()
+        val favorites = userProfile.data[user?.email]
 
-        user?.let { authenticatedUser ->
+        favorites?.let{
 
-            preferences.data[authenticatedUser.email]?.let {
-                val result = galleryRepository.getFavoritePictures(it)
+            val result = galleryRepository.getFavoritePictures(it)
 
-                result.data?.let { pictures->
+            result.data?.let { pictures->
 
-                    pictures.forEach { it.isFavorite = true }
-
-                    if (pictures.isEmpty()) {
-                        Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE, data = pictures)
-                    } else {
-                        Resource.Success(data = pictures)
-                    }
-
-                } ?: kotlin.run {
-                    Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
+                if (pictures.isEmpty()) {
+                    Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE, data = pictures)
+                } else {
+                    Resource.Success(data = pictures)
                 }
+
             } ?: kotlin.run {
                 Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
             }
+
         } ?: kotlin.run {
             Resource.Error(message = NO_FAVORITE_PICTURES_AVAILABLE)
         }
     }
+
 
     companion object{
         const val NO_FAVORITE_PICTURES_AVAILABLE = "No favorite pictures available"

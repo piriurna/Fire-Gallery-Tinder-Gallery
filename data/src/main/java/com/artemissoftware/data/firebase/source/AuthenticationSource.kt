@@ -64,12 +64,8 @@ class AuthenticationSource @Inject constructor(private val firebaseAuth: Firebas
         firebaseUser.updateProfile(profileUpdates)
     }
 
-    fun getUser() : FirebaseUser? {
-        return firebaseAuth.currentUser
-    }
-
     @ExperimentalCoroutinesApi
-    fun getUserInfo(): Flow<FirebaseUser?> =
+    fun getUser(): Flow<FirebaseUser?> =
         callbackFlow {
             val authStateListener = FirebaseAuth.AuthStateListener {
                 trySendBlocking(it.currentUser)

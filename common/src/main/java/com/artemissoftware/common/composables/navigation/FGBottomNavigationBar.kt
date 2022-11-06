@@ -48,7 +48,7 @@ fun FGBottomNavigationBar (
                     modifier = modifier,
                     items = items,
                     navController = navController,
-                    selectedScreen = fgScaffoldState?.currentPositionBottomBar ?: 0,
+                    selectedScreen = fgScaffoldState?.currentbottomBarItemLolo?.value ?: items[0].route,
                     onClick = { item->
 
                         fgScaffoldState?.changeCurrentPositionBottomBar_(
@@ -75,8 +75,7 @@ private fun FGNavigationBar (
     modifier: Modifier = Modifier,
     items: List<BottomBarItem>,
     navController: NavHostController,
-    selectedScreen: Int,
-    //selectedScreen: MutableState<Int>,
+    selectedScreen: String,
     onClick: (BottomBarItem) -> Unit
 ) {
 
@@ -94,7 +93,7 @@ private fun FGNavigationBar (
         ) {
 
             for (item in items) {
-                val isSelected = item == items[selectedScreen/*.value*/]
+                val isSelected = item.route == selectedScreen
                 val animatedWeight by animateFloatAsState(targetValue = if (isSelected) 1.5f else 1f)
 
                 Box(
@@ -131,14 +130,14 @@ private fun FGNavigationBarPreview() {
     var selectedScreen = remember { mutableStateOf(0) }
 
     val list = listOf(
-        BottomBarItem("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create"),
-        BottomBarItem("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, "Create"),
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, "Profile")
     )
 
     FGNavigationBar(
         items = list,
         navController = rememberNavController(),
-        selectedScreen = /*selectedScreen*/0,
+        selectedScreen = list[0].route,
         onClick = {}
     )
 }
@@ -148,8 +147,8 @@ private fun FGNavigationBarPreview() {
 private fun FGBottomNavigationBarPreview() {
 
     val list = listOf(
-        BottomBarItem("Create", Icons.Filled.Create, Icons.Outlined.Create, "Create"),
-        BottomBarItem("Profile", Icons.Filled.Person, Icons.Outlined.Person, "Profile")
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Create, Icons.Outlined.Create, "Create"),
+        BottomBarItem(com.artemissoftware.common.R.string.confirm, Icons.Filled.Person, Icons.Outlined.Person, "Profile")
     )
 
     FGBottomNavigationBar(

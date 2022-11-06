@@ -8,15 +8,18 @@ import javax.inject.Inject
 
 class SetupAppUseCase @Inject constructor(
     private val remoteConfigRepository: RemoteConfigRepository
-    ) {
+) {
 
     operator fun invoke(): Flow<Resource<Any>> = flow {
 
-        if (!remoteConfigRepository.fetchValues()) {
-            emit(Resource.Error(message = ERROR_READING_REMOTE_CONFIG))
-        }
+        val result = remoteConfigRepository.fetchValues()
 
-        emit(Resource.Success())
+        result.data?.let {
+            emit(Resource.Success())
+        } ?: kotlin.run {
+            emit(Resource.Error(message = ERROR_READING_REMOTE_CONFIG, data = result.error))
+
+        }
     }
 
 

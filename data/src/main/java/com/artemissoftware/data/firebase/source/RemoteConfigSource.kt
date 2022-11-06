@@ -8,6 +8,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import javax.inject.Inject
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class RemoteConfigSource @Inject constructor (private val firebaseRemoteConfig: FirebaseRemoteConfig) {
@@ -18,14 +19,14 @@ class RemoteConfigSource @Inject constructor (private val firebaseRemoteConfig: 
     suspend fun fetchValues(): Boolean = suspendCoroutine { continuation ->
         setupFirebaseRemoteConfig()
 
-        firebaseRemoteConfig.fetchAndActivate().addOnCompleteListener { fetchTask ->
-            if (fetchTask.isSuccessful) {
+        firebaseRemoteConfig.fetchAndActivate()
+            .addOnSuccessListener {
                 loadConfigurations()
-                continuation.resume(true)
-            } else {
-                continuation.resume(false)
+                continuation.resume(it)
             }
-        }
+            .addOnFailureListener {
+                continuation.resumeWithException(it)
+            }
     }
 
     private fun loadConfigurations() {

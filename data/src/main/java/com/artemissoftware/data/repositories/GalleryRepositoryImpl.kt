@@ -10,6 +10,7 @@ import com.artemissoftware.data.firebase.entities.PictureFso
 import com.artemissoftware.data.mappers.toFirebaseError
 import com.artemissoftware.data.mappers.toGallery
 import com.artemissoftware.data.mappers.toPicture
+import com.artemissoftware.domain.FirebaseError
 import com.artemissoftware.domain.FirebaseResponse
 import com.artemissoftware.domain.models.Gallery
 import com.artemissoftware.domain.models.Picture
@@ -77,14 +78,32 @@ class GalleryRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getPictureDetail(pictureId: String): Picture? {
-        return cloudStoreSource.getDocumentItems(
-            collectionName = FireStoreCollection.PICTURES,
-            documentField = FireStoreDocumentField.ID,
-            id = pictureId as Object
-        ).map { document ->
-            document.toObject<PictureFso>()!!.toPicture()
-        }.firstOrNull()
+    override suspend fun getPictureDetail(pictureId: String): FirebaseResponse<Picture> {
+
+        return try {
+
+            val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso>{
+                cloudStoreSource.getDocumentItems(
+                    collectionName = FireStoreCollection.PICTURES,
+                    documentField = FireStoreDocumentField.ID,
+                    id = pictureId as Object
+                )
+            }
+
+            val pictures = response.map { document ->
+                document.toObject<PictureFso>()!!.toPicture()
+            }
+
+            if(pictures.isEmpty()){
+                FirebaseResponse(error = FirebaseError(message = "No pictures available"))
+            }
+            else {
+                FirebaseResponse(data = pictures.first())
+            }
+
+        } catch (ex: FireGalleryException) {
+            FirebaseResponse(error = ex.toFirebaseError())
+        }
     }
 
 
