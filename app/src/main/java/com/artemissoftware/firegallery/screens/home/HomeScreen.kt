@@ -4,9 +4,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
@@ -39,7 +41,7 @@ fun HomeScreen(
 private fun getBottomBarItems(scaffoldState: FGScaffoldState) : List<BottomBarItem>{
 
     val items = listOf(
-        HomeDestinations.Gallery, HomeDestinations.Favorites, HomeDestinations.Profile
+        HomeDestinations.Gallery, HomeDestinations.Favorites, HomeDestinations.Profile, HomeDestinations.Tinder
     )
 
     val bottomBarItems = mutableListOf<BottomBarItem>()
@@ -72,6 +74,15 @@ private fun getBottomBarItems(scaffoldState: FGScaffoldState) : List<BottomBarIt
                         title = "Profile",
                         activeIcon = Icons.Default.Person,
                         inactiveIcon = Icons.Outlined.Person
+                    )
+                )
+            }
+            HomeDestinations.Tinder->{
+                bottomBarItems.add(
+                    HomeDestinations.Tinder.toBottomBarItem(
+                        title = "Tinder",
+                        activeIcon = Icons.Default.Search,
+                        inactiveIcon = Icons.Outlined.Search
                     )
                 )
             }
