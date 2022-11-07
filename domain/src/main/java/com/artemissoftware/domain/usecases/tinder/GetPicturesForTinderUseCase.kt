@@ -16,7 +16,7 @@ class GetPicturesForTinderUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository
 ) {
 
-    operator fun invoke(numberOfImages : Int = DEFAULT_NUMBER_OF_IMAGES, blackListedPictures : List<Picture>): Flow<Resource<List<Picture>>> = flow {
+    operator fun invoke(numberOfImages : Int = DEFAULT_NUMBER_OF_IMAGES, blackListedPictures : List<Picture> = emptyList()): Flow<Resource<List<Picture>>> = flow {
         emit(Resource.Loading())
         val userProfile = profileDataStoreRepository.getUserProfile().first()
         val user = authenticationRepository.getUser().first()

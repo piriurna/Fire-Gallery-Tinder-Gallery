@@ -1,6 +1,7 @@
 package com.artemissoftware.domain.usecases
 
 import BaseUseCaseTest
+import com.artemissoftware.domain.FirebaseResponse
 import com.artemissoftware.domain.Resource
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.models.UserFavoriteImages
@@ -45,26 +46,33 @@ class GetPicturesForTinderUseCaseTest : BaseUseCaseTest() {
             favorites = UserFavoriteImages.mockUserFavoriteImages.data.values.first(),
             name = null
         )
+
+        val blacklistPictureIds = emptyList<String>()
+
+        val user = flow { emit(mockUser) }
+
         whenever(authenticationRepository.getUser()).thenReturn(
-            mockUser
+            user
         )
 
         val profilePreferencesFlow = flow { emit(UserFavoriteImages(UserFavoriteImages.mockUserFavoriteImages.data)) }
 
 
-        whenever(profileDataStoreRepository.getProfile()).thenReturn(profilePreferencesFlow)
+        whenever(profileDataStoreRepository.getUserProfile()).thenReturn(profilePreferencesFlow)
 
-        whenever(galleryRepository.getPicturesForTinder(numberOfTinderImages, mockUser.favorites)).thenReturn(
-            Picture.picturesMockList.filterNot { picture -> mockUser.favorites.contains(picture.id) }
+        whenever(galleryRepository.getPicturesForTinder(numberOfTinderImages, mockUser.favorites, blacklistPictureIds)).thenReturn(
+            FirebaseResponse(Picture.picturesMockList.filterNot { picture -> mockUser.favorites.contains(picture.id) })
         )
 
 
         val emissions = getPicturesForTinderUseCase().toList()
 
-        val result = (emissions[0] as Resource)
-        val giveawayGames = (result.data as? List<Picture>)
-        assert(!giveawayGames.isNullOrEmpty())
+        var result = (emissions[0] as Resource)
+        assert(result is Resource.Loading)
+        
+        result = emissions[1]
+        assert(result is Resource.Success)
 
-        verify(galleryRepository, times(1)).getPicturesForTinder(numberOfTinderImages, mockUser.favorites)
+        verify(galleryRepository, times(1)).getPicturesForTinder(numberOfTinderImages, mockUser.favorites, blacklistPictureIds)
     }
 }
