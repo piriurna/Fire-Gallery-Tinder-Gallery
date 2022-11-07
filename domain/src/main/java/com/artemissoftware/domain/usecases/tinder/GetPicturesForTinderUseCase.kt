@@ -5,9 +5,9 @@ import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.domain.repositories.AuthenticationRepository
 import com.artemissoftware.domain.repositories.GalleryRepository
 import com.artemissoftware.domain.repositories.ProfileDataStoreRepository
-import com.artemissoftware.domain.usecases.favorite.GetFavoritePicturesUseCase
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetPicturesForTinderUseCase @Inject constructor(
@@ -16,19 +16,25 @@ class GetPicturesForTinderUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository
 ) {
 
-    operator fun invoke(numberOfImages : Int = DEFAULT_NUMBER_OF_IMAGES): Flow<Resource<List<Picture>>> = profileDataStoreRepository.getProfile().map { preferences ->
+    operator fun invoke(numberOfImages : Int = DEFAULT_NUMBER_OF_IMAGES): Flow<Resource<List<Picture>>> = flow {
+        emit(Resource.Loading())
+        val userProfile = profileDataStoreRepository.getUserProfile().first()
+        val user = authenticationRepository.getUser().first()
+        val alreadyFavoriteImages = userProfile.data[user?.email]
 
-        val user = authenticationRepository.getUser()
+        val picturesResponse = galleryRepository.getPicturesForTinder(numberOfImages = numberOfImages, favoriteImages = alreadyFavoriteImages)
 
-        val alreadyFavoriteImages = preferences.data[user?.email]?: listOf("-1")
-
-        val pictures = galleryRepository.getPicturesForTinder(numberOfImages = numberOfImages, favoriteImages = alreadyFavoriteImages)
-        if(pictures.isEmpty()){
-            Resource.Error(message = NO_PICTURES_AVAILABLE, data = pictures)
+        picturesResponse.data?.let { pictures ->
+            if(pictures.isEmpty()){
+                emit(Resource.Error(message = NO_PICTURES_AVAILABLE))
+            }
+            else{
+                emit(Resource.Success(pictures))
+            }
+        }?: run {
+            emit(Resource.Error(message = picturesResponse.error.message))
         }
-        else{
-            Resource.Success(data = pictures)
-        }
+
 
 
     }
