@@ -42,7 +42,7 @@ class CloudStoreSource @Inject constructor(private val firebaseFirestore: Fireba
         }
     }
 
-    suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>): List<DocumentSnapshot> {
+    suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>, blackListedPictureIds : List<String>): List<DocumentSnapshot> {
 
         return suspendCoroutine { continuation ->
             var query = firebaseFirestore
@@ -52,6 +52,10 @@ class CloudStoreSource @Inject constructor(private val firebaseFirestore: Fireba
 
             if(favoriteImages.isNotEmpty()) {
                 query = query.whereNotIn(FireStoreDocumentField.ID, favoriteImages)
+            }
+
+            if(blackListedPictureIds.isNotEmpty()) {
+                query = query.whereNotIn(FireStoreDocumentField.ID, blackListedPictureIds)
             }
 
             query.get()

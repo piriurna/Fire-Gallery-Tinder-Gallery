@@ -11,7 +11,7 @@ interface GalleryRepository {
 
     suspend fun getPictures(galleryId: Int): List<Picture>
 
-    suspend fun getPicturesForTinder(numberOfImages : Int, favoriteImages: List<String>?): FirebaseResponse<List<Picture>>
+    suspend fun getPicturesForTinder(numberOfImages : Int, favoriteImages: List<String>?, blackListedPictureIds: List<String>): FirebaseResponse<List<Picture>>
 
     suspend fun getFavoritePictures(pictureIds: List<String>): FirebaseResponse<List<Picture>>
 
