@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.artemissoftware.common.theme.Orange
 import com.artemissoftware.common.theme.RedOrange
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.screens.SplashScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -33,15 +32,16 @@ fun Logo(
     preRevealColor: Color = Orange,
     borderColor: Color = RedOrange,
     logoColor: Color = Red,
+    shouldAnimate : Boolean = true,
     onAnimationFinish: () -> Unit = {}
 ) {
 
     val boxSize = 180.dp
     val borderWidth = 2.dp
 
-    val animateShape = remember { Animatable(boxSize.value) }
+    val animatedBorderWidth = remember { Animatable(boxSize.value) }
     val animateColor = remember { Animatable(preRevealColor) }
-    var startAnimation by remember { mutableStateOf(false) }
+    var startAnimation by remember { mutableStateOf(!shouldAnimate) }
 
 
     val alphaState by animateFloatAsState(
@@ -62,35 +62,39 @@ fun Logo(
 
         startAnimation = true
 
-        val jobA = launch {
-            animateShape.animateTo(
-                targetValue = borderWidth.value,
-                animationSpec = tween(
+        if(shouldAnimate) {
+            val jobA = launch {
+                animatedBorderWidth.animateTo(
+                    targetValue = borderWidth.value,
+                    animationSpec = tween(
                         durationMillis = 1500,
                         easing = LinearEasing,
                         delayMillis = 10
                     )
-            )
-        }
+                )
+            }
 
-        val jobB = launch {
-            animateColor.animateTo(
-                targetValue = borderColor,
-                animationSpec = tween(
+            val jobB = launch {
+                animateColor.animateTo(
+                    targetValue = borderColor,
+                    animationSpec = tween(
                         durationMillis = 2000,
                         easing = LinearEasing,
                         delayMillis = 100
                     )
                 )
 
+            }
+
+
+            jobA.join()
+            jobB.join()
         }
-
-        jobA.join()
-        jobB.join()
-
         onAnimationFinish.invoke()
     }
 
+    val actualBorderWidth = if(shouldAnimate) animatedBorderWidth.value else borderWidth.value
+    val actualBorderColor = if(shouldAnimate) animateColor.value else borderColor
     Box(
         modifier = modifier
             .size(boxSize)
@@ -99,8 +103,8 @@ fun Logo(
             .clip(CircleShape)
             .background(color = preRevealColor)
             .border(
-                width = Dp(animateShape.value),
-                color = animateColor.value,
+                width = Dp(actualBorderWidth),
+                color = actualBorderColor,
                 shape = CircleShape
             )
 
@@ -125,15 +129,15 @@ private fun LogoPreview() {
 @Composable
 fun LogoImage(
     modifier: Modifier = Modifier,
-    logoColor: Color
+    logoColor: Color,
 ){
-
     Image(
         painter = painterResource(id = R.drawable.ic_flame),
         contentDescription = "Compose image",
         colorFilter =  ColorFilter.tint(color = logoColor),
         modifier = modifier,
     )
+
 }
 
 @Preview(showBackground = true)
