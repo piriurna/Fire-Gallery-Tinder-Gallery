@@ -64,6 +64,7 @@ fun TinderPictureCard(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
+
                     Image(
                         modifier = Modifier
                             .background(Color.Black)
@@ -78,9 +79,13 @@ fun TinderPictureCard(
                         style = TextAlbertSansBold28,
                         color = Color.White,
                         modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 32.dp)
+                            .align(Alignment.TopCenter)
+                            .padding(top = 32.dp)
                     )
+
+
+
+
 
                 }
             }

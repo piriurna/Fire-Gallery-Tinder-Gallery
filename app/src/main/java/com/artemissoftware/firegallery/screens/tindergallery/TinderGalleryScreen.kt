@@ -6,7 +6,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,13 +22,11 @@ import com.artemissoftware.common.composables.button.FGPulsatingButton
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.extensions.swipeablecard.Direction
 import com.artemissoftware.common.extensions.swipeablecard.SwipeableCardState
-import com.artemissoftware.common.extensions.swipeablecard.rememberSwipeableCardState
 import com.artemissoftware.common.models.SwipeResult
 import com.artemissoftware.common.theme.FGStyle.TextAlbertSansBold28
 import com.artemissoftware.common.theme.RedOrange
 import com.artemissoftware.domain.models.Picture
 import com.artemissoftware.firegallery.R
-import com.artemissoftware.firegallery.screens.splash.composables.Logo
 import com.artemissoftware.firegallery.screens.tindergallery.composables.TinderActionsRow
 import com.artemissoftware.firegallery.screens.tindergallery.composables.TinderPictureCard
 import kotlinx.coroutines.launch
@@ -51,16 +50,11 @@ fun BuildTinderGalleryScreen(
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp),
+        .padding(16.dp)
+        .padding(bottom = 64.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        val screenWidth = with(LocalDensity.current) {
-            LocalConfiguration.current.screenWidthDp.dp.toPx()
-        }
-        val screenHeight = with(LocalDensity.current) {
-            LocalConfiguration.current.screenHeightDp.dp.toPx()
-        }
-        FGText(text = stringResource(R.string.swipe_to_add_photos_to_your_favorites), style = TextAlbertSansBold28)
+        val scope = rememberCoroutineScope()
 
         var currentOffset by remember {
             mutableStateOf(Offset(0f,0f))
@@ -81,15 +75,30 @@ fun BuildTinderGalleryScreen(
 
             }
         )
+
         var states by remember {
-            mutableStateOf<List<Pair<Picture, SwipeableCardState>>>(emptyList())
+            mutableStateOf<Map<Picture, SwipeableCardState>>(emptyMap())
+        }
+
+        val screenWidth = with(LocalDensity.current) {
+            LocalConfiguration.current.screenWidthDp.dp.toPx()
+        }
+        val screenHeight = with(LocalDensity.current) {
+            LocalConfiguration.current.screenHeightDp.dp.toPx()
         }
 
 
         LaunchedEffect(key1 = state.pictures) {
-            states = state.pictures.reversed()
-                .map { it to SwipeableCardState(maxWidth = screenWidth, maxHeight = screenHeight) }
+            states = state.pictures.reversed().associateWith {
+                SwipeableCardState(
+                    maxWidth = screenWidth,
+                    maxHeight = screenHeight
+                )
+            }
         }
+
+        FGText(text = stringResource(R.string.swipe_to_add_photos_to_your_favorites), style = TextAlbertSansBold28)
+
 
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
@@ -111,24 +120,22 @@ fun BuildTinderGalleryScreen(
             }
 
             if(!state.showAddMoreButton()) {
-                val scope = rememberCoroutineScope()
 
                 TinderActionsRow(
-                    currentXOffset = if(shouldReset) resetOffset.value.x else currentOffset.x,
+                    currentXOffset = currentOffset.x,
+                    resetOffset = resetOffset.value,
+                    shouldReset = shouldReset,
                     maxWidth = constraints.maxWidth.toFloat(),
                     maxHeight = constraints.maxHeight.toFloat(),
                     onClick = {
                         scope.launch {
-                            val last = states.reversed()
-                                .firstOrNull {
-                                    it.second.offset.value == Offset(0f, 0f)
-                                }?.second
+                            val currentPicture = states[state.getCurrentPicture()]
                             when(it) {
                                 SwipeResult.REJECT -> {
-                                    last?.swipe(Direction.Left)
+                                    currentPicture?.swipe(Direction.Left)
                                 }
                                 SwipeResult.ACCEPT -> {
-                                    last?.swipe(Direction.Right)
+                                    currentPicture?.swipe(Direction.Right)
                                 }
                             }
                             shouldReset = true
@@ -136,24 +143,17 @@ fun BuildTinderGalleryScreen(
                         }
                     },
                 )
-            } else {
-                var shouldAnimate by remember {
-                    mutableStateOf(false)
-                }
-                FGPulsatingButton(
-                    modifier = Modifier.align(Alignment.Center),
-                    buttonColor = MaterialTheme.colors.primary,
-                    shouldAnimate = shouldAnimate,
-                    pulseColor = RedOrange,
-                    onClick = {
-                        events(TinderGalleryEvents.FetchMorePictures)
-                    }
-                ) {
-                    Logo() {
-                        shouldAnimate = true
-                    }
-                }
             }
+
+            FGPulsatingButton(
+                modifier = Modifier.align(Alignment.Center),
+                pulseColor = RedOrange,
+                onClick = {
+                    events(TinderGalleryEvents.FetchMorePictures)
+                },
+                imageVector = Icons.Default.Refresh,
+                visible = state.showAddMoreButton(),
+            )
         }
 
 

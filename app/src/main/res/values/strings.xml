@@ -10,6 +10,7 @@
     <string name="Author">author</string>
     <string name="Title">title</string>
     <string name="profile">Profile</string>
+    <string name="tinder">Tinder</string>
     <string name="number_favorite_pictures">Number of favorite pictures</string>
     <string name="firebase_token">Firebase Token</string>
     <string name="allow_receive_push_notifications">Allow app to receive push notifications</string>

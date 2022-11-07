@@ -27,6 +27,8 @@ class TinderGalleryViewModel @Inject constructor(
     private val _state: MutableState<TinderGalleyState> = mutableStateOf(TinderGalleyState())
     val state: State<TinderGalleyState> = _state
 
+    private val blackListedPictures = mutableListOf<Picture>()
+
 
     init {
         onTriggerEvent(TinderGalleryEvents.FetchMorePictures)
@@ -41,9 +43,16 @@ class TinderGalleryViewModel @Inject constructor(
             is TinderGalleryEvents.GoToNextPicture -> {
                 when(event.action) {
                     SwipeResult.ACCEPT -> {
-                        saveFavorite(_state.value.pictures.getOrNull(_state.value.currentIndex)!!)
+                        _state.value.getCurrentPicture()?.let { picture ->
+                            saveFavorite(picture)
+                        }?: run {
+                            calculateNextMove()
+                        }
                     }
                     else -> {
+                        _state.value.getCurrentPicture()?.let {
+                            blackListedPictures.add(it)
+                        }
                         calculateNextMove()
                     }
                 }
@@ -54,7 +63,7 @@ class TinderGalleryViewModel @Inject constructor(
 
 
     private fun fetchMorePictures() {
-        getPicturesForTinderUseCase().onEach { result ->
+        getPicturesForTinderUseCase(blackListedPictures = blackListedPictures).onEach { result ->
             when(result) {
                 is Resource.Success -> {
                     val resultData = result.data?: emptyList()
@@ -101,7 +110,7 @@ class TinderGalleryViewModel @Inject constructor(
                 pictures = emptyList()
             )
         } else {
-            val nextIndex  = max(_state.value.currentIndex - 1, 0)
+            val nextIndex = max(_state.value.currentIndex - 1, 0)
 
             _state.value = _state.value.copy(
                 currentIndex = nextIndex

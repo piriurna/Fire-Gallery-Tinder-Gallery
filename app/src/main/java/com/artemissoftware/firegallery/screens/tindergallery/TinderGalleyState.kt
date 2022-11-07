@@ -13,5 +13,9 @@ data class TinderGalleyState(
         return currentIndex == 0
     }
 
+    fun getCurrentPicture() : Picture? {
+        return pictures.reversed().getOrNull(currentIndex)
+    }
+
     fun showAddMoreButton() = pictures.isEmpty() && !isLoading
 }
