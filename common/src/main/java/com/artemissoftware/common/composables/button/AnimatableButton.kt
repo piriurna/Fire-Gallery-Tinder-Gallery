@@ -79,7 +79,7 @@ fun FGAnimatableButton(
 }
 
 @Composable
-fun BuildFGAnimatableButton(
+private fun BuildFGAnimatableButton(
     modifier: Modifier = Modifier,
     centerImage: @Composable () -> Unit,
     preRevealColor: Color = Orange,
