@@ -82,11 +82,6 @@ fun TinderPictureCard(
                             .align(Alignment.TopCenter)
                             .padding(top = 32.dp)
                     )
-
-
-
-
-
                 }
             }
         }
