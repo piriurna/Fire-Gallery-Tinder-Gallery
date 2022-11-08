@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
-import com.artemissoftware.common.composables.images.SwipeCard
+import com.artemissoftware.common.composables.images.FGSwipeCard
 import com.artemissoftware.common.composables.text.FGText
 import com.artemissoftware.common.extensions.swipeablecard.SwipeableCardState
 import com.artemissoftware.common.extensions.swipeablecard.rememberSwipeableCardState
@@ -53,7 +53,7 @@ fun TinderPictureCard(
             modifier = modifier
                 .fillMaxSize(),
         ) {
-            SwipeCard(
+            FGSwipeCard(
                 modifier = Modifier
                     .clickable(enabled = false, onClick = {})
                     .fillMaxSize(),
