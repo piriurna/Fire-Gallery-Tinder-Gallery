@@ -48,8 +48,11 @@ class GalleryRepositoryImpl @Inject constructor(
 
     override suspend fun getPicturesForTinder(numberOfImages: Int, favoriteImages: List<String>?, blackListedPictureIds : List<String>): FirebaseResponse<List<Picture>> {
         return try {
+            val picturesToExcludeFromCall = favoriteImages?.toMutableList()
+            picturesToExcludeFromCall?.addAll(blackListedPictureIds)
+
             val response = HandleFirebase.safeApiCall<List<DocumentSnapshot>, PictureFso> {
-                cloudStoreSource.getPicturesForTinder(numberOfImages, favoriteImages?: emptyList(), blackListedPictureIds)
+                cloudStoreSource.getPicturesForTinder(numberOfImages, picturesToExcludeFromCall?: emptyList())
             }
 
             FirebaseResponse(data = response.map { document ->
